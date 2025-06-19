@@ -154,17 +154,6 @@ function App() {
                   }
                 />
                 <Route
-                  path="results/upload"
-                  element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER]}>
-                      <div className="text-center py-12">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Upload Results</h2>
-                        <p className="text-gray-600">Coming Soon</p>
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
                   path="admissions"
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
@@ -250,17 +239,6 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <SystemAnalytics />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="performance"
-                  element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER]}>
-                      <div className="text-center py-12">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Performance Analytics</h2>
-                        <p className="text-gray-600">Coming Soon</p>
-                      </div>
                     </ProtectedRoute>
                   }
                 />

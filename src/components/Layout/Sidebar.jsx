@@ -76,15 +76,6 @@ const Sidebar = () => {
           { icon: FileText, label: 'Parameter Tables', path: '/parameter-tables' },
         ];
       
-      case USER_ROLES.TEACHER:
-        return [
-          ...commonItems,
-          { icon: GraduationCap, label: 'My Students', path: '/students' },
-          { icon: FileText, label: 'Upload Results', path: '/results/upload' },
-          { icon: FileText, label: 'Result History', path: '/results' },
-          { icon: BarChart3, label: 'Performance', path: '/performance' },
-        ];
-      
       case USER_ROLES.STUDENT:
         return [
           ...commonItems,
