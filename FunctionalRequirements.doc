@@ -102,8 +102,8 @@ Sample Pages/Forms:
 ✔️ Includes:
 ✔️ Passport upload
 ✔️ Auto-generated student ID per school
-✔️ Personal info: name, DOB, gender, marital status, religion, nationality, LGA, hometown, address, language
-✔️ Academic info: admission session, period, level, class
+✔️ Personal info: Surname, Firstname, Middle Name, Current Academic Level, Current Academic Class, Gender, DOB, Religion, nationality, address, State of origin, LGA or Origin, Home Town, Language spoken
+✔️ Academic info: admission session, period, level, class, date of admission
 ✔️ Medical info: blood group, genotype, disability
 ✔️ Sponsors: multiple allowed (name, relation, address, phone, email, passport)
 
