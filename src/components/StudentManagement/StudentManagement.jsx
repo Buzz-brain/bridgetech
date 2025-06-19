@@ -366,35 +366,35 @@ export default function StudentManagement() {
               {/* Academic Info Fields with descriptions */}
               <div>
                 <select name="currentAcademicLevel" value={form.currentAcademicLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
-                <span className="text-xs text-gray-500">Current Academic Level (e.g. JSS1A student is currently in)</span>
+                <span className="text-xs text-gray-500">Current Academic Level</span>
               </div>
               <div>
                 <select name="currentAcademicClass" value={form.currentAcademicClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
-                <span className="text-xs text-gray-500">Current Academic Class (e.g. Science Class student is currently in)</span>
+                <span className="text-xs text-gray-500">Current Academic Class</span>
               </div>
               <div>
                 <select name="admittedSession" value={form.admittedSession} onChange={handleChange} className="input">{sessions.map(s => <option key={s}>{s}</option>)}</select>
-                <span className="text-xs text-gray-500">Session student was admitted (e.g. 2023/2024)</span>
+                <span className="text-xs text-gray-500">Session student was admitted</span>
               </div>
               <div>
                 <select name="admittedPeriod" value={form.admittedPeriod} onChange={handleChange} className="input">{admissionPeriods.map(p => <option key={p}>{p}</option>)}</select>
-                <span className="text-xs text-gray-500">Term/period student was admitted (e.g. First term)</span>
+                <span className="text-xs text-gray-500">Term/period student was admitted</span>
               </div>
               <div>
                 <select name="admittedLevel" value={form.admittedLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
-                <span className="text-xs text-gray-500">Academic Level student was admitted into (e.g. JSS1A)</span>
+                <span className="text-xs text-gray-500">Academic Level student was admitted into</span>
               </div>
               <div>
                 <select name="admittedClass" value={form.admittedClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
-                <span className="text-xs text-gray-500">Academic Class student was admitted into (e.g. Science Class)</span>
+                <span className="text-xs text-gray-500">Academic Class student was admitted into</span>
               </div>
               <div>
                 <select name="academicStatus" value={form.academicStatus} onChange={handleChange} className="input">{academicStatuses.map(a => <option key={a}>{a}</option>)}</select>
-                <span className="text-xs text-gray-500">Current status (Active, Graduated, Suspended, Expelled)</span>
+                <span className="text-xs text-gray-500">Current status</span>
               </div>
               <div>
                 <input name="admissionDate" value={form.admissionDate} onChange={handleChange} type="date" className="input" readOnly />
-                <span className="text-xs text-gray-500">Date of admission (auto-set)</span>
+                <span className="text-xs text-gray-500">Date of admission</span>
               </div>
 
               {/* Medical Info Section */}
@@ -440,7 +440,7 @@ export default function StudentManagement() {
                   <span className="text-xs text-gray-500">Sponsor's home address</span>
                   <input name="occupation" value={sponsorForm.occupation} onChange={handleSponsorChange} placeholder="Occupation" className="input" />
                   <span className="text-xs text-gray-500">Sponsor's occupation</span>
-                  <button type="submit" className="btn btn-xs btn-primary">Add Sponsor</button>
+                  <button type="submit" className="btn btn-xs btn-primary block">Add Sponsor</button>
                 </form>
                 <ul className="mt-2">
                   {form.sponsors.map((s, idx) => (
