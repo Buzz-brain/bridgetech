@@ -23,6 +23,12 @@ import ParameterTables from "./components/ParameterTables/ParameterTables";
 import ClassSubjectSetup from "./components/ClassSubjectSetup/ClassSubjectSetup";
 import ResultManagement from "./components/ResultManagement/ResultManagement";
 import TranscriptsArchive from "./components/TranscriptsArchive/TranscriptsArchive";
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import FAQs from './pages/FAQs';
+import Contact from './pages/Contact';
+import SchoolSearch from './pages/SchoolSearch';
 
 function App() {
   return (
@@ -358,6 +364,14 @@ function App() {
                   }
                 />
               </Route>
+              
+              {/* Public Main Site Pages */}
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/faqs" element={<FAQs />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/school-search" element={<SchoolSearch />} />
               
               {/* Catch all route */}
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
