@@ -319,6 +319,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="scratch-card"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <ScratchCardManagement />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
               
               {/* Catch all route */}
