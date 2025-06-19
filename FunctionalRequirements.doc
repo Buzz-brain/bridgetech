@@ -73,7 +73,7 @@ Guest User (Result Officer)
 ✔️ Contain a customizable landing page showing school info and login
 
 🏫 SCHOOL ADMIN DASHBOARD
-School Profile Setup
+✔️School Profile Setup
 name: "Stellamaris International School",
 address: "123 Main Street, Cityville",
 phone: "+1234567890",
@@ -91,6 +91,16 @@ programs: ["Science", "Arts", "Commercial", "Technical"]
 ✔️ Academic Calendar Setup
 ✔️ Scratch Card Management
 ✔️ Teacher Management
+Teacher Profile
+Names (In full)	
+Class:	(Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class)  
+Class Level: (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B)  
+Phone Number:	
+(e.g 023-000-000-0000) 
+eMail Address:	
+Address:	
+Signature: Should be uploaded
+Status:  (Transferred, Suspended, Dismissed, Active, Onleave)
 ✔️ Student Management
 ✔️ Sponsor Management
 ✔️ Result Management
