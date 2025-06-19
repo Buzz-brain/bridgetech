@@ -73,7 +73,7 @@ Guest User (Result Officer)
 ✔️ Contain a customizable landing page showing school info and login
 
 🏫 SCHOOL ADMIN DASHBOARD
-✔️School Profile Setup
+✔️ SCHOOL PROFILE SETUP
 name: "Stellamaris International School",
 address: "123 Main Street, Cityville",
 phone: "+1234567890",
@@ -88,9 +88,8 @@ logo: "https://placehold.co/100x100?text=Logo",
 description: "Stellamaris International School is committed to academic excellence and holistic development.",
 achievements: ["Best School Award 2023", "100% WAEC Pass Rate", "National Science Champions"],
 programs: ["Science", "Arts", "Commercial", "Technical"]
-✔️ Academic Calendar Setup
-✔️ Scratch Card Management
-✔️ Teacher Management
+
+✔️ TEACHER MANAGEMENT
 Teacher Profile
 Names (In full)	
 TeacherId: Auto-generated teacher ID per school
@@ -102,15 +101,15 @@ eMail Address:
 Address:	
 Signature: Should be uploaded
 Status:  (Transferred, Suspended, Dismissed, Active, Onleave)
+✔️ Academic Calendar Setup
+✔️ Scratch Card Management
 ✔️ Student Management
-✔️ Sponsor Management
 ✔️ Result Management
 ✔️ Class & Subject Setup
 ✔️ User Account Management
 ✔️ Notifications (send SMS)
 ✔️ Transcript & Report Download
 ✔️ Audit Log Viewer
-✔️ School Config (choose scratch card or free access for results)
 
 👩‍🏫 TEACHER DASHBOARD
 ✔️ View assigned subjects and classes
