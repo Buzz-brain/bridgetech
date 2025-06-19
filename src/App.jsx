@@ -117,14 +117,12 @@ function App() {
                 />
                 
                 {/* School Admin Routes */}
+
                 <Route
                   path="users"
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
-                      <div className="text-center py-12">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Users Management</h2>
-                        <p className="text-gray-600">Coming Soon</p>
-                      </div>
+                      <UserManagement />
                     </ProtectedRoute>
                   }
                 />
@@ -335,14 +333,6 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <TeacherManagement />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="user-management"
-                  element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
-                      <UserManagement />
                     </ProtectedRoute>
                   }
                 />
