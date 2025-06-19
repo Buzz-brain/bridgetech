@@ -51,6 +51,7 @@ const Sidebar = () => {
           { icon: Users, label: 'System Users', path: '/system-users' },
           { icon: BarChart3, label: 'Analytics', path: '/analytics' },
           { icon: Settings, label: 'System Settings', path: '/settings' },
+          { icon: FileText, label: 'Parameter Tables', path: '/parameter-tables' },
         ];
       
       case USER_ROLES.SCHOOL_ADMIN:
@@ -73,6 +74,7 @@ const Sidebar = () => {
           { icon: MessageSquare, label: 'Notifications', path: '/school-notifications' },
           { icon: FileText, label: 'Transcripts & Reports', path: '/transcripts-reports' },
           { icon: BarChart3, label: 'Audit Log', path: '/audit-log' },
+          { icon: FileText, label: 'Parameter Tables', path: '/parameter-tables' },
         ];
       
       case USER_ROLES.TEACHER:
