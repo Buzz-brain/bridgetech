@@ -14,6 +14,7 @@ import { USER_ROLES } from './utils/constants';
 import SystemUsersList from './components/SystemUsers/SystemUsersList';
 import SchoolProfileSetup from "./components/SchoolProfile/SchoolProfileSetup";
 import AcademicCalendarSetup from "./components/AcademicCalendar/AcademicCalendarSetup";
+import ScratchCardManagement from "./components/ScratchCard/ScratchCardManagement";
 
 function App() {
   return (
@@ -307,6 +308,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                       <AcademicCalendarSetup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="scratch-card-management"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN]}>
+                      <ScratchCardManagement />
                     </ProtectedRoute>
                   }
                 />
