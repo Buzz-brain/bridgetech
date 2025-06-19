@@ -35,12 +35,6 @@ Guest User (Result Officer)
 ✔️ Role-based redirection
 ✔️ Secure local storage
 
-🏫 SCHOOL PORTAL (e.g. /stellamaris)
-✔️ Each school portal must:
-✔️ Be dynamically styled based on school branding (logo, name, URL)
-✔️ Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
-✔️ Contain a customizable landing page showing school info and login
-
 🧑‍💼 SUPER ADMIN DASHBOARD
 ✔️ View and manage all registered schools
 ✔️ School Profile: name, email, logo, signature, URL, API SMS config
@@ -48,6 +42,12 @@ Guest User (Result Officer)
 ✔️ Configure system-wide settings (SMS providers, backup policies)
 ✔️ View system-wide analytics (total students, schools, SMS sent, etc.)
 ✔️ View audit log of all user actions
+
+🏫 SCHOOL PORTAL (e.g. /stellamaris)
+✔️ Each school portal must:
+✔️ Be dynamically styled based on school branding (logo, name, URL)
+✔️ Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
+✔️ Contain a customizable landing page showing school info and login
 
 🏫 SCHOOL ADMIN DASHBOARD
 School Profile Setup
@@ -77,13 +77,6 @@ programs: ["Science", "Arts", "Commercial", "Technical"]
 ✔️ Transcript & Report Download
 ✔️ Audit Log Viewer
 ✔️ School Config (choose scratch card or free access for results)
-
-
-Sample Pages/Forms:
-✔️ Create/Edit Academic Session & Term
-✔️ Upload School Signature/Logo
-✔️ Enable/Disable SMS Notifications
-✔️ Configure School Rules (boarding/day, religion fields, etc.)
 
 👩‍🏫 TEACHER DASHBOARD
 ✔️ View assigned subjects and classes
