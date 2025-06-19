@@ -1,40 +1,35 @@
 🌐 GENERAL OVERVIEW
 ✔️ Platform Name: Bridgetech
-✔️ Website: bridgetech.com (Main site)
-✔️ School portals: Dynamic subpaths like bridgetech.com/stellamaris for each school
+❌ Website: bridgetech.com (Main site)
+❌ School portals: Dynamic subpaths like bridgetech.com/stellamaris for each school
 ✔️ Technology stack: React.js, TailwindCSS, React Router, Axios, Framer Motion, Chart.js or Recharts for analytics
 ✔️ Structure: Modular, role-based, mobile-responsive, animations on page load and transitions
 ✔️ Design standard: Elegant, modern dashboard UI with clear nav, soft shadows, rounded corners, hover effects, success/error states, loading skeletons
 
 🧭 MAIN SITE PAGES (bridgetech.com)
-Homepage
-Hero section introducing Bridgetech
-Animation on scroll (Framer Motion)
-Call-to-action buttons
-Stats Counter (e.g. number of schools onboarded, students managed)
-About Us
-Our Services
-FAQs
-Contact Page
-Contact form with validation
-Search Bar or Input
-Type in school name and get redirected to their portal (e.g., /stellamaris)
+❌Homepage
+❌Hero section introducing Bridgetech
+❌Animation on scroll (Framer Motion)
+❌Call-to-action buttons
+❌Stats Counter (e.g. number of schools onboarded, students managed)
+❌About Us
+❌Our Services
+❌FAQs
+❌Contact Page
+❌Contact form with validation
+❌Search Bar or Input
+❌Type in school name and get redirected to their portal (e.g., /stellamaris)
 
 👥 USER ROLES & LOGIN
-✔️ Super Admin, School Admin, Student
-Guest User (Result Officer)
+✔️ Super Admin, School Admin, Student, Guest User (Result Officer)
 ✔️ Each user has dedicated login, dashboard, and access. Routes must be protected based on role.
 
 🔐 AUTHENTICATION
-✔️ Login, Register, Forgot Password pages
-✔️ JWT-based auth flow
-✔️ Role-based redirection
-✔️ Secure local storage
-
+❌ Login, Register, Forgot Password pages, JWT-based auth flow, Role-based redirection, Secure local storage
 
 
 🏫 SCHOOL ADMIN DASHBOARD
-✔️ SCHOOL PROFILE SETUP
+📌 SCHOOL PROFILE SETUP
 name: "Stellamaris International School",
 address: "123 Main Street, Cityville",
 phone: "+1234567890",
@@ -50,8 +45,8 @@ description: "Stellamaris International School is committed to academic excellen
 achievements: ["Best School Award 2023", "100% WAEC Pass Rate", "National Science Champions"],
 programs: ["Science", "Arts", "Commercial", "Technical"]
 
-✔️ TEACHER MANAGEMENT
-Teacher Profile
+📌 TEACHER MANAGEMENT
+✔️Teacher Profile:
 Names (In full)	
 TeacherId: Auto-generated teacher ID per school
 Class:	(Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class)  
@@ -63,9 +58,8 @@ Address:
 Signature: Should be uploaded
 Status:  (Transferred, Suspended, Dismissed, Active, Onleave)
 
-✔️ STUDENT MANAGEMENT
-💾 STUDENT PROFILE FORM
-✔️ Personal info: 
+📌 STUDENT MANAGEMENT
+✔️ Student Profile: 
 Auto-generated student ID per school,
 Passport upload,
 Surname, 
