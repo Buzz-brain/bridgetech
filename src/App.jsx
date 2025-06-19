@@ -16,6 +16,7 @@ import SchoolProfileSetup from "./components/SchoolProfile/SchoolProfileSetup";
 import AcademicCalendarSetup from "./components/AcademicCalendar/AcademicCalendarSetup";
 import ScratchCardManagement from "./components/ScratchCard/ScratchCardManagement";
 import TeacherManagement from "./components/TeacherManagement/TeacherManagement";
+import UserManagement from "./components/UserManagement/UserManagement";
 
 function App() {
   return (
@@ -331,8 +332,16 @@ function App() {
                 <Route
                   path="teacher-management"
                   element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN]}>
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <TeacherManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="user-management"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <UserManagement />
                     </ProtectedRoute>
                   }
                 />
