@@ -43,6 +43,29 @@ Guest User (Result Officer)
 ✔️ View system-wide analytics (total students, schools, SMS sent, etc.)
 ✔️ View audit log of all user actions
 
+🎫 SCRATCH CARD MANAGEMENT
+✔️ Generate N cards
+✔️ Assign value, batch number, distribution status
+✔️ Filter by session and term
+
+📊 ANALYTICS & CHARTS
+✔️ Use Chart.js or Recharts:
+✔️ Gender distribution
+✔️ Pass/fail performance charts
+✔️ Result trends per subject
+✔️ Class population
+✔️ Message delivery rate
+
+📦 SYSTEM AUDIT TRAIL
+✔️ Track every important backend operation with:
+✔️ User ID
+✔️ Role
+✔️ Action
+✔️ Page
+✔️ Script
+✔️ Method (POST/GET)
+✔️ Timestamp
+
 🏫 SCHOOL PORTAL (e.g. /stellamaris)
 ✔️ Each school portal must:
 ✔️ Be dynamically styled based on school branding (logo, name, URL)
@@ -93,21 +116,6 @@ programs: ["Science", "Arts", "Commercial", "Technical"]
 ✔️ See term/session information
 ✔️ View SMS inbox
 
-👨‍👩‍👧 PARENT DASHBOARD
-✔️ Linked to one or more students
-✔️ View child(ren)’s results
-✔️ Get notified by SMS
-✔️ View birthdays, next term dates
-
-👩‍💼 USER MANAGEMENT MODULE
-✔️ (Admin creates additional system users manually)
-✔️ First name, other name, phone, email, user ID/password
-✔️ Roles like Accounting Officer, Admin Officer
-✔️ Enable/disable users
-✔️ Assign to departments
-
-
-
 💾 STUDENT PROFILE FORM
 ✔️ Includes:
 ✔️ Passport upload
@@ -152,7 +160,6 @@ phone number,
 email address, 
 occupation
 
-
 📊 RESULT SYSTEM
 ✔️ Result Entry:
 ✔️ By subject, class, term, session
@@ -186,28 +193,20 @@ occupation
 ✔️ Setup by school admin
 ✔️ Fields: session, period, resumption date, vacation date, status (active/disabled)
 
-🎫 SCRATCH CARD MANAGEMENT
-✔️ Generate N cards
-✔️ Assign value, batch number, distribution status
-✔️ Filter by session and term
 
-📊 ANALYTICS & CHARTS
-✔️ Use Chart.js or Recharts:
-✔️ Gender distribution
-✔️ Pass/fail performance charts
-✔️ Result trends per subject
-✔️ Class population
-✔️ Message delivery rate
 
-📦 SYSTEM AUDIT TRAIL
-✔️ Track every important backend operation with:
-✔️ User ID
-✔️ Role
-✔️ Action
-✔️ Page
-✔️ Script
-✔️ Method (POST/GET)
-✔️ Timestamp
+👨‍👩‍👧 PARENT DASHBOARD
+✔️ Linked to one or more students
+✔️ View child(ren)’s results
+✔️ Get notified by SMS
+✔️ View birthdays, next term dates
+
+👩‍💼 USER MANAGEMENT MODULE
+✔️ (Admin creates additional system users manually)
+✔️ First name, other name, phone, email, user ID/password
+✔️ Roles like Accounting Officer, Admin Officer
+✔️ Enable/disable users
+✔️ Assign to departments
 
 🎨 UI/UX Guidelines
 ✔️ Use TailwindCSS and layout grids
