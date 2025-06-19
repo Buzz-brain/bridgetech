@@ -20,6 +20,7 @@ import UserManagement from "./components/UserManagement/UserManagement";
 import StudentManagement from "./components/StudentManagement/StudentManagement";
 import AuditLog from "./components/AuditLog/AuditLog";
 import ParameterTables from "./components/ParameterTables/ParameterTables";
+import ClassSubjectSetup from "./components/ClassSubjectSetup/ClassSubjectSetup";
 
 function App() {
   return (
@@ -348,6 +349,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <ParameterTables />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="class-subject-setup"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <ClassSubjectSetup />
                     </ProtectedRoute>
                   }
                 />
