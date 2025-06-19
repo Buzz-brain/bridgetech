@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { Layers, Users, BadgeCheck } from 'lucide-react';
 
 const classOptions = [
   'Nil', 'Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class'
@@ -165,22 +166,25 @@ const TeacherManagement = () => {
           + Add Teacher
         </motion.button>
       </div>
-      {/* Filters */}
+      {/* Filters with icons */}
       <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
         <span className="flex items-center gap-2 text-primary-700 font-semibold text-base">Filters:</span>
         <div className="flex items-center gap-2">
+          <Layers className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.class} onChange={e => setFilters(f => ({ ...f, class: e.target.value }))}>
             <option value="">All Classes</option>
             {classOptions.map(c => <option key={c}>{c}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.level} onChange={e => setFilters(f => ({ ...f, level: e.target.value }))}>
             <option value="">All Levels</option>
             {classLevelOptions.map(l => <option key={l}>{l}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
+          <BadgeCheck className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.status} onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}>
             <option value="">All Statuses</option>
             {statusOptions.map(s => <option key={s}>{s}</option>)}
