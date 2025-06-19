@@ -37,7 +37,7 @@ const initialStudents = Array.from({ length: 30 }, (_, i) => ({
   admittedPeriod: 'First term',
   admittedLevel: 'JSS1A',
   admittedClass: 'General Class',
-  academicStatus: i % 3 === 0 ? 'Active' : (i % 3 === 1 ? 'Graduated' : 'Suspended'),
+  academicStatus: i % 3 === 0 ? 'Active' : (i % 3 === 1 ? 'Graduated' : (i % 3 === 2 ? 'Suspended' : (i % 4 === 3 ? 'Expelled' : 'Withdrawn'))),
   admissionDate: `2023-09-01`,
   bloodGroup: 'O+',
   genotype: 'AA',
