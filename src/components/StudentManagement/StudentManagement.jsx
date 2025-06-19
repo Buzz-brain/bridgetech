@@ -299,20 +299,62 @@ export default function StudentManagement() {
                 <hr className="mb-2" />
               </div>
               {/* Personal Info Fields */}
-              <input name="surname" value={form.surname} onChange={handleChange} placeholder="Surname" className="input" required />
-              <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="First Name" className="input" required />
-              <input name="middleName" value={form.middleName} onChange={handleChange} placeholder="Middle Name" className="input" />
-              <input name="dob" value={form.dob} onChange={handleChange} type="date" placeholder="Date of Birth" className="input" required />
-              <select name="gender" value={form.gender} onChange={handleChange} className="input"><option value="">Gender</option><option>Male</option><option>Female</option></select>
-              <select name="category" value={form.category} onChange={handleChange} className="input">{categories.map(c => <option key={c}>{c}</option>)}</select>
-              <select name="religion" value={form.religion} onChange={handleChange} className="input">{religions.map(r => <option key={r}>{r}</option>)}</select>
-              <select name="maritalStatus" value={form.maritalStatus} onChange={handleChange} className="input">{maritalStatuses.map(m => <option key={m}>{m}</option>)}</select>
-              <select name="nationality" value={form.nationality} onChange={handleChange} className="input">{nationalities.map(n => <option key={n}>{n}</option>)}</select>
-              <input name="address" value={form.address} onChange={handleChange} placeholder="Address" className="input" />
-              <select name="state" value={form.state} onChange={handleChange} className="input">{states.map(s => <option key={s}>{s}</option>)}</select>
-              <input name="lga" value={form.lga} onChange={handleChange} placeholder="LGA" className="input" />
-              <input name="hometown" value={form.hometown} onChange={handleChange} placeholder="Home Town" className="input" />
-              <input name="language" value={form.language} onChange={handleChange} placeholder="Language Spoken" className="input" />
+              <div>
+                <input name="surname" value={form.surname} onChange={handleChange} placeholder="Surname" className="input" required />
+                <span className="text-xs text-gray-500">Student's last name (family name)</span>
+              </div>
+              <div>
+                <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="First Name" className="input" required />
+                <span className="text-xs text-gray-500">Student's given name</span>
+              </div>
+              <div>
+                <input name="middleName" value={form.middleName} onChange={handleChange} placeholder="Middle Name" className="input" />
+                <span className="text-xs text-gray-500">Other name (optional)</span>
+              </div>
+              <div>
+                <input name="dob" value={form.dob} onChange={handleChange} type="date" placeholder="Date of Birth" className="input" required />
+                <span className="text-xs text-gray-500">Student's date of birth</span>
+              </div>
+              <div>
+                <select name="gender" value={form.gender} onChange={handleChange} className="input"><option value="">Gender</option><option>Male</option><option>Female</option></select>
+                <span className="text-xs text-gray-500">Student's gender</span>
+              </div>
+              <div>
+                <select name="category" value={form.category} onChange={handleChange} className="input">{categories.map(c => <option key={c}>{c}</option>)}</select>
+                <span className="text-xs text-gray-500">Boarding or day student</span>
+              </div>
+              <div>
+                <select name="religion" value={form.religion} onChange={handleChange} className="input">{religions.map(r => <option key={r}>{r}</option>)}</select>
+                <span className="text-xs text-gray-500">Student's religion</span>
+              </div>
+              <div>
+                <select name="maritalStatus" value={form.maritalStatus} onChange={handleChange} className="input">{maritalStatuses.map(m => <option key={m}>{m}</option>)}</select>
+                <span className="text-xs text-gray-500">Student's marital status</span>
+              </div>
+              <div>
+                <select name="nationality" value={form.nationality} onChange={handleChange} className="input">{nationalities.map(n => <option key={n}>{n}</option>)}</select>
+                <span className="text-xs text-gray-500">Country of citizenship</span>
+              </div>
+              <div>
+                <input name="address" value={form.address} onChange={handleChange} placeholder="Address" className="input" />
+                <span className="text-xs text-gray-500">Home address</span>
+              </div>
+              <div>
+                <select name="state" value={form.state} onChange={handleChange} className="input">{states.map(s => <option key={s}>{s}</option>)}</select>
+                <span className="text-xs text-gray-500">State of origin</span>
+              </div>
+              <div>
+                <input name="lga" value={form.lga} onChange={handleChange} placeholder="LGA" className="input" />
+                <span className="text-xs text-gray-500">Local Government Area of origin</span>
+              </div>
+              <div>
+                <input name="hometown" value={form.hometown} onChange={handleChange} placeholder="Home Town" className="input" />
+                <span className="text-xs text-gray-500">Student's hometown</span>
+              </div>
+              <div>
+                <input name="language" value={form.language} onChange={handleChange} placeholder="Language Spoken" className="input" />
+                <span className="text-xs text-gray-500">Language(s) spoken by student</span>
+              </div>
 
               {/* Academic Info Section */}
               <div className="col-span-1 md:col-span-2 mt-4 mb-1">
@@ -362,23 +404,42 @@ export default function StudentManagement() {
                 </h4>
                 <hr className="mb-2" />
               </div>
-              {/* Medical Info Fields */}
-              <select name="bloodGroup" value={form.bloodGroup} onChange={handleChange} className="input">{bloodGroups.map(bg => <option key={bg}>{bg}</option>)}</select>
-              <select name="genotype" value={form.genotype} onChange={handleChange} className="input">{genotypes.map(g => <option key={g}>{g}</option>)}</select>
-              <input name="disabilities" value={form.disabilities} onChange={handleChange} placeholder="Disabilities" className="input" />
-              <input name="disabilityDescription" value={form.disabilityDescription} onChange={handleChange} placeholder="Disability Description (Say nil if none)" className="input" />
+              {/* Medical Info Fields with descriptions */}
+              <div>
+                <select name="bloodGroup" value={form.bloodGroup} onChange={handleChange} className="input">{bloodGroups.map(bg => <option key={bg}>{bg}</option>)}</select>
+                <span className="text-xs text-gray-500">Student's blood group</span>
+              </div>
+              <div>
+                <select name="genotype" value={form.genotype} onChange={handleChange} className="input">{genotypes.map(g => <option key={g}>{g}</option>)}</select>
+                <span className="text-xs text-gray-500">Student's genotype</span>
+              </div>
+              <div>
+                <input name="disabilities" value={form.disabilities} onChange={handleChange} placeholder="Disabilities" className="input" />
+                <span className="text-xs text-gray-500">Any disabilities (if none, leave blank)</span>
+              </div>
+              <div>
+                <input name="disabilityDescription" value={form.disabilityDescription} onChange={handleChange} placeholder="Disability Description (Say nil if none)" className="input" />
+                <span className="text-xs text-gray-500">Describe disability or enter 'nil' if none</span>
+              </div>
 
               {/* Sponsors */}
               <div className="col-span-1 md:col-span-2 font-semibold text-lg mt-4 mb-2">Sponsor(s)</div>
               <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded mb-2">
                 <form onSubmit={addSponsor} className="flex flex-wrap gap-2 items-end">
                   <input name="name" value={sponsorForm.name} onChange={handleSponsorChange} placeholder="Name" className="input" required />
+                  <span className="text-xs text-gray-500">Sponsor's full name</span>
                   <input name="relationship" value={sponsorForm.relationship} onChange={handleSponsorChange} placeholder="Relationship" className="input" />
+                  <span className="text-xs text-gray-500">Relationship to student (e.g. Parent, Guardian)</span>
                   <input name="photo" type="file" className="input" onChange={e => setSponsorForm({ ...sponsorForm, photo: e.target.files[0] })} />
+                  <span className="text-xs text-gray-500">Upload sponsor's photo (optional)</span>
                   <input name="phone" value={sponsorForm.phone} onChange={handleSponsorChange} placeholder="Phone" className="input" />
+                  <span className="text-xs text-gray-500">Sponsor's phone number</span>
                   <input name="email" value={sponsorForm.email} onChange={handleSponsorChange} placeholder="Email" className="input" />
+                  <span className="text-xs text-gray-500">Sponsor's email address</span>
                   <input name="address" value={sponsorForm.address} onChange={handleSponsorChange} placeholder="Address" className="input" />
+                  <span className="text-xs text-gray-500">Sponsor's home address</span>
                   <input name="occupation" value={sponsorForm.occupation} onChange={handleSponsorChange} placeholder="Occupation" className="input" />
+                  <span className="text-xs text-gray-500">Sponsor's occupation</span>
                   <button type="submit" className="btn btn-xs btn-primary">Add Sponsor</button>
                 </form>
                 <ul className="mt-2">
