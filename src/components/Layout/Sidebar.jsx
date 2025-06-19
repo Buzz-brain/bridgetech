@@ -68,6 +68,7 @@ const Sidebar = () => {
           { icon: FileText, label: 'Academic Calendar', path: '/academic-calendar' },
           { icon: FileText, label: 'Scratch Card', path: '/scratch-card' },
           { icon: Users, label: 'Teacher Management', path: '/teacher-management' },
+          { icon: Users, label: 'Users', path: '/user-management' },
           { icon: GraduationCap, label: 'Student Management', path: '/student-management' },
           { icon: Users, label: 'Sponsor Management', path: '/sponsor-management' },
           { icon: FileText, label: 'Result Management', path: '/result-management' },
