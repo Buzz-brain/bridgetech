@@ -148,7 +148,7 @@ function App() {
                 <Route
                   path="results"
                   element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN, USER_ROLES.TEACHER]}>
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                       <ResultManagement />
                     </ProtectedRoute>
                   }
@@ -203,7 +203,7 @@ function App() {
                 <Route
                   path="transcripts"
                   element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN, USER_ROLES.TEACHER]}>
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                       <TranscriptsArchive />
                     </ProtectedRoute>
                   }
@@ -331,14 +331,12 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="teacher-management"
-                  element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
-                      <TeacherManagement />
-                    </ProtectedRoute>
-                  }
-                />
+                {/* School Admin Only: Teacher Management */}
+                <Route path="teacher-management" element={
+                  <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                    <TeacherManagement />
+                  </ProtectedRoute>
+                } />
                 <Route
                   path="audit-log"
                   element={

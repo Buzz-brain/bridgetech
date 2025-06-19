@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { USER_ROLES } from '../../utils/constants';
 import SuperAdminDashboard from './SuperAdminDashboard';
 import SchoolAdminDashboard from './SchoolAdminDashboard';
-import TeacherDashboard from './TeacherDashboard';
 import StudentDashboard from './StudentDashboard';
 import ParentDashboard from './ParentDashboard';
 
@@ -15,8 +14,6 @@ const Dashboard = () => {
         return <SuperAdminDashboard />;
       case USER_ROLES.SCHOOL_ADMIN:
         return <SchoolAdminDashboard />;
-      case USER_ROLES.TEACHER:
-        return <TeacherDashboard />;
       case USER_ROLES.STUDENT:
         return <StudentDashboard />;
       case USER_ROLES.PARENT:
