@@ -101,15 +101,20 @@ email address,
 occupation
 
 📌 ACADEMIC CALENDAR SETUP
-Academic Calendar Setup
+✔️Academic Calendar Setup
 Academic Session (2022/2023, 2023/2024 etc),
 Academic Period (First term, second term, third term), 
 Resumption Date
 Vacation Date	
 Status: (Active, Disabled)
 
-✔️ CLASS & SUBJECT SETUP
-
+📌 CLASS & SUBJECT SETUP
+Class/Subject Setup:
+School Subject: add the subject the school offer
+School Category: (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B) 
+School Classes:	 (Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class) 
+Subject Teacher: list all the teachers in the school
+Status:	Active, Disable
 
 
 ✔️ Scratch Card Management
