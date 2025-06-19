@@ -21,6 +21,8 @@ const initialTeachers = [
     address: "123 Main St, Cityville",
     class: "General Class",
     level: "JSS1A",
+    photo: '',
+    photoPreview: '',
     signature: '',
     signaturePreview: '',
     status: "Active",
@@ -43,9 +45,16 @@ const TeacherManagement = () => {
     address: '',
     class: classOptions[0],
     level: classLevelOptions[0],
+    photo: '',
+    photoPreview: '',
     signature: '',
     signaturePreview: '',
     status: statusOptions[0],
+  });
+  const [filters, setFilters] = useState({
+    class: '',
+    level: '',
+    status: '',
   });
 
   const openAddModal = () => {
@@ -57,6 +66,8 @@ const TeacherManagement = () => {
       address: '',
       class: classOptions[0],
       level: classLevelOptions[0],
+      photo: '',
+      photoPreview: '',
       signature: '',
       signaturePreview: '',
       status: statusOptions[0],
@@ -76,11 +87,11 @@ const TeacherManagement = () => {
       const file = files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setForm((prev) => ({
-          ...prev,
-          [name]: file,
-          signaturePreview: reader.result,
-        }));
+        if (name === 'photo') {
+          setForm((prev) => ({ ...prev, photo: file, photoPreview: reader.result }));
+        } else if (name === 'signature') {
+          setForm((prev) => ({ ...prev, signature: file, signaturePreview: reader.result }));
+        }
       };
       reader.readAsDataURL(file);
     } else {
@@ -104,6 +115,13 @@ const TeacherManagement = () => {
     setShowModal(false);
   };
 
+  // Filtering logic
+  const filteredTeachers = teachers.filter(teacher =>
+    (!filters.class || teacher.class === filters.class) &&
+    (!filters.level || teacher.level === filters.level) &&
+    (!filters.status || teacher.status === filters.status)
+  );
+
   return (
     <motion.div className="max-w-5xl mx-auto py-10 px-4"
       initial={{ opacity: 0, y: 40 }}
@@ -123,11 +141,34 @@ const TeacherManagement = () => {
           + Add Teacher
         </motion.button>
       </div>
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
+        <span className="flex items-center gap-2 text-primary-700 font-semibold text-base">Filters:</span>
+        <div className="flex items-center gap-2">
+          <select className="input w-36" value={filters.class} onChange={e => setFilters(f => ({ ...f, class: e.target.value }))}>
+            <option value="">All Classes</option>
+            {classOptions.map(c => <option key={c}>{c}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <select className="input w-36" value={filters.level} onChange={e => setFilters(f => ({ ...f, level: e.target.value }))}>
+            <option value="">All Levels</option>
+            {classLevelOptions.map(l => <option key={l}>{l}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <select className="input w-36" value={filters.status} onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}>
+            <option value="">All Statuses</option>
+            {statusOptions.map(s => <option key={s}>{s}</option>)}
+          </select>
+        </div>
+      </div>
       <div className="overflow-x-auto rounded-lg shadow-lg bg-gradient-to-br from-white to-blue-50">
         <table className="min-w-full text-sm">
           <thead className="bg-primary-50">
             <tr>
               <th className="py-3 px-4 font-semibold text-left">S/N</th>
+              <th className="py-3 px-4 font-semibold text-left">Photo</th>
               <th className="py-3 px-4 font-semibold text-left">Teacher ID</th>
               <th className="py-3 px-4 font-semibold text-left">Name</th>
               <th className="py-3 px-4 font-semibold text-left">Class</th>
@@ -138,7 +179,7 @@ const TeacherManagement = () => {
           </thead>
           <tbody>
             <AnimatePresence>
-              {teachers.map((teacher, idx) => (
+              {filteredTeachers.map((teacher, idx) => (
                 <motion.tr
                   key={teacher.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -148,6 +189,13 @@ const TeacherManagement = () => {
                   className="border-b hover:bg-blue-50/60 transition-colors"
                 >
                   <td className="py-2 px-4 font-bold text-gray-500">{idx + 1}</td>
+                  <td className="py-2 px-4">
+                    {teacher.photoPreview ? (
+                      <img src={teacher.photoPreview} alt="Teacher" className="w-10 h-10 rounded-full object-cover border shadow" />
+                    ) : (
+                      <span className="text-xs text-gray-400">No Photo</span>
+                    )}
+                  </td>
                   <td className="py-2 px-4 font-mono text-primary-700">{teacher.id}</td>
                   <td className="py-2 px-4 font-medium text-gray-900">{teacher.name}</td>
                   <td className="py-2 px-4 text-gray-700">{teacher.class}</td>
@@ -174,6 +222,21 @@ const TeacherManagement = () => {
               <div className="col-span-1 md:col-span-2 flex items-center gap-2 mb-2">
                 <span className="font-semibold text-gray-700">Teacher ID:</span>
                 <span className="font-mono bg-gray-100 px-3 py-1 rounded text-primary-700 border border-gray-200">{editing !== null ? form.id : generateTeacherId(teachers)}</span>
+              </div>
+              {/* Photo Upload and Preview */}
+              <div className="col-span-1 md:col-span-2 flex flex-col items-center mb-2">
+                {form.photoPreview ? (
+                  <img src={form.photoPreview} alt="Preview" className="w-20 h-20 rounded-full object-cover border mb-2" />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-2 border">
+                    <span className="text-gray-400">No Photo</span>
+                  </div>
+                )}
+                <label className="btn btn-xs btn-secondary cursor-pointer">
+                  Choose Photo
+                  <input type="file" name="photo" accept="image/*" className="hidden" onChange={handleChange} />
+                </label>
+                <span className="text-xs text-gray-500">Upload teacher's passport photo</span>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
