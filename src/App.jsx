@@ -22,6 +22,7 @@ import AuditLog from "./components/AuditLog/AuditLog";
 import ParameterTables from "./components/ParameterTables/ParameterTables";
 import ClassSubjectSetup from "./components/ClassSubjectSetup/ClassSubjectSetup";
 import ResultManagement from "./components/ResultManagement/ResultManagement";
+import TranscriptsArchive from "./components/TranscriptsArchive/TranscriptsArchive";
 
 function App() {
   return (
@@ -355,6 +356,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                       <ClassSubjectSetup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="transcripts-archive"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN, USER_ROLES.TEACHER]}>
+                      <TranscriptsArchive />
                     </ProtectedRoute>
                   }
                 />
