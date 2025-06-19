@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaPlus, FaEdit, FaTrash, FaFilter, FaChalkboardTeacher, FaBook, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaBook, FaChalkboardTeacher } from 'react-icons/fa';
+import { Filter, Layers, Users, BadgeCheck, BookOpen, UserCheck } from 'lucide-react';
 
 // Mock data
 const initialSubjects = [
@@ -71,25 +72,37 @@ export default function ClassSubjectSetup() {
         <h2 className="text-2xl font-bold">Class & Subject Setup</h2>
         <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Add Subject</button>
       </div>
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-4 items-center bg-white p-4 rounded shadow">
-        <FaFilter className="text-gray-400" />
-        <select className="input" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
-          <option value="">All Categories</option>
-          {allCategories.map(c => <option key={c}>{c}</option>)}
-        </select>
-        <select className="input" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
-          <option value="">All Classes</option>
-          {allClasses.map(c => <option key={c}>{c}</option>)}
-        </select>
-        <select className="input" value={filter.teacher} onChange={e => setFilter({ ...filter, teacher: e.target.value })}>
-          <option value="">All Teachers</option>
-          {allTeachers.map(t => <option key={t}>{t}</option>)}
-        </select>
-        <select className="input" value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
-          <option value="">All Status</option>
-          {allStatus.map(s => <option key={s}>{s}</option>)}
-        </select>
+      {/* Filters with icons, horizontal row */}
+      <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
+        <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
+        <div className="flex items-center gap-2">
+          <BookOpen className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
+            <option value="">All Categories</option>
+            {allCategories.map(c => <option key={c}>{c}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <Layers className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
+            <option value="">All Classes</option>
+            {allClasses.map(c => <option key={c}>{c}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <UserCheck className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filter.teacher} onChange={e => setFilter({ ...filter, teacher: e.target.value })}>
+            <option value="">All Teachers</option>
+            {allTeachers.map(t => <option key={t}>{t}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <BadgeCheck className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
+            <option value="">All Status</option>
+            {allStatus.map(s => <option key={s}>{s}</option>)}
+          </select>
+        </div>
       </div>
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded shadow">
