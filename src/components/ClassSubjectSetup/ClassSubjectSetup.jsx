@@ -1,95 +1,195 @@
 import React, { useState } from 'react';
+import { FaPlus, FaEdit, FaTrash, FaFilter, FaChalkboardTeacher, FaBook, FaCheck, FaTimes } from 'react-icons/fa';
 
-const initialClasses = [
-  { name: 'JSS1A', subjects: [
-    { name: 'Mathematics', teacher: 'Mr. John', enabled: true },
-    { name: 'English', teacher: 'Ms. Jane', enabled: true },
-  ] },
-  { name: 'JSS3B', subjects: [
-    { name: 'Biology', teacher: 'Dr. Smith', enabled: false },
-  ] },
+// Mock data
+const initialSubjects = [
+  { id: 1, subject: 'Mathematics', category: 'Science', class: 'JSS1A', teacher: 'Mr. John', status: 'Active' },
+  { id: 2, subject: 'English', category: 'Arts', class: 'JSS1A', teacher: 'Ms. Jane', status: 'Active' },
+  { id: 3, subject: 'Biology', category: 'Science', class: 'JSS3B', teacher: 'Dr. Smith', status: 'Disabled' },
 ];
-
 const allSubjects = ['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics'];
+const allCategories = ['Science', 'Arts', 'Commercial', 'Technology'];
+const allClasses = ['JSS1A', 'JSS3B', 'SS1A', 'SS2B'];
 const allTeachers = ['Mr. John', 'Ms. Jane', 'Dr. Smith', 'Mrs. Doe'];
+const allStatus = ['Active', 'Disabled'];
 
 export default function ClassSubjectSetup() {
-  const [classes, setClasses] = useState(initialClasses);
-  const [className, setClassName] = useState('');
-  const [subject, setSubject] = useState(allSubjects[0]);
-  const [teacher, setTeacher] = useState(allTeachers[0]);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [data, setData] = useState(initialSubjects);
+  const [filter, setFilter] = useState({ category: '', class: '', teacher: '', status: '' });
+  const [modal, setModal] = useState({ open: false, mode: 'add', entry: null });
+  const [deleteModal, setDeleteModal] = useState({ open: false, entry: null });
 
-  const addClass = () => {
-    if (!className.trim()) return;
-    setClasses([...classes, { name: className.trim(), subjects: [] }]);
-    setClassName('');
+  // Filtering
+  const filteredData = data.filter(row =>
+    (!filter.category || row.category === filter.category) &&
+    (!filter.class || row.class === filter.class) &&
+    (!filter.teacher || row.teacher === filter.teacher) &&
+    (!filter.status || row.status === filter.status)
+  );
+
+  // Modal form state
+  const [form, setForm] = useState({
+    subject: allSubjects[0],
+    category: allCategories[0],
+    class: allClasses[0],
+    teacher: allTeachers[0],
+    status: allStatus[0],
+  });
+
+  const openAddModal = () => {
+    setForm({ subject: allSubjects[0], category: allCategories[0], class: allClasses[0], teacher: allTeachers[0], status: allStatus[0] });
+    setModal({ open: true, mode: 'add', entry: null });
+  };
+  const openEditModal = (entry) => {
+    setForm({ ...entry });
+    setModal({ open: true, mode: 'edit', entry });
+  };
+  const closeModal = () => setModal({ open: false, mode: 'add', entry: null });
+
+  const handleFormChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (modal.mode === 'add') {
+      setData([...data, { ...form, id: Date.now() }]);
+    } else if (modal.mode === 'edit') {
+      setData(data.map(d => d.id === modal.entry.id ? { ...form, id: d.id } : d));
+    }
+    closeModal();
   };
 
-  const addSubjectToClass = () => {
-    if (!selectedClass || !subject) return;
-    setClasses(classes.map(cls =>
-      cls.name === selectedClass
-        ? { ...cls, subjects: [...cls.subjects, { name: subject, teacher, enabled: true }] }
-        : cls
-    ));
-  };
-
-  const toggleSubject = (clsName, subjIdx) => {
-    setClasses(classes.map(cls =>
-      cls.name === clsName
-        ? { ...cls, subjects: cls.subjects.map((s, i) => i === subjIdx ? { ...s, enabled: !s.enabled } : s) }
-        : cls
-    ));
+  const openDeleteModal = entry => setDeleteModal({ open: true, entry });
+  const closeDeleteModal = () => setDeleteModal({ open: false, entry: null });
+  const handleDelete = () => {
+    setData(data.filter(d => d.id !== deleteModal.entry.id));
+    closeDeleteModal();
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-10 px-4">
-      <h2 className="text-2xl font-bold mb-6">Class & Subject Setup</h2>
-      <div className="bg-white p-6 rounded shadow mb-8">
-        <div className="flex gap-4 mb-4">
-          <input
-            className="input"
-            placeholder="Add Class (e.g. JSS1A)"
-            value={className}
-            onChange={e => setClassName(e.target.value)}
-          />
-          <button className="btn btn-primary" onClick={addClass}>Add Class</button>
-        </div>
-        <div className="flex gap-4 mb-4">
-          <select className="input" value={selectedClass} onChange={e => setSelectedClass(e.target.value)}>
-            <option value="">Select Class</option>
-            {classes.map(cls => <option key={cls.name}>{cls.name}</option>)}
-          </select>
-          <select className="input" value={subject} onChange={e => setSubject(e.target.value)}>
-            {allSubjects.map(subj => <option key={subj}>{subj}</option>)}
-          </select>
-          <select className="input" value={teacher} onChange={e => setTeacher(e.target.value)}>
-            {allTeachers.map(t => <option key={t}>{t}</option>)}
-          </select>
-          <button className="btn btn-secondary" onClick={addSubjectToClass}>Assign Subject</button>
-        </div>
+    <div className="max-w-6xl mx-auto py-10 px-4">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">Class & Subject Setup</h2>
+        <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Add Subject</button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {classes.map(cls => (
-          <div key={cls.name} className="bg-white rounded shadow p-4">
-            <h3 className="font-semibold text-lg mb-2">{cls.name}</h3>
-            <ul>
-              {cls.subjects.map((subj, idx) => (
-                <li key={idx} className="flex items-center justify-between py-1 border-b last:border-b-0">
-                  <span>{subj.name} <span className="text-xs text-gray-500">({subj.teacher})</span></span>
-                  <button
-                    className={`btn btn-xs ${subj.enabled ? 'btn-success' : 'btn-danger'}`}
-                    onClick={() => toggleSubject(cls.name, idx)}
-                  >
-                    {subj.enabled ? 'Enabled' : 'Disabled'}
-                  </button>
-                </li>
-              ))}
-            </ul>
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4 mb-4 items-center bg-white p-4 rounded shadow">
+        <FaFilter className="text-gray-400" />
+        <select className="input" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
+          <option value="">All Categories</option>
+          {allCategories.map(c => <option key={c}>{c}</option>)}
+        </select>
+        <select className="input" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
+          <option value="">All Classes</option>
+          {allClasses.map(c => <option key={c}>{c}</option>)}
+        </select>
+        <select className="input" value={filter.teacher} onChange={e => setFilter({ ...filter, teacher: e.target.value })}>
+          <option value="">All Teachers</option>
+          {allTeachers.map(t => <option key={t}>{t}</option>)}
+        </select>
+        <select className="input" value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
+          <option value="">All Status</option>
+          {allStatus.map(s => <option key={s}>{s}</option>)}
+        </select>
+      </div>
+      {/* Table */}
+      <div className="overflow-x-auto bg-white rounded shadow">
+        <table className="min-w-full table-auto">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2">S/N</th>
+              <th className="px-4 py-2"><FaBook className="inline mr-1" />Subject</th>
+              <th className="px-4 py-2">Category</th>
+              <th className="px-4 py-2">Class</th>
+              <th className="px-4 py-2"><FaChalkboardTeacher className="inline mr-1" />Teacher</th>
+              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length === 0 && (
+              <tr><td colSpan={7} className="text-center py-6 text-gray-400">No records found.</td></tr>
+            )}
+            {filteredData.map((row, idx) => (
+              <tr key={row.id} className="border-b hover:bg-gray-50 transition">
+                <td className="px-4 py-2">{idx + 1}</td>
+                <td className="px-4 py-2">{row.subject}</td>
+                <td className="px-4 py-2">{row.category}</td>
+                <td className="px-4 py-2">{row.class}</td>
+                <td className="px-4 py-2">{row.teacher}</td>
+                <td className="px-4 py-2">
+                  {row.status === 'Active' ? <span className="text-green-600 flex items-center gap-1"><FaCheck /> Active</span> : <span className="text-red-500 flex items-center gap-1"><FaTimes /> Disabled</span>}
+                </td>
+                <td className="px-4 py-2 flex gap-2">
+                  <button className="btn btn-xs btn-secondary flex items-center gap-1" onClick={() => openEditModal(row)}><FaEdit /> Edit</button>
+                  <button className="btn btn-xs btn-error flex items-center gap-1" onClick={() => openDeleteModal(row)}><FaTrash /> Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* Add/Edit Modal */}
+      {modal.open && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn">
+            <h3 className="text-xl font-bold mb-4">{modal.mode === 'add' ? 'Add Subject to Class' : 'Edit Subject Assignment'}</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block font-semibold mb-1">Subject</label>
+                <select name="subject" className="input w-full" value={form.subject} onChange={handleFormChange} required>
+                  {allSubjects.map(s => <option key={s}>{s}</option>)}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Select the subject to assign.</p>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Category</label>
+                <select name="category" className="input w-full" value={form.category} onChange={handleFormChange} required>
+                  {allCategories.map(c => <option key={c}>{c}</option>)}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Choose the subject category.</p>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Class</label>
+                <select name="class" className="input w-full" value={form.class} onChange={handleFormChange} required>
+                  {allClasses.map(c => <option key={c}>{c}</option>)}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Select the class for this subject.</p>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Teacher</label>
+                <select name="teacher" className="input w-full" value={form.teacher} onChange={handleFormChange} required>
+                  {allTeachers.map(t => <option key={t}>{t}</option>)}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Assign a teacher to this subject.</p>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Status</label>
+                <select name="status" className="input w-full" value={form.status} onChange={handleFormChange} required>
+                  {allStatus.map(s => <option key={s}>{s}</option>)}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Set the status for this assignment.</p>
+              </div>
+              <div className="flex justify-end gap-2 mt-6">
+                <button type="button" className="btn" onClick={closeModal}>Cancel</button>
+                <button type="submit" className="btn btn-primary">{modal.mode === 'add' ? 'Add' : 'Save'}</button>
+              </div>
+            </form>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+      {/* Delete Confirmation Modal */}
+      {deleteModal.open && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm animate-fadeIn">
+            <h3 className="text-lg font-bold mb-4 text-red-600">Confirm Delete</h3>
+            <p className="mb-6">Are you sure you want to delete <span className="font-semibold">{deleteModal.entry.subject}</span> for <span className="font-semibold">{deleteModal.entry.class}</span>?</p>
+            <div className="flex justify-end gap-2">
+              <button className="btn" onClick={closeDeleteModal}>Cancel</button>
+              <button className="btn btn-error" onClick={handleDelete}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
