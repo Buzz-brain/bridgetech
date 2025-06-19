@@ -12,6 +12,7 @@ import SystemSettings from './components/Settings/SystemSettings';
 import SystemAnalytics from './components/Analytics/SystemAnalytics';
 import { USER_ROLES } from './utils/constants';
 import SystemUsersList from './components/SystemUsers/SystemUsersList';
+import SchoolProfileSetup from "./components/SchoolProfile/SchoolProfileSetup";
 
 function App() {
   return (
@@ -273,6 +274,22 @@ function App() {
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Profile</h2>
                         <p className="text-gray-600">Coming Soon</p>
                       </div>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="school-profile-setup"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <SchoolProfileSetup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="school-profile"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <SchoolProfileSetup />
                     </ProtectedRoute>
                   }
                 />
