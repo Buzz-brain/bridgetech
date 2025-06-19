@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const defaultAvatars = [
+  'https://randomuser.me/api/portraits/men/32.jpg',
+  'https://randomuser.me/api/portraits/women/44.jpg',
+  'https://randomuser.me/api/portraits/men/45.jpg',
+  'https://randomuser.me/api/portraits/women/65.jpg',
+  'https://randomuser.me/api/portraits/men/12.jpg',
+  'https://randomuser.me/api/portraits/women/22.jpg',
+  'https://randomuser.me/api/portraits/men/77.jpg',
+  'https://randomuser.me/api/portraits/women/33.jpg',
+  'https://randomuser.me/api/portraits/men/88.jpg',
+  'https://randomuser.me/api/portraits/women/99.jpg',
+];
+
 const initialStudents = Array.from({ length: 30 }, (_, i) => ({
   id: `SCH001-STU-${String(i + 1).padStart(4, '0')}`,
   surname: `Surname${i + 1}`,
@@ -32,6 +45,7 @@ const initialStudents = Array.from({ length: 30 }, (_, i) => ({
   sponsors: [
     { name: `Sponsor${i + 1}`, relationship: 'Parent', phone: `080000000${i + 1}`, email: `sponsor${i + 1}@mail.com`, address: `Sponsor Address ${i + 1}`, occupation: 'Trader' }
   ],
+  profilePic: defaultAvatars[i % defaultAvatars.length],
 }));
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const genotypes = ['AA', 'AS', 'SS', 'SC', 'Others'];
@@ -69,6 +83,7 @@ export default function StudentManagement() {
     category: categories[0], gender: '', dob: '', religion: religions[0], maritalStatus: maritalStatuses[0], nationality: nationalities[0], address: '', state: states[0], lga: '', hometown: '', language: '',
     admittedSession: sessions[0], admittedPeriod: admissionPeriods[0], admittedLevel: academicLevels[0], admittedClass: academicClasses[0], academicStatus: academicStatuses[0], admissionDate: new Date().toISOString().slice(0, 10),
     bloodGroup: bloodGroups[0], genotype: genotypes[0], disabilities: '', disabilityDescription: '', sponsors: [],
+    profilePic: '',
   });
   const [sponsorForm, setSponsorForm] = useState({ name: '', relationship: '', photo: '', phone: '', email: '', address: '', occupation: '' });
   const [schoolCode] = useState('SCH001');
@@ -95,6 +110,7 @@ export default function StudentManagement() {
       category: categories[0], gender: '', dob: '', religion: religions[0], maritalStatus: maritalStatuses[0], nationality: nationalities[0], address: '', state: states[0], lga: '', hometown: '', language: '',
       admittedSession: sessions[0], admittedPeriod: admissionPeriods[0], admittedLevel: academicLevels[0], admittedClass: academicClasses[0], academicStatus: academicStatuses[0], admissionDate: new Date().toISOString().slice(0, 10),
       bloodGroup: bloodGroups[0], genotype: genotypes[0], disabilities: '', disabilityDescription: '', sponsors: [],
+      profilePic: '',
     });
     setShowModal(true);
   };
@@ -126,6 +142,17 @@ export default function StudentManagement() {
     setStudentToDelete(null);
   };
 
+  const handleProfilePicChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setForm(f => ({ ...f, profilePic: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <motion.div className="max-w-6xl mx-auto py-10 px-4"
       initial={{ opacity: 0, y: 40 }}
@@ -149,6 +176,7 @@ export default function StudentManagement() {
         <table className="min-w-full text-sm">
           <thead className="bg-primary-50">
             <tr>
+              <th className="py-3 px-4 font-semibold text-left">Photo</th>
               <th className="py-3 px-4 font-semibold text-left">Student ID</th>
               <th className="py-3 px-4 font-semibold text-left">Surname</th>
               <th className="py-3 px-4 font-semibold text-left">First Name</th>
@@ -168,6 +196,9 @@ export default function StudentManagement() {
                   transition={{ delay: idx * 0.02 }}
                   className="border-b hover:bg-blue-50/60 transition-colors"
                 >
+                  <td className="py-2 px-4">
+                    <img src={student.profilePic || defaultAvatars[0]} alt="Profile" className="w-10 h-10 rounded-full object-cover border shadow" />
+                  </td>
                   <td className="py-2 px-4 font-mono">{student.id}</td>
                   <td className="py-2 px-4">{student.surname}</td>
                   <td className="py-2 px-4">{student.firstName}</td>
@@ -191,6 +222,20 @@ export default function StudentManagement() {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh]">
             <h3 className="text-xl font-bold mb-4">{editing !== null ? 'Edit Student' : 'Add Student'}</h3>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Profile Pic Preview and Upload */}
+              <div className="col-span-1 md:col-span-2 flex flex-col items-center mb-2">
+                {form.profilePic ? (
+                  <img src={form.profilePic} alt="Preview" className="w-20 h-20 rounded-full object-cover border mb-2" />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-2 border">
+                    <span className="text-gray-400">No Photo</span>
+                  </div>
+                )}
+                <label className="btn btn-xs btn-secondary cursor-pointer">
+                  Choose Photo
+                  <input type="file" accept="image/*" className="hidden" onChange={handleProfilePicChange} />
+                </label>
+              </div>
               {/* Personal Info */}
               <input name="surname" value={form.surname} onChange={handleChange} placeholder="Surname" className="input" required />
               <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="First Name" className="input" required />
