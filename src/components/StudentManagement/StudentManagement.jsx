@@ -284,7 +284,14 @@ export default function StudentManagement() {
                   <input type="file" accept="image/*" className="hidden" onChange={handleProfilePicChange} />
                 </label>
               </div>
-              {/* Personal Info */}
+              {/* Personal Info Section */}
+              <div className="col-span-1 md:col-span-2 mt-2 mb-1">
+                <h4 className="text-lg font-bold text-primary-700 mb-2 flex items-center gap-2">
+                  <span role="img" aria-label="personal">👤</span> Personal Information
+                </h4>
+                <hr className="mb-2" />
+              </div>
+              {/* Personal Info Fields */}
               <input name="surname" value={form.surname} onChange={handleChange} placeholder="Surname" className="input" required />
               <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="First Name" className="input" required />
               <input name="middleName" value={form.middleName} onChange={handleChange} placeholder="Middle Name" className="input" />
@@ -299,7 +306,15 @@ export default function StudentManagement() {
               <input name="lga" value={form.lga} onChange={handleChange} placeholder="LGA" className="input" />
               <input name="hometown" value={form.hometown} onChange={handleChange} placeholder="Home Town" className="input" />
               <input name="language" value={form.language} onChange={handleChange} placeholder="Language Spoken" className="input" />
-              {/* Academic Info */}
+
+              {/* Academic Info Section */}
+              <div className="col-span-1 md:col-span-2 mt-4 mb-1">
+                <h4 className="text-lg font-bold text-blue-700 mb-2 flex items-center gap-2">
+                  <span role="img" aria-label="academic">🎓</span> Academic Information
+                </h4>
+                <hr className="mb-2" />
+              </div>
+              {/* Academic Info Fields */}
               <select name="currentAcademicLevel" value={form.currentAcademicLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
               <select name="currentAcademicClass" value={form.currentAcademicClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
               <select name="admittedSession" value={form.admittedSession} onChange={handleChange} className="input">{sessions.map(s => <option key={s}>{s}</option>)}</select>
@@ -308,11 +323,20 @@ export default function StudentManagement() {
               <select name="admittedClass" value={form.admittedClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
               <select name="academicStatus" value={form.academicStatus} onChange={handleChange} className="input">{academicStatuses.map(a => <option key={a}>{a}</option>)}</select>
               <input name="admissionDate" value={form.admissionDate} onChange={handleChange} type="date" className="input" readOnly />
-              {/* Medical Info */}
+
+              {/* Medical Info Section */}
+              <div className="col-span-1 md:col-span-2 mt-4 mb-1">
+                <h4 className="text-lg font-bold text-green-700 mb-2 flex items-center gap-2">
+                  <span role="img" aria-label="medical">🩺</span> Medical Information
+                </h4>
+                <hr className="mb-2" />
+              </div>
+              {/* Medical Info Fields */}
               <select name="bloodGroup" value={form.bloodGroup} onChange={handleChange} className="input">{bloodGroups.map(bg => <option key={bg}>{bg}</option>)}</select>
               <select name="genotype" value={form.genotype} onChange={handleChange} className="input">{genotypes.map(g => <option key={g}>{g}</option>)}</select>
               <input name="disabilities" value={form.disabilities} onChange={handleChange} placeholder="Disabilities" className="input" />
               <input name="disabilityDescription" value={form.disabilityDescription} onChange={handleChange} placeholder="Disability Description (Say nil if none)" className="input" />
+
               {/* Sponsors */}
               <div className="col-span-1 md:col-span-2 font-semibold text-lg mt-4 mb-2">Sponsor(s)</div>
               <div className="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded mb-2">
