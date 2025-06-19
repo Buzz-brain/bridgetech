@@ -93,6 +93,7 @@ programs: ["Science", "Arts", "Commercial", "Technical"]
 ✔️ Teacher Management
 Teacher Profile
 Names (In full)	
+TeacherId: Auto-generated teacher ID per school
 Class:	(Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class)  
 Class Level: (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B)  
 Phone Number:	
