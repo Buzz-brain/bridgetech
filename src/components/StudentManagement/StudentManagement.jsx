@@ -1,6 +1,38 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const initialStudents = [];
+const initialStudents = Array.from({ length: 30 }, (_, i) => ({
+  id: `SCH001-STU-${String(i + 1).padStart(4, '0')}`,
+  surname: `Surname${i + 1}`,
+  firstName: `First${i + 1}`,
+  middleName: `Middle${i + 1}`,
+  currentAcademicLevel: 'JSS1A',
+  currentAcademicClass: 'General Class',
+  category: i % 2 === 0 ? 'Boarding student' : 'Day student',
+  gender: i % 2 === 0 ? 'Male' : 'Female',
+  dob: `201${Math.floor(i/3)}-0${(i%12)+1}-15`,
+  religion: 'Christianity',
+  maritalStatus: 'Single',
+  nationality: 'Nigeria',
+  address: `Address ${i + 1}`,
+  state: 'Lagos',
+  lga: `LGA${i + 1}`,
+  hometown: `Town${i + 1}`,
+  language: 'English',
+  admittedSession: '2023/2024',
+  admittedPeriod: 'First term',
+  admittedLevel: 'JSS1A',
+  admittedClass: 'General Class',
+  academicStatus: i % 3 === 0 ? 'Active' : (i % 3 === 1 ? 'Graduated' : 'Suspended'),
+  admissionDate: `2023-09-01`,
+  bloodGroup: 'O+',
+  genotype: 'AA',
+  disabilities: '',
+  disabilityDescription: 'nil',
+  sponsors: [
+    { name: `Sponsor${i + 1}`, relationship: 'Parent', phone: `080000000${i + 1}`, email: `sponsor${i + 1}@mail.com`, address: `Sponsor Address ${i + 1}`, occupation: 'Trader' }
+  ],
+}));
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const genotypes = ['AA', 'AS', 'SS', 'SC', 'Others'];
 const categories = ['Boarding student', 'Day student'];
@@ -95,38 +127,64 @@ export default function StudentManagement() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4">
+    <motion.div className="max-w-6xl mx-auto py-10 px-4"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Student Management</h2>
-        <button className="btn btn-primary" onClick={openAddModal}>Add Student</button>
+        <h2 className="text-3xl font-extrabold text-primary-700 tracking-tight flex items-center gap-2">
+          <span role="img" aria-label="student">🎓</span> Student Management
+        </h2>
+        <motion.button
+          className="btn btn-primary shadow-lg hover:scale-105 transition-transform"
+          whileHover={{ scale: 1.07 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={openAddModal}
+        >
+          + Add Student
+        </motion.button>
       </div>
-      <table className="min-w-full bg-white rounded shadow mb-8">
-        <thead>
-          <tr>
-            <th className="py-2 px-4">Student ID</th>
-            <th className="py-2 px-4">Surname</th>
-            <th className="py-2 px-4">First Name</th>
-            <th className="py-2 px-4">Class</th>
-            <th className="py-2 px-4">Status</th>
-            <th className="py-2 px-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, idx) => (
-            <tr key={student.id} className="border-t">
-              <td className="py-2 px-4">{student.id}</td>
-              <td className="py-2 px-4">{student.surname}</td>
-              <td className="py-2 px-4">{student.firstName}</td>
-              <td className="py-2 px-4">{student.currentAcademicClass}</td>
-              <td className="py-2 px-4">{student.academicStatus}</td>
-              <td className="py-2 px-4 flex gap-2">
-                <button className="btn btn-xs btn-secondary" onClick={() => openEditModal(student, idx)}>Edit</button>
-                <button className="btn btn-xs btn-danger" onClick={() => confirmDelete(idx)}>Delete</button>
-              </td>
+      <div className="overflow-x-auto rounded-lg shadow-lg bg-gradient-to-br from-white to-blue-50">
+        <table className="min-w-full text-sm">
+          <thead className="bg-primary-50">
+            <tr>
+              <th className="py-3 px-4 font-semibold text-left">Student ID</th>
+              <th className="py-3 px-4 font-semibold text-left">Surname</th>
+              <th className="py-3 px-4 font-semibold text-left">First Name</th>
+              <th className="py-3 px-4 font-semibold text-left">Class</th>
+              <th className="py-3 px-4 font-semibold text-left">Status</th>
+              <th className="py-3 px-4 font-semibold text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <AnimatePresence>
+              {students.map((student, idx) => (
+                <motion.tr
+                  key={student.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ delay: idx * 0.02 }}
+                  className="border-b hover:bg-blue-50/60 transition-colors"
+                >
+                  <td className="py-2 px-4 font-mono">{student.id}</td>
+                  <td className="py-2 px-4">{student.surname}</td>
+                  <td className="py-2 px-4">{student.firstName}</td>
+                  <td className="py-2 px-4">{student.currentAcademicClass}</td>
+                  <td className="py-2 px-4">
+                    <span className={`px-2 py-1 rounded text-xs font-semibold ${student.academicStatus === 'Active' ? 'bg-green-100 text-green-700' : student.academicStatus === 'Graduated' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{student.academicStatus}</span>
+                  </td>
+                  <td className="py-2 px-4 flex gap-2">
+                    <motion.button className="btn btn-xs btn-secondary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(student, idx)}>Edit</motion.button>
+                    <motion.button className="btn btn-xs btn-danger" whileHover={{ scale: 1.1 }} onClick={() => confirmDelete(idx)}>Delete</motion.button>
+                  </td>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
+          </tbody>
+        </table>
+      </div>
       {/* Modal for Add/Edit Student */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
@@ -202,6 +260,6 @@ export default function StudentManagement() {
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
