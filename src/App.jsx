@@ -19,6 +19,7 @@ import TeacherManagement from "./components/TeacherManagement/TeacherManagement"
 import UserManagement from "./components/UserManagement/UserManagement";
 import StudentManagement from "./components/StudentManagement/StudentManagement";
 import AuditLog from "./components/AuditLog/AuditLog";
+import ParameterTables from "./components/ParameterTables/ParameterTables";
 
 function App() {
   return (
@@ -339,6 +340,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <AuditLog />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="parameter-tables"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
+                      <ParameterTables />
                     </ProtectedRoute>
                   }
                 />
