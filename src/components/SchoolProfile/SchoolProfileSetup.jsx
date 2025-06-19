@@ -1,22 +1,40 @@
 import React, { useState } from "react";
+import { motion } from 'framer-motion';
+
+const subscriptionOptions = [
+  { value: 'scratch_card', label: 'Scratch Card' },
+  { value: 'subscription', label: 'Subscription' },
+];
 
 const SchoolProfileSetup = () => {
   const [profile, setProfile] = useState({
     name: '',
     url: '',
     logo: '',
+    logoPreview: '',
     phone: '',
     email: '',
     address: '',
     signature: '',
+    signaturePreview: '',
     smsApi: '',
     birthdaySms: '',
+    resultAccess: 'scratch_card',
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
-      setProfile({ ...profile, [name]: files[0] });
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile((prev) => ({
+          ...prev,
+          [name]: file,
+          [`${name}Preview`]: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
     } else {
       setProfile({ ...profile, [name]: value });
     }
@@ -29,8 +47,10 @@ const SchoolProfileSetup = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">School Profile Setup</h2>
+    <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-8 mt-8">
+      <motion.h2 initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="text-3xl font-extrabold text-primary-700 mb-6 flex items-center gap-2">
+        🏫 School Profile Setup
+      </motion.h2>
       <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -55,12 +75,25 @@ const SchoolProfileSetup = () => {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Logo</label>
+            {profile.logoPreview && (
+              <motion.img src={profile.logoPreview} alt="Logo Preview" className="w-20 h-20 rounded-full object-cover border mb-2" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} />
+            )}
             <input className="input w-full" type="file" name="logo" accept="image/*" onChange={handleChange} />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Signature (upload)</label>
+            {profile.signaturePreview && (
+              <motion.img src={profile.signaturePreview} alt="Signature Preview" className="w-32 h-16 object-contain border mb-2 bg-gray-50" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} />
+            )}
             <input className="input w-full" type="file" name="signature" accept="image/*" onChange={handleChange} />
           </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Result Access Mode</label>
+          <select className="input w-full" name="resultAccess" value={profile.resultAccess} onChange={handleChange}>
+            {subscriptionOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+          </select>
+          <span className="text-xs text-gray-500">Choose how students/parents access results: via scratch card or subscription</span>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">SMS API Endpoint</label>
@@ -71,10 +104,10 @@ const SchoolProfileSetup = () => {
           <textarea className="input w-full" name="birthdaySms" value={profile.birthdaySms} onChange={handleChange} rows={2} />
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="btn btn-primary">Save Profile</button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} type="submit" className="btn btn-primary shadow-lg">Save Profile</motion.button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
