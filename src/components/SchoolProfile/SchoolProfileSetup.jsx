@@ -15,6 +15,15 @@ const SchoolProfileSetup = () => {
     phone: '',
     email: '',
     address: '',
+    principal: '',
+    established: '',
+    students: '',
+    teachers: '',
+    motto: '',
+    website: '',
+    description: '',
+    achievements: [''],
+    programs: [''],
     signature: '',
     signaturePreview: '',
     smsApi: '',
@@ -92,6 +101,69 @@ const SchoolProfileSetup = () => {
             )}
             <input className="input w-full" type="file" name="signature" accept="image/*" onChange={handleChange} />
             <span className="text-xs text-gray-500 mt-1">Upload authorized signature (will appear on result sheets)</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Principal</label>
+            <input className="input w-full" name="principal" value={profile.principal} onChange={handleChange} />
+            <span className="text-xs text-gray-500">Full name of the school principal</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Year Established</label>
+            <input className="input w-full" name="established" type="number" value={profile.established} onChange={handleChange} />
+            <span className="text-xs text-gray-500">e.g. 2005</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Total Students</label>
+            <input className="input w-full" name="students" type="number" value={profile.students} onChange={handleChange} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Total Teachers</label>
+            <input className="input w-full" name="teachers" type="number" value={profile.teachers} onChange={handleChange} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Motto</label>
+            <input className="input w-full" name="motto" value={profile.motto} onChange={handleChange} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+            <input className="input w-full" name="website" value={profile.website} onChange={handleChange} />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea className="input w-full" name="description" value={profile.description} onChange={handleChange} rows={2} />
+            <span className="text-xs text-gray-500">Brief description of the school</span>
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Achievements</label>
+            {profile.achievements.map((ach, idx) => (
+              <div key={idx} className="flex gap-2 mb-1">
+                <input className="input w-full" value={ach} onChange={e => {
+                  const achievements = [...profile.achievements];
+                  achievements[idx] = e.target.value;
+                  setProfile({ ...profile, achievements });
+                }} placeholder={`Achievement #${idx + 1}`} />
+                <button type="button" className="btn btn-xs btn-error" onClick={() => {
+                  setProfile({ ...profile, achievements: profile.achievements.filter((_, i) => i !== idx) });
+                }}>✕</button>
+              </div>
+            ))}
+            <button type="button" className="btn btn-xs btn-outline" onClick={() => setProfile({ ...profile, achievements: [...profile.achievements, ''] })}>+ Add Achievement</button>
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Programs Offered</label>
+            {profile.programs.map((prog, idx) => (
+              <div key={idx} className="flex gap-2 mb-1">
+                <input className="input w-full" value={prog} onChange={e => {
+                  const programs = [...profile.programs];
+                  programs[idx] = e.target.value;
+                  setProfile({ ...profile, programs });
+                }} placeholder={`Program #${idx + 1}`} />
+                <button type="button" className="btn btn-xs btn-error" onClick={() => {
+                  setProfile({ ...profile, programs: profile.programs.filter((_, i) => i !== idx) });
+                }}>✕</button>
+              </div>
+            ))}
+            <button type="button" className="btn btn-xs btn-outline" onClick={() => setProfile({ ...profile, programs: [...profile.programs, ''] })}>+ Add Program</button>
           </div>
         </div>
         <div>
