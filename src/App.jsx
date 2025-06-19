@@ -310,7 +310,7 @@ function App() {
                   }
                 />
                 {/* School Admin Only: Teacher Management */}
-                <Route path="teacher-management" element={
+                <Route path="teachers" element={
                   <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                     <TeacherManagement />
                   </ProtectedRoute>
