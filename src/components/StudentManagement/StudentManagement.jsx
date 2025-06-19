@@ -321,15 +321,39 @@ export default function StudentManagement() {
                 </h4>
                 <hr className="mb-2" />
               </div>
-              {/* Academic Info Fields */}
-              <select name="currentAcademicLevel" value={form.currentAcademicLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
-              <select name="currentAcademicClass" value={form.currentAcademicClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
-              <select name="admittedSession" value={form.admittedSession} onChange={handleChange} className="input">{sessions.map(s => <option key={s}>{s}</option>)}</select>
-              <select name="admittedPeriod" value={form.admittedPeriod} onChange={handleChange} className="input">{admissionPeriods.map(p => <option key={p}>{p}</option>)}</select>
-              <select name="admittedLevel" value={form.admittedLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
-              <select name="admittedClass" value={form.admittedClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
-              <select name="academicStatus" value={form.academicStatus} onChange={handleChange} className="input">{academicStatuses.map(a => <option key={a}>{a}</option>)}</select>
-              <input name="admissionDate" value={form.admissionDate} onChange={handleChange} type="date" className="input" readOnly />
+              {/* Academic Info Fields with descriptions */}
+              <div>
+                <select name="currentAcademicLevel" value={form.currentAcademicLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
+                <span className="text-xs text-gray-500">Current Academic Level (e.g. JSS1A student is currently in)</span>
+              </div>
+              <div>
+                <select name="currentAcademicClass" value={form.currentAcademicClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
+                <span className="text-xs text-gray-500">Current Academic Class (e.g. Science Class student is currently in)</span>
+              </div>
+              <div>
+                <select name="admittedSession" value={form.admittedSession} onChange={handleChange} className="input">{sessions.map(s => <option key={s}>{s}</option>)}</select>
+                <span className="text-xs text-gray-500">Session student was admitted (e.g. 2023/2024)</span>
+              </div>
+              <div>
+                <select name="admittedPeriod" value={form.admittedPeriod} onChange={handleChange} className="input">{admissionPeriods.map(p => <option key={p}>{p}</option>)}</select>
+                <span className="text-xs text-gray-500">Term/period student was admitted (e.g. First term)</span>
+              </div>
+              <div>
+                <select name="admittedLevel" value={form.admittedLevel} onChange={handleChange} className="input">{academicLevels.map(l => <option key={l}>{l}</option>)}</select>
+                <span className="text-xs text-gray-500">Academic Level student was admitted into (e.g. JSS1A)</span>
+              </div>
+              <div>
+                <select name="admittedClass" value={form.admittedClass} onChange={handleChange} className="input">{academicClasses.map(c => <option key={c}>{c}</option>)}</select>
+                <span className="text-xs text-gray-500">Academic Class student was admitted into (e.g. Science Class)</span>
+              </div>
+              <div>
+                <select name="academicStatus" value={form.academicStatus} onChange={handleChange} className="input">{academicStatuses.map(a => <option key={a}>{a}</option>)}</select>
+                <span className="text-xs text-gray-500">Current status (Active, Graduated, Suspended, Expelled)</span>
+              </div>
+              <div>
+                <input name="admissionDate" value={form.admissionDate} onChange={handleChange} type="date" className="input" readOnly />
+                <span className="text-xs text-gray-500">Date of admission (auto-set)</span>
+              </div>
 
               {/* Medical Info Section */}
               <div className="col-span-1 md:col-span-2 mt-4 mb-1">
