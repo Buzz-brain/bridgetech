@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Filter, Calendar, Layers, Users, BadgeCheck } from 'lucide-react';
 
 const defaultAvatars = [
   'https://randomuser.me/api/portraits/men/32.jpg',
@@ -87,6 +88,20 @@ export default function StudentManagement() {
   });
   const [sponsorForm, setSponsorForm] = useState({ name: '', relationship: '', photo: '', phone: '', email: '', address: '', occupation: '' });
   const [schoolCode] = useState('SCH001');
+  // Filtering state
+  const [filters, setFilters] = useState({
+    session: '',
+    level: '',
+    class: '',
+    status: '',
+  });
+
+  const filteredStudents = students.filter(student =>
+    (!filters.session || student.admittedSession === filters.session) &&
+    (!filters.level || student.currentAcademicLevel === filters.level) &&
+    (!filters.class || student.currentAcademicClass === filters.class) &&
+    (!filters.status || student.academicStatus === filters.status)
+  );
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -172,10 +187,42 @@ export default function StudentManagement() {
           + Add Student
         </motion.button>
       </div>
+      <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
+        <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filters.session} onChange={e => setFilters(f => ({ ...f, session: e.target.value }))}>
+            <option value="">All Sessions</option>
+            {sessions.map(s => <option key={s}>{s}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <Layers className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filters.level} onChange={e => setFilters(f => ({ ...f, level: e.target.value }))}>
+            <option value="">All Levels</option>
+            {academicLevels.map(l => <option key={l}>{l}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filters.class} onChange={e => setFilters(f => ({ ...f, class: e.target.value }))}>
+            <option value="">All Classes</option>
+            {academicClasses.map(c => <option key={c}>{c}</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <BadgeCheck className="w-4 h-4 text-gray-400" />
+          <select className="input w-36" value={filters.status} onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}>
+            <option value="">All Statuses</option>
+            {academicStatuses.map(a => <option key={a}>{a}</option>)}
+          </select>
+        </div>
+      </div>
       <div className="overflow-x-auto rounded-lg shadow-lg bg-gradient-to-br from-white to-blue-50">
         <table className="min-w-full text-sm">
           <thead className="bg-primary-50">
             <tr>
+              <th className="py-3 px-4 font-semibold text-left">#</th>
               <th className="py-3 px-4 font-semibold text-left">Photo</th>
               <th className="py-3 px-4 font-semibold text-left">Student ID</th>
               <th className="py-3 px-4 font-semibold text-left">Surname</th>
@@ -187,7 +234,7 @@ export default function StudentManagement() {
           </thead>
           <tbody>
             <AnimatePresence>
-              {students.map((student, idx) => (
+              {filteredStudents.map((student, idx) => (
                 <motion.tr
                   key={student.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -196,6 +243,7 @@ export default function StudentManagement() {
                   transition={{ delay: idx * 0.02 }}
                   className="border-b hover:bg-blue-50/60 transition-colors"
                 >
+                  <td className="py-2 px-4 font-bold text-gray-500">{idx + 1}</td>
                   <td className="py-2 px-4">
                     <img src={student.profilePic || defaultAvatars[0]} alt="Profile" className="w-10 h-10 rounded-full object-cover border shadow" />
                   </td>
