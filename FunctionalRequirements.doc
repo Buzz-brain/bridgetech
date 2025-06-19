@@ -21,11 +21,7 @@ Search Bar or Input
 Type in school name and get redirected to their portal (e.g., /stellamaris)
 
 👥 USER ROLES & LOGIN
-✔️ Super Admin
-✔️ School Admin
-✔️ Teacher
-✔️ Student
-✔️ Parent
+✔️ Super Admin, School Admin, Student
 Guest User (Result Officer)
 ✔️ Each user has dedicated login, dashboard, and access. Routes must be protected based on role.
 
@@ -35,42 +31,7 @@ Guest User (Result Officer)
 ✔️ Role-based redirection
 ✔️ Secure local storage
 
-🧑‍💼 SUPER ADMIN DASHBOARD
-✔️ View and manage all registered schools
-✔️ School Profile: name, email, logo, signature, URL, API SMS config
-✔️ Add/Edit/Delete school
-✔️ Configure system-wide settings (SMS providers, backup policies)
-✔️ View system-wide analytics (total students, schools, SMS sent, etc.)
-✔️ View audit log of all user actions
 
-🎫 SCRATCH CARD MANAGEMENT
-✔️ Generate N cards
-✔️ Assign value, batch number, distribution status
-✔️ Filter by session and term
-
-📊 ANALYTICS & CHARTS
-✔️ Use Chart.js or Recharts:
-✔️ Gender distribution
-✔️ Pass/fail performance charts
-✔️ Result trends per subject
-✔️ Class population
-✔️ Message delivery rate
-
-📦 SYSTEM AUDIT TRAIL
-✔️ Track every important backend operation with:
-✔️ User ID
-✔️ Role
-✔️ Action
-✔️ Page
-✔️ Script
-✔️ Method (POST/GET)
-✔️ Timestamp
-
-🏫 SCHOOL PORTAL (e.g. /stellamaris)
-✔️ Each school portal must:
-✔️ Be dynamically styled based on school branding (logo, name, URL)
-✔️ Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
-✔️ Contain a customizable landing page showing school info and login
 
 🏫 SCHOOL ADMIN DASHBOARD
 ✔️ SCHOOL PROFILE SETUP
@@ -101,36 +62,12 @@ eMail Address:
 Address:	
 Signature: Should be uploaded
 Status:  (Transferred, Suspended, Dismissed, Active, Onleave)
-✔️ Academic Calendar Setup
-✔️ Scratch Card Management
-✔️ Student Management
-✔️ Result Management
-✔️ Class & Subject Setup
-✔️ User Account Management
-✔️ Notifications (send SMS)
-✔️ Transcript & Report Download
-✔️ Audit Log Viewer
 
-👩‍🏫 TEACHER DASHBOARD
-✔️ View assigned subjects and classes
-✔️ Upload scores per student (Assessments + Exam)
-✔️ Auto-grade results (average, remarks)
-✔️ Enter remarks and initials
-✔️ View result history
-
-🧑‍🎓 STUDENT DASHBOARD
-✔️ View profile & photo
-✔️ See academic records
-✔️ View & download results (after entering scratch card if required)
-✔️ Request transcript
-✔️ See term/session information
-✔️ View SMS inbox
-
+✔️ STUDENT MANAGEMENT
 💾 STUDENT PROFILE FORM
-✔️ Includes:
-✔️ Passport upload
-✔️ Auto-generated student ID per school
 ✔️ Personal info: 
+Auto-generated student ID per school,
+Passport upload,
 Surname, 
 Firstname, 
 Middle Name, 
@@ -146,7 +83,6 @@ State of origin (All the 36 states in Nigeria would be listed),
 LGA or Origin (requires manual input from user), 
 Home Town, 
 Language spoken
-
 ✔️ Academic info: 
 admission session (list the avaliable sessions e.g 2021/2022, 2023/2024), 
 Admission period (First term, second term, third term), 
@@ -154,13 +90,11 @@ admission level (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B
 admission class (Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class), 
 Status (Graduated, Suspended, Expelled, Active) 
 date of admission (current date/date now)
-
 ✔️ Medical info: 
 Blood Group (AB, AB+, O+, O- (I think there are others, list all)) , 
 genotype (AA, AS, SS, Others), 
 disability
 disability description (Say nil if none)
-
 ✔️ Sponsors: multiple allowed 
 passport, 
 Name of Sponsor, 
@@ -169,6 +103,27 @@ address,
 phone number, 
 email address, 
 occupation
+
+✔️ Academic Calendar Setup
+✔️ Scratch Card Management
+
+✔️ Result Management
+✔️ Class & Subject Setup
+✔️ User Account Management
+✔️ Notifications (send SMS)
+✔️ Transcript & Report Download
+✔️ Audit Log Viewer
+
+
+🧑‍🎓 STUDENT DASHBOARD
+✔️ View profile & photo
+✔️ See academic records
+✔️ View & download results (after entering scratch card if required)
+✔️ Request transcript
+✔️ See term/session information
+✔️ View SMS inbox
+
+
 
 📊 RESULT SYSTEM
 ✔️ Result Entry:
@@ -217,6 +172,56 @@ occupation
 ✔️ Roles like Accounting Officer, Admin Officer
 ✔️ Enable/disable users
 ✔️ Assign to departments
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+🧑‍💼 SUPER ADMIN DASHBOARD
+✔️ View and manage all registered schools
+✔️ School Profile: name, email, logo, signature, URL, API SMS config
+✔️ Add/Edit/Delete school
+✔️ Configure system-wide settings (SMS providers, backup policies)
+✔️ View system-wide analytics (total students, schools, SMS sent, etc.)
+✔️ View audit log of all user actions
+
+🎫 SCRATCH CARD MANAGEMENT
+✔️ Generate N cards
+✔️ Assign value, batch number, distribution status
+✔️ Filter by session and term
+
+📊 ANALYTICS & CHARTS
+✔️ Use Chart.js or Recharts:
+✔️ Gender distribution
+✔️ Pass/fail performance charts
+✔️ Result trends per subject
+✔️ Class population
+✔️ Message delivery rate
+
+📦 SYSTEM AUDIT TRAIL
+✔️ Track every important backend operation with:
+✔️ User ID
+✔️ Role
+✔️ Action
+✔️ Page
+✔️ Script
+✔️ Method (POST/GET)
+✔️ Timestamp
+
+🏫 SCHOOL PORTAL (e.g. /stellamaris)
+✔️ Each school portal must:
+✔️ Be dynamically styled based on school branding (logo, name, URL)
+✔️ Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
+✔️ Contain a customizable landing page showing school info and login
 
 🎨 UI/UX Guidelines
 ✔️ Use TailwindCSS and layout grids
