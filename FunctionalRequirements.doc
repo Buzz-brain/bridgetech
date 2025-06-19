@@ -1,10 +1,10 @@
 🌐 GENERAL OVERVIEW
-Platform Name: Bridgetech
-Website: bridgetech.com (Main site)
-School portals: Dynamic subpaths like bridgetech.com/stellamaris for each school
-Technology stack: React.js, TailwindCSS, React Router, Axios, Framer Motion, Chart.js or Recharts for analytics
-Structure: Modular, role-based, mobile-responsive, animations on page load and transitions
-Design standard: Elegant, modern dashboard UI with clear nav, soft shadows, rounded corners, hover effects, success/error states, loading skeletons
+✔️ Platform Name: Bridgetech
+✔️ Website: bridgetech.com (Main site)
+✔️ School portals: Dynamic subpaths like bridgetech.com/stellamaris for each school
+✔️ Technology stack: React.js, TailwindCSS, React Router, Axios, Framer Motion, Chart.js or Recharts for analytics
+✔️ Structure: Modular, role-based, mobile-responsive, animations on page load and transitions
+✔️ Design standard: Elegant, modern dashboard UI with clear nav, soft shadows, rounded corners, hover effects, success/error states, loading skeletons
 
 🧭 MAIN SITE PAGES (bridgetech.com)
 Homepage
@@ -32,260 +32,160 @@ Search Bar or Input
 Type in school name and get redirected to their portal (e.g., /stellamaris)
 
 👥 USER ROLES & LOGIN
-Super Admin
-
-School Admin
-
-Teacher
-
-Student
-
-Parent
-
+✔️ Super Admin
+✔️ School Admin
+✔️ Teacher
+✔️ Student
+✔️ Parent
 Guest User (Result Officer)
-
-Each user has dedicated login, dashboard, and access. Routes must be protected based on role.
+✔️ Each user has dedicated login, dashboard, and access. Routes must be protected based on role.
 
 🔐 AUTHENTICATION
-Login, Register, Forgot Password pages
-
-JWT-based auth flow
-
-Role-based redirection
-
-Secure local storage
+✔️ Login, Register, Forgot Password pages
+✔️ JWT-based auth flow
+✔️ Role-based redirection
+✔️ Secure local storage
 
 🏫 SCHOOL PORTAL (e.g. /stellamaris)
-Each school portal must:
-
-Be dynamically styled based on school branding (logo, name, URL)
-
-Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
-
-Contain a customizable landing page showing school info and login
+✔️ Each school portal must:
+✔️ Be dynamically styled based on school branding (logo, name, URL)
+✔️ Have separate dashboards and functionalities for Admin, Teachers, Students, Parents
+✔️ Contain a customizable landing page showing school info and login
 
 🧑‍💼 SUPER ADMIN DASHBOARD
-View and manage all registered schools
-
-School Profile: name, email, logo, signature, URL, API SMS config
-
-Add/Edit/Delete school
-
-Configure system-wide settings (SMS providers, backup policies)
-
-View system-wide analytics (total students, schools, SMS sent, etc.)
-
-View audit log of all user actions
+✔️ View and manage all registered schools
+✔️ School Profile: name, email, logo, signature, URL, API SMS config
+✔️ Add/Edit/Delete school
+✔️ Configure system-wide settings (SMS providers, backup policies)
+✔️ View system-wide analytics (total students, schools, SMS sent, etc.)
+✔️ View audit log of all user actions
 
 🏫 SCHOOL ADMIN DASHBOARD
-Main Functions:
-
-School Profile Setup
-
-Academic Calendar Setup
-
-Scratch Card Management
-
-Teacher Management
-
-Student Management
-
-Sponsor Management
-
-Result Management
-
-Class & Subject Setup
-
-User Account Management
-
-Notifications (send SMS)
-
-Transcript & Report Download
-
-Audit Log Viewer
-
-School Config (choose scratch card or free access for results)
+✔️ School Profile Setup
+✔️ Academic Calendar Setup
+✔️ Scratch Card Management
+✔️ Teacher Management
+✔️ Student Management
+✔️ Sponsor Management
+✔️ Result Management
+✔️ Class & Subject Setup
+✔️ User Account Management
+✔️ Notifications (send SMS)
+✔️ Transcript & Report Download
+✔️ Audit Log Viewer
+✔️ School Config (choose scratch card or free access for results)
 
 Sample Pages/Forms:
-Create/Edit Academic Session & Term
-
-Upload School Signature/Logo
-
-Enable/Disable SMS Notifications
-
-Configure School Rules (boarding/day, religion fields, etc.)
+✔️ Create/Edit Academic Session & Term
+✔️ Upload School Signature/Logo
+✔️ Enable/Disable SMS Notifications
+✔️ Configure School Rules (boarding/day, religion fields, etc.)
 
 👩‍🏫 TEACHER DASHBOARD
-View assigned subjects and classes
-
-Upload scores per student (Assessments + Exam)
-
-Auto-grade results (average, remarks)
-
-Enter remarks and initials
-
-View result history
+✔️ View assigned subjects and classes
+✔️ Upload scores per student (Assessments + Exam)
+✔️ Auto-grade results (average, remarks)
+✔️ Enter remarks and initials
+✔️ View result history
 
 🧑‍🎓 STUDENT DASHBOARD
-View profile & photo
-
-See academic records
-
-View & download results (after entering scratch card if required)
-
-Request transcript
-
-See term/session information
-
-View SMS inbox
+✔️ View profile & photo
+✔️ See academic records
+✔️ View & download results (after entering scratch card if required)
+✔️ Request transcript
+✔️ See term/session information
+✔️ View SMS inbox
 
 👨‍👩‍👧 PARENT DASHBOARD
-Linked to one or more students
-
-View child(ren)’s results
-
-Get notified by SMS
-
-View birthdays, next term dates
+✔️ Linked to one or more students
+✔️ View child(ren)’s results
+✔️ Get notified by SMS
+✔️ View birthdays, next term dates
 
 👩‍💼 USER MANAGEMENT MODULE
-(Admin creates additional system users manually)
-
-First name, other name, phone, email, user ID/password
-
-Roles like Accounting Officer, Admin Officer
-
-Enable/disable users
-
-Assign to departments
+✔️ (Admin creates additional system users manually)
+✔️ First name, other name, phone, email, user ID/password
+✔️ Roles like Accounting Officer, Admin Officer
+✔️ Enable/disable users
+✔️ Assign to departments
 
 💾 STUDENT PROFILE FORM
-Includes:
-
-Passport upload
-
-Auto-generated student ID per school
-
-Personal info: name, DOB, gender, marital status, religion, nationality, LGA, hometown, address, language
-
-Academic info: admission session, period, level, class
-
-Medical info: blood group, genotype, disability
-
-Sponsors: multiple allowed (name, relation, address, phone, email, passport)
+✔️ Includes:
+✔️ Passport upload
+✔️ Auto-generated student ID per school
+✔️ Personal info: name, DOB, gender, marital status, religion, nationality, LGA, hometown, address, language
+✔️ Academic info: admission session, period, level, class
+✔️ Medical info: blood group, genotype, disability
+✔️ Sponsors: multiple allowed (name, relation, address, phone, email, passport)
 
 📊 RESULT SYSTEM
-Result Entry:
-
-By subject, class, term, session
-
-Fields:
-
-1st–4th assessments
-
-Exam score
-
-Summary of term’s work
-
-Term grade, remark
-
-Teacher initial
-
-Result Display:
-
-Header: name, age, no in class, average, house, position, next term dates
-
-Result breakdown (with beautiful tabular UI)
-
-Download result PDF
-
-Access Modes:
-
-Scratch card input if required
-
-Auto-unlocked based on config
-
-Subscription model
+✔️ Result Entry:
+✔️ By subject, class, term, session
+✔️ Fields:
+✔️ 1st–4th assessments
+✔️ Exam score
+✔️ Summary of term’s work
+✔️ Term grade, remark
+✔️ Teacher initial
+✔️ Result Display:
+✔️ Header: name, age, no in class, average, house, position, next term dates
+✔️ Result breakdown (with beautiful tabular UI)
+✔️ Download result PDF
+✔️ Access Modes:
+✔️ Scratch card input if required
+✔️ Auto-unlocked based on config
+✔️ Subscription model
 
 🗃 TRANSCRIPTS & ARCHIVE
-Download full transcript per session/class
-
-Filter by academic year
-
-Print-ready layout
+✔️ Download full transcript per session/class
+✔️ Filter by academic year
+✔️ Print-ready layout
 
 🧪 CLASS & SUBJECT SETUP
-Assign subjects to classes
-
-Assign teachers to subjects
-
-Enable/disable subjects
-
-View list of all mappings (JSS1A → Math → Mr. Daniel)
+✔️ Assign subjects to classes
+✔️ Assign teachers to subjects
+✔️ Enable/disable subjects
+✔️ View list of all mappings (JSS1A → Math → Mr. Daniel)
 
 📅 ACADEMIC CALENDAR
-Setup by school admin
-
-Fields: session, period, resumption date, vacation date, status (active/disabled)
+✔️ Setup by school admin
+✔️ Fields: session, period, resumption date, vacation date, status (active/disabled)
 
 🎫 SCRATCH CARD MANAGEMENT
-Generate N cards
-
-Assign value, batch number, distribution status
-
-Filter by session and term
+✔️ Generate N cards
+✔️ Assign value, batch number, distribution status
+✔️ Filter by session and term
 
 📊 ANALYTICS & CHARTS
-Use Chart.js or Recharts:
-
-Gender distribution
-
-Pass/fail performance charts
-
-Result trends per subject
-
-Class population
-
-Message delivery rate
+✔️ Use Chart.js or Recharts:
+✔️ Gender distribution
+✔️ Pass/fail performance charts
+✔️ Result trends per subject
+✔️ Class population
+✔️ Message delivery rate
 
 📦 SYSTEM AUDIT TRAIL
-Track every important backend operation with:
-
-User ID
-
-Role
-
-Action
-
-Page
-
-Script
-
-Method (POST/GET)
-
-Timestamp
+✔️ Track every important backend operation with:
+✔️ User ID
+✔️ Role
+✔️ Action
+✔️ Page
+✔️ Script
+✔️ Method (POST/GET)
+✔️ Timestamp
 
 🎨 UI/UX Guidelines
-Use TailwindCSS and layout grids
-
-Animate page loads, transitions, charts using Framer Motion
-
-Use skeleton loaders
-
-Toast alerts for actions
-
-Dark mode optional
-
-Keep admin panel sleek and clean
-
-Every page must have a loading state
+✔️ Use TailwindCSS and layout grids
+✔️ Animate page loads, transitions, charts using Framer Motion
+✔️ Use skeleton loaders
+✔️ Toast alerts for actions
+✔️ Dark mode optional
+✔️ Keep admin panel sleek and clean
+✔️ Every page must have a loading state
 
 🌐 RESPONSIVENESS
-Mobile-first design
-
-Sidebar collapses to hamburger
-
-Form fields and tables adjust on small screens
-
-Scrollable tables for small viewports
+✔️ Mobile-first design
+✔️ Sidebar collapses to hamburger
+✔️ Form fields and tables adjust on small screens
+✔️ Scrollable tables for small viewports
 
