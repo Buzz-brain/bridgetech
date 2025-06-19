@@ -72,7 +72,7 @@ const Sidebar = () => {
           { icon: FileText, label: 'Class & Subject Setup', path: '/class-subject-setup' },
           { icon: MessageSquare, label: 'Notifications', path: '/school-notifications' },
           { icon: FileText, label: 'Transcripts & Reports', path: '/transcripts-reports' },
-          { icon: BarChart3, label: 'Audit Log', path: '/school-audit-log' },
+          { icon: BarChart3, label: 'Audit Log', path: '/audit-log' },
         ];
       
       case USER_ROLES.TEACHER:
