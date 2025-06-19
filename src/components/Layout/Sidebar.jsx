@@ -57,16 +57,16 @@ const Sidebar = () => {
       case USER_ROLES.SCHOOL_ADMIN:
         return [
           ...commonItems,
+          { icon: FileText, label: 'School Profile', path: '/school-profile' },
           { icon: GraduationCap, label: 'Students', path: '/students' },
-          { icon: Users, label: 'Users', path: '/users' },
-          { icon: FileText, label: 'Results', path: '/results' },
           { icon: Users, label: 'Teachers', path: '/teachers' },
+          { icon: FileText, label: 'Results', path: '/results' },
+          { icon: FileText, label: 'Academic Calendar', path: '/academic-calendar' },
           { icon: MessageSquare, label: 'SMS', path: '/sms' },
           { icon: BarChart3, label: 'Analytics', path: '/analytics' },
           { icon: Settings, label: 'School Settings', path: '/settings' },
+          { icon: Users, label: 'Users', path: '/users' },
           // Enhanced School Admin Sections
-          { icon: FileText, label: 'School Profile', path: '/school-profile' },
-          { icon: FileText, label: 'Academic Calendar', path: '/academic-calendar' },
           { icon: FileText, label: 'Scratch Card', path: '/scratch-card' },
           { icon: FileText, label: 'Class & Subject Setup', path: '/class-subject-setup' },
           { icon: MessageSquare, label: 'Notifications', path: '/school-notifications' },
