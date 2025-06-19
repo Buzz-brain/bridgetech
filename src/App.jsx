@@ -366,7 +366,7 @@ function App() {
               </Route>
               
               {/* Public Main Site Pages */}
-              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/faqs" element={<FAQs />} />
