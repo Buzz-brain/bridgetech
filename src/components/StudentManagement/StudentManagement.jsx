@@ -270,6 +270,13 @@ export default function StudentManagement() {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh]">
             <h3 className="text-xl font-bold mb-4">{editing !== null ? 'Edit Student' : 'Add Student'}</h3>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Student ID (read-only, only on edit) */}
+              {editing !== null && (
+                <div className="col-span-1 md:col-span-2 flex items-center gap-2 mb-2">
+                  <span className="font-semibold text-gray-700">Student ID:</span>
+                  <span className="font-mono bg-gray-100 px-3 py-1 rounded text-primary-700 border border-gray-200">{form.id}</span>
+                </div>
+              )}
               {/* Profile Pic Preview and Upload */}
               <div className="col-span-1 md:col-span-2 flex flex-col items-center mb-2">
                 {form.profilePic ? (
