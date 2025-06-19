@@ -430,8 +430,8 @@ export default function StudentManagement() {
                   <span className="text-xs text-gray-500">Sponsor's full name</span>
                   <input name="relationship" value={sponsorForm.relationship} onChange={handleSponsorChange} placeholder="Relationship" className="input" />
                   <span className="text-xs text-gray-500">Relationship to student (e.g. Parent, Guardian)</span>
-                  <input name="photo" type="file" className="input" onChange={e => setSponsorForm({ ...sponsorForm, photo: e.target.files[0] })} />
-                  <span className="text-xs text-gray-500">Upload sponsor's photo (optional)</span>
+                  <input name="photo" type="file" className="input" onChange={e => setSponsorForm({ ...sponsorForm, photo: e.target.files[0] })} required />
+                  <span className="text-xs text-gray-500">Upload sponsor's photo</span>
                   <input name="phone" value={sponsorForm.phone} onChange={handleSponsorChange} placeholder="Phone" className="input" />
                   <span className="text-xs text-gray-500">Sponsor's phone number</span>
                   <input name="email" value={sponsorForm.email} onChange={handleSponsorChange} placeholder="Email" className="input" />
