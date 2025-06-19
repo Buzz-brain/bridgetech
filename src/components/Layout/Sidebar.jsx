@@ -72,7 +72,7 @@ const Sidebar = () => {
           { icon: FileText, label: 'Result Management', path: '/result-management' },
           { icon: FileText, label: 'Class & Subject Setup', path: '/class-subject-setup' },
           { icon: MessageSquare, label: 'Notifications', path: '/school-notifications' },
-          { icon: FileText, label: 'Transcripts & Reports', path: '/transcripts-reports' },
+          { icon: FileText, label: 'Transcripts & Reports', path: '/transcripts' },
           { icon: BarChart3, label: 'Audit Log', path: '/audit-log' },
           { icon: FileText, label: 'Parameter Tables', path: '/parameter-tables' },
         ];
