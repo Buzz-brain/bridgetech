@@ -104,6 +104,12 @@ const TeacherManagement = () => {
     setShowModal(false);
   };
 
+  const confirmDelete = (idx) => {
+    if (window.confirm("Are you sure you want to delete this teacher?")) {
+      setTeachers(teachers.filter((_, i) => i !== idx));
+    }
+  };
+
   return (
     <motion.div className="max-w-5xl mx-auto py-10 px-4"
       initial={{ opacity: 0, y: 40 }}
@@ -157,6 +163,7 @@ const TeacherManagement = () => {
                   </td>
                   <td className="py-2 px-4 flex gap-2">
                     <motion.button className="btn btn-xs btn-secondary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(teacher, idx)}>Edit</motion.button>
+                    <motion.button className="btn btn-xs btn-danger" whileHover={{ scale: 1.1 }} onClick={() => confirmDelete(idx)}>Delete</motion.button>
                   </td>
                 </motion.tr>
               ))}
