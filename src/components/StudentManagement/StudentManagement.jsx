@@ -255,7 +255,7 @@ export default function StudentManagement() {
                     <span className={`px-2 py-1 rounded text-xs font-semibold ${student.academicStatus === 'Active' ? 'bg-green-100 text-green-700' : student.academicStatus === 'Graduated' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{student.academicStatus}</span>
                   </td>
                   <td className="py-2 px-4 flex gap-2">
-                    <motion.button className="btn btn-xs btn-primary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(student, idx)}>Edit</motion.button>
+                    <motion.button className="btn btn-xs btn-secondary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(student, idx)}>Edit</motion.button>
                     <motion.button className="btn btn-xs btn-danger" whileHover={{ scale: 1.1 }} onClick={() => confirmDelete(idx)}>Delete</motion.button>
                   </td>
                 </motion.tr>
