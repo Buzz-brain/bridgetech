@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { Layers, Users, BadgeCheck } from 'lucide-react';
 
 const classOptions = [
   'Nil', 'Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class'
@@ -11,23 +12,33 @@ const classLevelOptions = [
 const statusOptions = [
   'Active', 'Transferred', 'Suspended', 'Dismissed', 'Onleave'
 ];
-
-const initialTeachers = [
-  {
-    id: 'TCH-0001',
-    name: "John Doe",
-    email: "john@school.com",
-    phone: "08012345678",
-    address: "123 Main St, Cityville",
-    class: "General Class",
-    level: "JSS1A",
-    photo: '',
-    photoPreview: '',
-    signature: '',
-    signaturePreview: '',
-    status: "Active",
-  },
+const defaultAvatars = [
+  'https://randomuser.me/api/portraits/men/32.jpg',
+  'https://randomuser.me/api/portraits/women/44.jpg',
+  'https://randomuser.me/api/portraits/men/45.jpg',
+  'https://randomuser.me/api/portraits/women/65.jpg',
+  'https://randomuser.me/api/portraits/men/12.jpg',
+  'https://randomuser.me/api/portraits/women/22.jpg',
+  'https://randomuser.me/api/portraits/men/77.jpg',
+  'https://randomuser.me/api/portraits/women/33.jpg',
+  'https://randomuser.me/api/portraits/men/88.jpg',
+  'https://randomuser.me/api/portraits/women/99.jpg',
 ];
+
+const initialTeachers = Array.from({ length: 30 }, (_, i) => ({
+  id: `TCH-${String(i + 1).padStart(4, '4')}`,
+  name: `Teacher${i + 1} Fullname`,
+  email: `teacher${i + 1}@school.com`,
+  phone: `080100000${String(i + 1).padStart(2, '0')}`,
+  address: `Address ${i + 1}, Cityville`,
+  class: classOptions[(i % classOptions.length)],
+  level: classLevelOptions[(i % classLevelOptions.length)],
+  photo: '',
+  photoPreview: defaultAvatars[i % defaultAvatars.length],
+  signature: '',
+  signaturePreview: '',
+  status: statusOptions[i % statusOptions.length],
+}));
 
 const generateTeacherId = (teachers) => {
   const lastId = teachers.length ? parseInt(teachers[teachers.length - 1].id?.split('-')[1] || '0', 10) : 0;
@@ -56,6 +67,8 @@ const TeacherManagement = () => {
     level: '',
     status: '',
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [teacherToDelete, setTeacherToDelete] = useState(null);
 
   const openAddModal = () => {
     setEditing(null);
@@ -79,6 +92,17 @@ const TeacherManagement = () => {
     setEditing(idx);
     setForm(teacher);
     setShowModal(true);
+  };
+
+  const confirmDelete = idx => {
+    setTeacherToDelete(idx);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = () => {
+    setTeachers(teachers.filter((_, i) => i !== teacherToDelete));
+    setShowDeleteModal(false);
+    setTeacherToDelete(null);
   };
 
   const handleChange = (e) => {
@@ -109,6 +133,7 @@ const TeacherManagement = () => {
         {
           ...form,
           id: generateTeacherId(teachers),
+          photoPreview: form.photoPreview || defaultAvatars[(teachers.length) % defaultAvatars.length],
         },
       ]);
     }
@@ -141,22 +166,25 @@ const TeacherManagement = () => {
           + Add Teacher
         </motion.button>
       </div>
-      {/* Filters */}
+      {/* Filters with icons */}
       <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
         <span className="flex items-center gap-2 text-primary-700 font-semibold text-base">Filters:</span>
         <div className="flex items-center gap-2">
+          <Layers className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.class} onChange={e => setFilters(f => ({ ...f, class: e.target.value }))}>
             <option value="">All Classes</option>
             {classOptions.map(c => <option key={c}>{c}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.level} onChange={e => setFilters(f => ({ ...f, level: e.target.value }))}>
             <option value="">All Levels</option>
             {classLevelOptions.map(l => <option key={l}>{l}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
+          <BadgeCheck className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filters.status} onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}>
             <option value="">All Statuses</option>
             {statusOptions.map(s => <option key={s}>{s}</option>)}
@@ -193,7 +221,9 @@ const TeacherManagement = () => {
                     {teacher.photoPreview ? (
                       <img src={teacher.photoPreview} alt="Teacher" className="w-10 h-10 rounded-full object-cover border shadow" />
                     ) : (
-                      <span className="text-xs text-gray-400">No Photo</span>
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center border">
+                        <span className="text-gray-400 text-xs">No Photo</span>
+                      </div>
                     )}
                   </td>
                   <td className="py-2 px-4 font-mono text-primary-700">{teacher.id}</td>
@@ -205,6 +235,7 @@ const TeacherManagement = () => {
                   </td>
                   <td className="py-2 px-4 flex gap-2">
                     <motion.button className="btn btn-xs btn-secondary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(teacher, idx)}>Edit</motion.button>
+                    <motion.button className="btn btn-xs btn-danger" whileHover={{ scale: 1.1 }} onClick={() => confirmDelete(idx)}>Delete</motion.button>
                   </td>
                 </motion.tr>
               ))}
@@ -288,6 +319,19 @@ const TeacherManagement = () => {
               </div>
             </form>
             <button className="mt-4 btn btn-secondary w-full" onClick={() => setShowModal(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Confirm Delete</h3>
+            <p>Are you sure you want to delete this teacher?</p>
+            <div className="flex gap-4 mt-6">
+              <button className="btn btn-danger flex-1" onClick={handleDelete}>Yes, Delete</button>
+              <button className="btn btn-secondary flex-1" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+            </div>
           </div>
         </div>
       )}
