@@ -433,13 +433,9 @@ export default function StudentManagement() {
                   <input name="photo" type="file" className="input" onChange={e => setSponsorForm({ ...sponsorForm, photo: e.target.files[0] })} required />
                   <span className="text-xs text-gray-500">Upload sponsor's photo</span>
                   <input name="phone" value={sponsorForm.phone} onChange={handleSponsorChange} placeholder="Phone" className="input" />
-                  <span className="text-xs text-gray-500">Sponsor's phone number</span>
                   <input name="email" value={sponsorForm.email} onChange={handleSponsorChange} placeholder="Email" className="input" />
-                  <span className="text-xs text-gray-500">Sponsor's email address</span>
                   <input name="address" value={sponsorForm.address} onChange={handleSponsorChange} placeholder="Address" className="input" />
-                  <span className="text-xs text-gray-500">Sponsor's home address</span>
                   <input name="occupation" value={sponsorForm.occupation} onChange={handleSponsorChange} placeholder="Occupation" className="input" />
-                  <span className="text-xs text-gray-500">Sponsor's occupation</span>
                   <button type="submit" className="btn btn-xs btn-primary block">Add Sponsor</button>
                 </form>
                 <ul className="mt-2">
