@@ -13,6 +13,7 @@ import SystemAnalytics from './components/Analytics/SystemAnalytics';
 import { USER_ROLES } from './utils/constants';
 import SystemUsersList from './components/SystemUsers/SystemUsersList';
 import SchoolProfileSetup from "./components/SchoolProfile/SchoolProfileSetup";
+import AcademicCalendarSetup from "./components/AcademicCalendar/AcademicCalendarSetup";
 
 function App() {
   return (
@@ -290,6 +291,22 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
                       <SchoolProfileSetup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="academic-calendar-setup"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <AcademicCalendarSetup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="academic-calendar"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
+                      <AcademicCalendarSetup />
                     </ProtectedRoute>
                   }
                 />
