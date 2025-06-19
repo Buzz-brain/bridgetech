@@ -51,7 +51,7 @@ const initialStudents = Array.from({ length: 30 }, (_, i) => ({
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const genotypes = ['AA', 'AS', 'SS', 'SC', 'Others'];
 const categories = ['Boarding student', 'Day student'];
-const academicStatuses = ['Active', 'Graduated', 'Suspended', 'Expelled'];
+const academicStatuses = ['Active', 'Graduated', 'Suspended', 'Expelled', 'Withdrawn'];
 const maritalStatuses = ['Single', 'Married'];
 const religions = ['Christianity', 'Islam', 'Others', 'Traditional'];
 const nationalities = ['Nigeria', 'Others'];
