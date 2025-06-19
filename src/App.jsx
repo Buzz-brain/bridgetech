@@ -18,6 +18,7 @@ import ScratchCardManagement from "./components/ScratchCard/ScratchCardManagemen
 import TeacherManagement from "./components/TeacherManagement/TeacherManagement";
 import UserManagement from "./components/UserManagement/UserManagement";
 import StudentManagement from "./components/StudentManagement/StudentManagement";
+import AuditLog from "./components/AuditLog/AuditLog";
 
 function App() {
   return (
@@ -330,6 +331,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
                       <TeacherManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="audit-log"
+                  element={
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.SCHOOL_ADMIN]}>
+                      <AuditLog />
                     </ProtectedRoute>
                   }
                 />
