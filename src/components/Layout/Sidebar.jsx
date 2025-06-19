@@ -63,6 +63,20 @@ const Sidebar = () => {
           { icon: MessageSquare, label: 'SMS', path: '/sms' },
           { icon: BarChart3, label: 'Analytics', path: '/analytics' },
           { icon: Settings, label: 'School Settings', path: '/settings' },
+          // Enhanced School Admin Sections
+          { icon: FileText, label: 'School Profile', path: '/school-profile' },
+          { icon: FileText, label: 'Academic Calendar', path: '/academic-calendar' },
+          { icon: FileText, label: 'Scratch Card', path: '/scratch-card' },
+          { icon: Users, label: 'Teacher Management', path: '/teacher-management' },
+          { icon: GraduationCap, label: 'Student Management', path: '/student-management' },
+          { icon: Users, label: 'Sponsor Management', path: '/sponsor-management' },
+          { icon: FileText, label: 'Result Management', path: '/result-management' },
+          { icon: FileText, label: 'Class & Subject Setup', path: '/class-subject-setup' },
+          { icon: Users, label: 'User Accounts', path: '/user-accounts' },
+          { icon: MessageSquare, label: 'Notifications', path: '/school-notifications' },
+          { icon: FileText, label: 'Transcripts & Reports', path: '/transcripts-reports' },
+          { icon: BarChart3, label: 'Audit Log', path: '/school-audit-log' },
+          { icon: Settings, label: 'School Config', path: '/school-config' },
         ];
       
       case USER_ROLES.TEACHER:
