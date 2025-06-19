@@ -98,14 +98,52 @@ Sample Pages/Forms:
 ✔️ Enable/disable users
 ✔️ Assign to departments
 
+
+
 💾 STUDENT PROFILE FORM
 ✔️ Includes:
 ✔️ Passport upload
 ✔️ Auto-generated student ID per school
-✔️ Personal info: Surname, Firstname, Middle Name, Current Academic Level, Current Academic Class, Gender, DOB, Religion, nationality, address, State of origin, LGA or Origin, Home Town, Language spoken
-✔️ Academic info: admission session, Admission period, admission level, admission class, date of admission
-✔️ Medical info: blood group, genotype, disability
-✔️ Sponsors: multiple allowed (name, relationship, address, phone number, email address, passport, occupation)
+✔️ Personal info: 
+Surname, 
+Firstname, 
+Middle Name, 
+Current Academic Level (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B), 
+Current Academic Class (Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class), 
+Student category (Boarding student, Day student), 
+Gender (Male, Female), 
+DOB, 
+Religion (Christianity, Islam, Others, Traditional), 
+Marital Status  (Single, Married), nationality (Nigeria, Others), 
+address, 
+State of origin (All the 36 states in Nigeria would be listed), 
+LGA or Origin (requires manual input from user), 
+Home Town, 
+Language spoken
+
+✔️ Academic info: 
+admission session (list the avaliable sessions e.g 2021/2022, 2023/2024), 
+Admission period (First term, second term, third term), 
+admission level (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B), 
+admission class (Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class), 
+Status (Graduated, Suspended, Expelled, Active) 
+date of admission (current date/date now)
+
+✔️ Medical info: 
+Blood Group (AB, AB+, O+, O- (I think there are others, list all)) , 
+genotype (AA, AS, SS, Others), 
+disability
+disability description (Say nil if none)
+
+✔️ Sponsors: multiple allowed 
+passport, 
+Name of Sponsor, 
+relationship, 
+address, 
+phone number, 
+email address, 
+occupation
+
 
 📊 RESULT SYSTEM
 ✔️ Result Entry:
