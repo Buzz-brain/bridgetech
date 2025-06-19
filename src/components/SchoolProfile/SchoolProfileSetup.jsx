@@ -48,6 +48,18 @@ const SchoolProfileSetup = () => {
 
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 p-8 mt-8">
+      {/* Logo Preview at the Top */}
+      <div className="flex flex-col items-center mb-6">
+        {profile.logoPreview ? (
+          <motion.img src={profile.logoPreview} alt="Logo Preview" className="w-28 h-28 rounded-full object-cover border-4 border-blue-200 shadow mb-2" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} />
+        ) : (
+          <div className="w-28 h-28 rounded-full bg-gray-100 flex items-center justify-center border-4 border-gray-200 mb-2">
+            <span className="text-gray-400 text-2xl">No Logo</span>
+          </div>
+        )}
+        <input className="input w-full max-w-xs" type="file" name="logo" accept="image/*" onChange={handleChange} />
+        <span className="text-xs text-gray-500 mt-1">Upload your school logo (will appear on all reports)</span>
+      </div>
       <motion.h2 initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="text-3xl font-extrabold text-primary-700 mb-6 flex items-center gap-2">
         🏫 School Profile Setup
       </motion.h2>
@@ -74,18 +86,12 @@ const SchoolProfileSetup = () => {
             <input className="input w-full" name="address" value={profile.address} onChange={handleChange} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Logo</label>
-            {profile.logoPreview && (
-              <motion.img src={profile.logoPreview} alt="Logo Preview" className="w-20 h-20 rounded-full object-cover border mb-2" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} />
-            )}
-            <input className="input w-full" type="file" name="logo" accept="image/*" onChange={handleChange} />
-          </div>
-          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Signature (upload)</label>
             {profile.signaturePreview && (
               <motion.img src={profile.signaturePreview} alt="Signature Preview" className="w-32 h-16 object-contain border mb-2 bg-gray-50" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} />
             )}
             <input className="input w-full" type="file" name="signature" accept="image/*" onChange={handleChange} />
+            <span className="text-xs text-gray-500 mt-1">Upload authorized signature (will appear on result sheets)</span>
           </div>
         </div>
         <div>
