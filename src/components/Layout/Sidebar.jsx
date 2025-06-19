@@ -180,7 +180,7 @@ const Sidebar = () => {
                   <School className="h-6 w-6" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-gray-900">SRaAMS</h1>
+                  <h1 className="text-lg font-bold text-gray-900">BridgeTech</h1>
                   <p className="text-xs text-gray-500">Student Results System</p>
                 </div>
               </motion.div>
