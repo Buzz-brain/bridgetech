@@ -51,11 +51,43 @@ export const deleteSchool = createAsyncThunk(
 );
 
 const initialState = {
-  schools: [],
+  schools: [
+    {
+      id: 1,
+      name: "Stellamaris International School",
+      address: "123 Main Street, Cityville",
+      phone: "+1234567890",
+      email: "info@stellamaris.edu",
+      principal: "Mrs. Jane Doe",
+      established: 2005,
+      students: 1200,
+      teachers: 80,
+      motto: "Knowledge and Integrity",
+      website: "https://stellamaris.edu",
+      logo: "https://placehold.co/100x100?text=Logo",
+      description: "Stellamaris International School is committed to academic excellence and holistic development.",
+      achievements: [
+        "Best School Award 2023",
+        "100% WAEC Pass Rate",
+        "National Science Champions"
+      ],
+      programs: [
+        "Science",
+        "Arts",
+        "Commercial",
+        "Technical"
+      ],
+      signature: '',
+      smsApi: '',
+      birthdaySms: '',
+      resultAccess: 'scratch_card',
+      url: '',
+    }
+  ],
   selectedSchool: null,
   loading: false,
   error: null,
-  totalCount: 0,
+  totalCount: 1,
   currentPage: 1,
   pageSize: 10,
 };
