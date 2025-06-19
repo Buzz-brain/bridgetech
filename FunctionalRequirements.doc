@@ -51,6 +51,30 @@ Guest User (Result Officer)
 
 🏫 SCHOOL ADMIN DASHBOARD
 ✔️ School Profile Setup
+name: "Stellamaris International School",
+address: "123 Main Street, Cityville",
+phone: "+1234567890",
+email: "info@stellamaris.edu",
+principal: "Mrs. Jane Doe",
+established: 2005,
+students: 1200,
+teachers: 80,
+motto: "Knowledge and Integrity",
+website: "https://stellamaris.edu",
+logo: "https://placehold.co/100x100?text=Logo",
+description: "Stellamaris International School is committed to academic excellence and holistic development.",
+achievements: [
+"Best School Award 2023",
+"100% WAEC Pass Rate",
+"National Science Champions"
+],
+programs: [
+"Science",
+"Arts",
+"Commercial",
+"Technical"
+]
+}
 ✔️ Academic Calendar Setup
 ✔️ Scratch Card Management
 ✔️ Teacher Management
@@ -63,6 +87,7 @@ Guest User (Result Officer)
 ✔️ Transcript & Report Download
 ✔️ Audit Log Viewer
 ✔️ School Config (choose scratch card or free access for results)
+
 
 Sample Pages/Forms:
 ✔️ Create/Edit Academic Session & Term
