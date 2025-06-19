@@ -336,14 +336,6 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="teacher-management"
-                  element={
-                    <ProtectedRoute allowedRoles={[USER_ROLES.SCHOOL_ADMIN]}>
-                      <TeacherManagement />
-                    </ProtectedRoute>
-                  }
-                />
               </Route>
               
               {/* Catch all route */}
