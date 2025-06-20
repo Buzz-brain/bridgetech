@@ -29,6 +29,10 @@ export default function ClassSubjectSetup() {
   const [newSubject, setNewSubject] = useState('');
   const [editSubjectIdx, setEditSubjectIdx] = useState(null);
   const [editSubjectValue, setEditSubjectValue] = useState('');
+  // Assessment count state: { 'JSS1-Art Class': 3, ... }
+  const [assessmentCounts, setAssessmentCounts] = useState({});
+  // For new assessment config
+  const [assessmentConfig, setAssessmentConfig] = useState({ level: levelList[0], class: classList[0], count: 3 });
 
   // Filtering
   const filteredData = data.filter(row =>
@@ -157,6 +161,17 @@ export default function ClassSubjectSetup() {
     setSubjectList(updated);
   };
 
+  // Handler to set assessment count for a level/class
+  const handleAssessmentConfigChange = e => setAssessmentConfig({ ...assessmentConfig, [e.target.name]: e.target.value });
+  const handleSaveAssessmentConfig = e => {
+    e.preventDefault();
+    if (!assessmentConfig.level || !assessmentConfig.class || !assessmentConfig.count) return;
+    setAssessmentCounts(prev => ({
+      ...prev,
+      [`${assessmentConfig.level}-${assessmentConfig.class}`]: Number(assessmentConfig.count)
+    }));
+  };
+
   // Update form fields when lists change
   React.useEffect(() => {
     setForm(f => ({ ...f, level: levelList[0] || '', class: classList[0] || '', subject: subjectList[0] || '' }));
@@ -165,6 +180,38 @@ export default function ClassSubjectSetup() {
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-8">Class & Subject Setup</h2>
+      {/* Assessment Setup Section */}
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="bg-white rounded-lg shadow p-4 mb-8">
+        <h4 className="font-semibold mb-2">Assessment Setup</h4>
+        <form className="flex flex-wrap gap-2 items-end" onSubmit={handleSaveAssessmentConfig}>
+          <div>
+            <label className="block text-xs font-semibold mb-1">Level</label>
+            <select name="level" className="input" value={assessmentConfig.level} onChange={handleAssessmentConfigChange}>
+              {levelList.map(l => <option key={l}>{l}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold mb-1">Class</label>
+            <select name="class" className="input" value={assessmentConfig.class} onChange={handleAssessmentConfigChange}>
+              {classList.map(c => <option key={c}>{c}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold mb-1">No. of Assessments</label>
+            <input name="count" type="number" min="1" max="4" className="input w-24" value={assessmentConfig.count} onChange={handleAssessmentConfigChange} />
+          </div>
+          <button className="btn btn-primary" type="submit">Save</button>
+        </form>
+        <div className="mt-4">
+          <h5 className="font-semibold mb-1 text-sm">Configured Assessments:</h5>
+          <ul className="text-xs">
+            {Object.entries(assessmentCounts).length === 0 && <li className="text-gray-400">No configurations yet.</li>}
+            {Object.entries(assessmentCounts).map(([key, val]) => (
+              <li key={key} className="mb-1">{key.replace('-', ' / ')}: <span className="font-bold">{val}</span> assessment(s)</li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
       {/* Management Panels: Levels, Classes, Subjects */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {/* Manage Levels */}
