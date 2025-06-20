@@ -158,6 +158,7 @@ export default function ResultManagement() {
   const [promotionStudent, setPromotionStudent] = useState(null);
   const [singlePromotion, setSinglePromotion] = useState({ action: 'Promote', newLevel: '', newClass: '' });
   const [promotionWarning, setPromotionWarning] = useState('');
+  const [promotionError, setPromotionError] = useState(''); // NEW: for blocking errors
 
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
@@ -352,6 +353,50 @@ export default function ResultManagement() {
     return '';
   };
 
+  // NEW: Validate promotion/demotion/retention/graduation
+  const validatePromotion = (student, action, newLevel, newClass) => {
+    // 1. Block if results for all terms in session are not completed
+    if (!allResultsCompleted(student)) {
+      return 'Cannot proceed: All results for this session must be completed before promotion/demotion/retention.';
+    }
+    // 2. Block if academic history already has entry for this session
+    if (hasSessionHistory(student)) {
+      return 'Cannot proceed: This student already has a promotion/retention record for this session.';
+    }
+    // 3. Graduation only from final level
+    if (action === 'Graduate' && student.academicLevel !== finalLevel) {
+      return `Cannot graduate: Only students in the final level (${finalLevel}) can graduate.`;
+    }
+    // 4. Retention only if level/class unchanged
+    if (action === 'Retain' && (student.academicLevel !== newLevel || student.academicClass !== newClass)) {
+      return 'Cannot retain: Retention requires the same level and class.';
+    }
+    // 5. Promotion must be to a higher level
+    if (action === 'Promote') {
+      const oldIdx = academicLevels.indexOf(student.academicLevel);
+      const newIdx = academicLevels.indexOf(newLevel);
+      if (newIdx <= oldIdx) {
+        return 'Cannot promote: New level must be higher than current.';
+      }
+    }
+    // 6. Demotion must be to a lower level
+    if (action === 'Demote') {
+      const oldIdx = academicLevels.indexOf(student.academicLevel);
+      const newIdx = academicLevels.indexOf(newLevel);
+      if (newIdx >= oldIdx) {
+        return 'Cannot demote: New level must be lower than current.';
+      }
+    }
+    // 7. Graduation must move to a special status (could be handled in backend)
+    // 8. Validate new level/class are not empty
+    if (!newLevel || !newClass) {
+      return 'Please select both new level and new class.';
+    }
+    // 9. Prevent duplicate academic history entries (already checked above)
+    // 10. UI warning for mismatched action/placement (already handled as warning)
+    return '';
+  };
+
   const handlePromotionFieldChange = (field, value) => {
     setSinglePromotion(sp => {
       const updated = { ...sp, [field]: value };
@@ -361,12 +406,29 @@ export default function ResultManagement() {
           promotionStudent.academicLevel,
           updated.newLevel
         ));
+        setPromotionError(validatePromotion(
+          promotionStudent,
+          updated.action,
+          updated.newLevel,
+          updated.newClass
+        ));
       }
       return updated;
     });
   };
 
   const confirmSinglePromotion = () => {
+    // Validate before proceeding
+    const error = validatePromotion(
+      promotionStudent,
+      singlePromotion.action,
+      singlePromotion.newLevel,
+      singlePromotion.newClass
+    );
+    if (error) {
+      setPromotionError(error);
+      return;
+    }
     // Find and update the student in mockStudents
     const updatedStudents = mockStudents.map(s => {
       if (s.id !== promotionStudent.id) return s;
@@ -378,6 +440,9 @@ export default function ResultManagement() {
           level: singlePromotion.newLevel,
           class: singlePromotion.newClass,
           status: singlePromotion.action === 'Promote' ? 'Promoted' : singlePromotion.action === 'Demote' ? 'Demoted' : singlePromotion.action === 'Retain' ? 'Retained' : 'Graduated',
+          action: singlePromotion.action,
+          performedBy: 'admin', // TODO: Replace with real user info
+          performedAt: new Date().toISOString(),
         },
       ];
       return {
@@ -388,10 +453,10 @@ export default function ResultManagement() {
       };
     });
     // This only updates the local array; in a real app, update backend/global state
-    // For demo, force a re-render by updating a dummy state
     setPromotionStudent(null);
     setShowPromotionModal(false);
     setPromotionWarning('');
+    setPromotionError('');
   };
 
   return (
@@ -694,6 +759,11 @@ export default function ResultManagement() {
                 {promotionWarning}
               </div>
             )}
+            {promotionError && (
+              <div className="mb-2 text-red-700 bg-red-100 border border-red-300 rounded p-2">
+                {promotionError}
+              </div>
+            )}
             <form onSubmit={e => { e.preventDefault(); confirmSinglePromotion(); }} className="space-y-4">
               <div>
                 <label className="block font-semibold mb-1">Action</label>
@@ -717,8 +787,8 @@ export default function ResultManagement() {
                 </select>
               </div>
               <div className="flex justify-end gap-2 mt-4">
-                <button type="button" className="btn" onClick={() => { setShowPromotionModal(false); setPromotionWarning(''); }}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Confirm</button>
+                <button type="button" className="btn" onClick={() => { setShowPromotionModal(false); setPromotionWarning(''); setPromotionError(''); }}>Cancel</button>
+                <button type="submit" className="btn btn-primary" disabled={!!promotionError}>Confirm</button>
               </div>
             </form>
           </div>
