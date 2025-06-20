@@ -47,6 +47,14 @@ const initialStudents = Array.from({ length: 30 }, (_, i) => ({
     { name: `Sponsor${i + 1}`, relationship: 'Parent', phone: `080000000${i + 1}`, email: `sponsor${i + 1}@mail.com`, address: `Sponsor Address ${i + 1}`, occupation: 'Trader' }
   ],
   profilePic: defaultAvatars[i % defaultAvatars.length],
+  academicHistory: [
+    {
+      session: '2023/2024',
+      level: 'JSS1A',
+      class: 'General Class',
+      status: 'Active',
+    },
+  ],
 }));
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const genotypes = ['AA', 'AS', 'SS', 'SC', 'Others'];
@@ -95,6 +103,14 @@ export default function StudentManagement() {
     class: '',
     status: '',
   });
+  // --- PROMOTION/DEMOTION LOGIC ---
+  // Each student now has an academicHistory array to track their journey.
+  // Add a Promotion/Demotion modal for bulk and individual actions at session rollover.
+
+  // 2. Promotion/Demotion UI state
+  const [showPromotionModal, setShowPromotionModal] = useState(false);
+  const [promotionSession, setPromotionSession] = useState(sessions[sessions.length - 1]);
+  const [promotionSelections, setPromotionSelections] = useState({}); // { studentId: { action: 'Promote'|'Demote'|'Retain'|'Graduate', newLevel, newClass } }
 
   const filteredStudents = students.filter(student =>
     (!filters.session || student.admittedSession === filters.session) &&
@@ -168,6 +184,49 @@ export default function StudentManagement() {
     }
   };
 
+  // 3. Open Promotion Modal
+  const openPromotionModal = () => {
+    setPromotionSelections({});
+    setShowPromotionModal(true);
+  };
+
+  // 4. Handle Promotion Action
+  const handlePromotionAction = (studentId, action, newLevel, newClass) => {
+    setPromotionSelections(sel => ({
+      ...sel,
+      [studentId]: { action, newLevel, newClass },
+    }));
+  };
+
+  // 5. Confirm Promotion
+  const confirmPromotion = () => {
+    setStudents(students => students.map(student => {
+      const sel = promotionSelections[student.id];
+      if (!sel) return student;
+      let status = sel.action;
+      if (status === 'Promote') status = 'Promoted';
+      if (status === 'Demote') status = 'Demoted';
+      if (status === 'Retain') status = 'Retained';
+      if (status === 'Graduate') status = 'Graduated';
+      return {
+        ...student,
+        currentAcademicLevel: sel.newLevel,
+        currentAcademicClass: sel.newClass,
+        academicStatus: status === 'Graduated' ? 'Graduated' : student.academicStatus,
+        academicHistory: [
+          ...student.academicHistory,
+          {
+            session: promotionSession,
+            level: sel.newLevel,
+            class: sel.newClass,
+            status,
+          },
+        ],
+      };
+    }));
+    setShowPromotionModal(false);
+  };
+
   return (
     <motion.div className="max-w-6xl mx-auto py-10 px-4"
       initial={{ opacity: 0, y: 40 }}
@@ -178,14 +237,14 @@ export default function StudentManagement() {
         <h2 className="text-3xl font-extrabold text-primary-700 tracking-tight flex items-center gap-2">
           <span role="img" aria-label="student">🎓</span> Student Management
         </h2>
-        <motion.button
-          className="btn btn-primary shadow-lg hover:scale-105 transition-transform"
-          whileHover={{ scale: 1.07 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={openAddModal}
-        >
-          + Add Student
-        </motion.button>
+        <div className="flex gap-2">
+          <motion.button className="btn btn-primary shadow-lg hover:scale-105 transition-transform" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }} onClick={openAddModal}>
+            + Add Student
+          </motion.button>
+          <motion.button className="btn btn-secondary shadow-lg hover:scale-105 transition-transform" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }} onClick={openPromotionModal}>
+            Promote/Demote
+          </motion.button>
+        </div>
       </div>
       <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
         <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
@@ -461,6 +520,60 @@ export default function StudentManagement() {
             <div className="flex gap-4 mt-6">
               <button className="btn btn-danger flex-1" onClick={handleDelete}>Yes, Delete</button>
               <button className="btn btn-secondary flex-1" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Promotion/Demotion Modal */}
+      {showPromotionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl overflow-y-auto max-h-[90vh]">
+            <h3 className="text-xl font-bold mb-4">Promotion/Demotion for {promotionSession}</h3>
+            <table className="min-w-full text-sm mb-4">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Current Level</th>
+                  <th>Current Class</th>
+                  <th>Action</th>
+                  <th>New Level</th>
+                  <th>New Class</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map(student => {
+                  const sel = promotionSelections[student.id] || {};
+                  return (
+                    <tr key={student.id}>
+                      <td>{student.surname} {student.firstName}</td>
+                      <td>{student.currentAcademicLevel}</td>
+                      <td>{student.currentAcademicClass}</td>
+                      <td>
+                        <select value={sel.action || 'Promote'} onChange={e => handlePromotionAction(student.id, e.target.value, sel.newLevel || student.currentAcademicLevel, sel.newClass || student.currentAcademicClass)}>
+                          <option value="Promote">Promote</option>
+                          <option value="Demote">Demote</option>
+                          <option value="Retain">Retain</option>
+                          <option value="Graduate">Graduate</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select value={sel.newLevel || student.currentAcademicLevel} onChange={e => handlePromotionAction(student.id, sel.action || 'Promote', e.target.value, sel.newClass || student.currentAcademicClass)}>
+                          {academicLevels.map(l => <option key={l}>{l}</option>)}
+                        </select>
+                      </td>
+                      <td>
+                        <select value={sel.newClass || student.currentAcademicClass} onChange={e => handlePromotionAction(student.id, sel.action || 'Promote', sel.newLevel || student.currentAcademicLevel, e.target.value)}>
+                          {academicClasses.map(c => <option key={c}>{c}</option>)}
+                        </select>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div className="flex justify-end gap-2">
+              <button className="btn" onClick={() => setShowPromotionModal(false)}>Cancel</button>
+              <button className="btn btn-primary" onClick={confirmPromotion}>Confirm</button>
             </div>
           </div>
         </div>
