@@ -117,7 +117,7 @@ School Classes:	 (Nil, Art Class, Commercial Class, General Class, Science Class
 Subject Teacher: (nil at first when the subject is just created list all the teachers in the school)
 Status:	Active, Disable
 
-✔️ Scratch Card Management
+❌ Scratch Card Management
 ✔️ Result Management
 ✔️ User Account Management
 ✔️ Notifications (send SMS)

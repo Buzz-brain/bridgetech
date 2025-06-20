@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaPlus, FaEdit, FaTrash, FaBook, FaChalkboardTeacher, FaCheck, FaTimes } from 'react-icons/fa';
 import { Filter, Layers, Users, BadgeCheck, BookOpen, UserCheck } from 'lucide-react';
 
@@ -169,7 +170,7 @@ export default function ClassSubjectSetup() {
       {/* Management Panels: Classes, Subjects, Categories */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {/* Manage Classes */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white rounded-lg shadow p-4">
           <h4 className="font-semibold mb-2">Manage Classes</h4>
           <form className="flex gap-2 mb-4" onSubmit={handleAddClass}>
             <input className="input w-full" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
@@ -194,9 +195,9 @@ export default function ClassSubjectSetup() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
         {/* Manage Subjects */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="bg-white rounded-lg shadow p-4">
           <h4 className="font-semibold mb-2">Manage Subjects</h4>
           <form className="flex gap-2 mb-4" onSubmit={handleAddSubject}>
             <input className="input w-full" placeholder="Add new subject (e.g. Mathematics)" value={newSubject} onChange={e => setNewSubject(e.target.value)} />
@@ -221,9 +222,9 @@ export default function ClassSubjectSetup() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
         {/* Manage Categories */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="bg-white rounded-lg shadow p-4">
           <h4 className="font-semibold mb-2">Manage Categories</h4>
           <form className="flex gap-2 mb-4" onSubmit={handleAddCategory}>
             <input className="input w-full" placeholder="Add new category (e.g. Science)" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
@@ -248,10 +249,10 @@ export default function ClassSubjectSetup() {
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
       </div>
       {/* Assignment Section */}
-      <div className="bg-white rounded-lg shadow p-6 mb-8">
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="bg-white rounded-lg shadow p-6 mb-8">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <h3 className="text-lg font-bold">Assign Subject to Class</h3>
           <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Assign Subject</button>
@@ -325,11 +326,12 @@ export default function ClassSubjectSetup() {
             </tbody>
           </table>
         </div>
-      </div>
+      </motion.div>
       {/* Add/Edit Modal */}
+      <AnimatePresence>
       {modal.open && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} transition={{ duration: 0.2 }} className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn">
             <h3 className="text-xl font-bold mb-4">{modal.mode === 'add' ? 'Assign Subject to Class' : 'Edit Subject Assignment'}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -372,22 +374,25 @@ export default function ClassSubjectSetup() {
                 <button type="submit" className="btn btn-primary">{modal.mode === 'add' ? 'Add' : 'Save'}</button>
               </div>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
       {/* Delete Confirmation Modal */}
+      <AnimatePresence>
       {deleteModal.open && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm animate-fadeIn">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} transition={{ duration: 0.2 }} className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm animate-fadeIn">
             <h3 className="text-lg font-bold mb-4 text-red-600">Confirm Delete</h3>
             <p className="mb-6">Are you sure you want to delete <span className="font-semibold">{deleteModal.entry.subject}</span> for <span className="font-semibold">{deleteModal.entry.class}</span>?</p>
             <div className="flex justify-end gap-2">
               <button className="btn" onClick={closeDeleteModal}>Cancel</button>
               <button className="btn btn-error" onClick={handleDelete}>Delete</button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }
