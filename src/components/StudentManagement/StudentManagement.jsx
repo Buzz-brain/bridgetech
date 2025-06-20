@@ -112,6 +112,12 @@ export default function StudentManagement() {
   const [promotionSession, setPromotionSession] = useState(sessions[sessions.length - 1]);
   const [promotionSelections, setPromotionSelections] = useState({}); // { studentId: { action: 'Promote'|'Demote'|'Retain'|'Graduate', newLevel, newClass } }
 
+  // --- Per-Student Promote/Move Button Implementation ---
+  // Add state for single-student promotion modal
+  const [showSinglePromotionModal, setShowSinglePromotionModal] = useState(false);
+  const [promotionStudent, setPromotionStudent] = useState(null);
+  const [singlePromotion, setSinglePromotion] = useState({ action: 'Promote', newLevel: '', newClass: '' });
+
   const filteredStudents = students.filter(student =>
     (!filters.session || student.admittedSession === filters.session) &&
     (!filters.level || student.currentAcademicLevel === filters.level) &&
@@ -227,6 +233,45 @@ export default function StudentManagement() {
     setShowPromotionModal(false);
   };
 
+  // Open single promotion modal for a student
+  const openSinglePromotionModal = (student) => {
+    setPromotionStudent(student);
+    setSinglePromotion({
+      action: 'Promote',
+      newLevel: student.currentAcademicLevel,
+      newClass: student.currentAcademicClass,
+    });
+    setShowSinglePromotionModal(true);
+  };
+
+  // Confirm single promotion
+  const confirmSinglePromotion = () => {
+    setStudents(students => students.map(student => {
+      if (student.id !== promotionStudent.id) return student;
+      let status = singlePromotion.action;
+      if (status === 'Promote') status = 'Promoted';
+      if (status === 'Demote') status = 'Demoted';
+      if (status === 'Retain') status = 'Retained';
+      if (status === 'Graduate') status = 'Graduated';
+      return {
+        ...student,
+        currentAcademicLevel: singlePromotion.newLevel,
+        currentAcademicClass: singlePromotion.newClass,
+        academicStatus: status === 'Graduated' ? 'Graduated' : student.academicStatus,
+        academicHistory: [
+          ...student.academicHistory,
+          {
+            session: promotionSession,
+            level: singlePromotion.newLevel,
+            class: singlePromotion.newClass,
+            status,
+          },
+        ],
+      };
+    }));
+    setShowSinglePromotionModal(false);
+  };
+
   return (
     <motion.div className="max-w-6xl mx-auto py-10 px-4"
       initial={{ opacity: 0, y: 40 }}
@@ -316,6 +361,7 @@ export default function StudentManagement() {
                   <td className="py-2 px-4 flex gap-2">
                     <motion.button className="btn btn-xs btn-secondary" whileHover={{ scale: 1.1 }} onClick={() => openEditModal(student, idx)}>Edit</motion.button>
                     <motion.button className="btn btn-xs btn-error" whileHover={{ scale: 1.1 }} onClick={() => confirmDelete(idx)}>Delete</motion.button>
+                    <motion.button className="btn btn-xs btn-primary" whileHover={{ scale: 1.1 }} onClick={() => openSinglePromotionModal(student)}>Promote/Move</motion.button>
                   </td>
                 </motion.tr>
               ))}
@@ -575,6 +621,44 @@ export default function StudentManagement() {
               <button className="btn" onClick={() => setShowPromotionModal(false)}>Cancel</button>
               <button className="btn btn-primary" onClick={confirmPromotion}>Confirm</button>
             </div>
+          </div>
+        </div>
+      )}
+      {/* Single Student Promotion Modal */}
+      {showSinglePromotionModal && promotionStudent && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto max-h-[90vh]">
+            <h3 className="text-xl font-bold mb-4">Promote/Move Student</h3>
+            <div className="mb-2 font-semibold">{promotionStudent.surname} {promotionStudent.firstName} ({promotionStudent.id})</div>
+            <div className="mb-2">Current Level: <span className="font-semibold">{promotionStudent.currentAcademicLevel}</span></div>
+            <div className="mb-2">Current Class: <span className="font-semibold">{promotionStudent.currentAcademicClass}</span></div>
+            <form onSubmit={e => { e.preventDefault(); confirmSinglePromotion(); }} className="space-y-4">
+              <div>
+                <label className="block font-semibold mb-1">Action</label>
+                <select className="input w-full" value={singlePromotion.action} onChange={e => setSinglePromotion(sp => ({ ...sp, action: e.target.value }))}>
+                  <option value="Promote">Promote</option>
+                  <option value="Demote">Demote</option>
+                  <option value="Retain">Retain</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">New Level</label>
+                <select className="input w-full" value={singlePromotion.newLevel} onChange={e => setSinglePromotion(sp => ({ ...sp, newLevel: e.target.value }))}>
+                  {academicLevels.map(l => <option key={l}>{l}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">New Class</label>
+                <select className="input w-full" value={singlePromotion.newClass} onChange={e => setSinglePromotion(sp => ({ ...sp, newClass: e.target.value }))}>
+                  {academicClasses.map(c => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div className="flex justify-end gap-2 mt-4">
+                <button type="button" className="btn" onClick={() => setShowSinglePromotionModal(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary">Confirm</button>
+              </div>
+            </form>
           </div>
         </div>
       )}
