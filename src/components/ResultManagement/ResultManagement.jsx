@@ -28,7 +28,7 @@ const generateMockStudents = () => {
         for (let i = 0; i < 30; i++) {
           students.push({
             id: id++,
-            name: realStudentNames[i % realStudentNames.length] + ` ${level} ${cls} ${cat}`,
+            name: realStudentNames[i % realStudentNames.length],
             age: 12 + (i % 6),
             academicLevel: level,
             academicClass: cls,
