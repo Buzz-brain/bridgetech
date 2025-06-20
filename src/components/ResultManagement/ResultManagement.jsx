@@ -637,8 +637,6 @@ export default function ResultManagement() {
                 <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
                 <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
                   <span>Session: <span className="font-semibold text-white">{viewResult.session}</span></span>
-                  <span>Term: <span className="font-semibold text-white">{viewResult.term}</span></span>
-                  <span>Level: <span className="font-semibold text-white">{viewResult.student.academicLevel}</span></span>
                   <span>Class: <span className="font-semibold text-white">{viewResult.student.academicClass}</span></span>
                   <span>Category: <span className="font-semibold text-white">{viewResult.student.category}</span></span>
                   <span>House: <span className="font-semibold text-white">{viewResult.student.house}</span></span>
