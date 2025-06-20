@@ -2,27 +2,33 @@ import React, { useState } from 'react';
 import { FaDownload, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Updated mock data for all academic levels, classes, and categories
-const academicLevels = [
-  'Nil', 'JSS1', 'JSS1A', 'JSS1B', 'JSS2', 'JSS2A', 'JSS2B', 'JSS3', 'JSS3A', 'JSS3B',
-  'SSS1', 'SSS1A', 'SSS1B', 'SSS2', 'SSS2A', 'SSS2B', 'SSS3', 'SSS3A', 'SSS3B',
+// Use 30 real-like mock student names (from student management)
+const realStudentNames = [
+  'John Doe', 'Jane Smith', 'Michael Johnson', 'Emily Davis', 'David Brown', 'Sarah Wilson',
+  'Daniel Miller', 'Jessica Taylor', 'Matthew Anderson', 'Ashley Thomas',
+  'Joshua Jackson', 'Amanda White', 'Christopher Harris', 'Brittany Martin', 'Andrew Thompson',
+  'Megan Garcia', 'Ryan Martinez', 'Lauren Robinson', 'Brandon Clark', 'Samantha Rodriguez',
+  'Tyler Lewis', 'Rachel Lee', 'Nicholas Walker', 'Hannah Hall', 'Zachary Allen',
+  'Olivia Young', 'Jacob King', 'Alyssa Wright', 'Ethan Scott', 'Madison Green',
 ];
+
+const academicLevels = ['JSS1', 'JSS2', 'JSS3'];
 const academicClasses = [
-  'Nil', 'Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class',
+  'Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class',
 ];
 const studentCategories = ['Boarding student', 'Day student'];
 
-// Generate mock students for all permutations
+// Generate 30 students per level/class/category, cycling through names
 const generateMockStudents = () => {
   const students = [];
   let id = 1;
   academicLevels.forEach(level => {
     academicClasses.forEach(cls => {
       studentCategories.forEach(cat => {
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 0; i < 30; i++) {
           students.push({
             id: id++,
-            name: `${level}-${cls}-${cat}-Student${i}`,
+            name: realStudentNames[i % realStudentNames.length] + ` ${level} ${cls} ${cat}`,
             age: 12 + (i % 6),
             academicLevel: level,
             academicClass: cls,
