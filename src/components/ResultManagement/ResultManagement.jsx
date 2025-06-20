@@ -26,8 +26,11 @@ const generateMockStudents = () => {
     academicClasses.forEach(cls => {
       studentCategories.forEach(cat => {
         for (let i = 0; i < 30; i++) {
+          // Format: SCH001-STU-0001
+          const studentId = `SCH001-STU-${id.toString().padStart(4, '0')}`;
           students.push({
             id: id++,
+            studentId,
             name: realStudentNames[i % realStudentNames.length],
             age: 12 + (i % 6),
             academicLevel: level,
@@ -385,7 +388,7 @@ export default function ResultManagement() {
               <tbody>
                 {studentsInSelection.map(student => (
                   <tr key={student.id} className="border-b">
-                    <td className="px-4 py-2 font-mono">{student.id}</td>
+                    <td className="px-4 py-2 font-mono">{student.studentId}</td>
                     <td className="px-4 py-2 font-semibold">{student.name}</td>
                     {termsForSession.map(term => (
                       <td key={term} className="px-4 py-2 text-center">
@@ -465,6 +468,19 @@ export default function ResultManagement() {
                 </>
               )}
               {/* Student info fields (always shown, always read-only) */}
+              <input
+                className="input"
+                name="studentId"
+                placeholder="Student ID"
+                value={(() => {
+                  if (selectedStudentId) {
+                    const student = mockStudents.find(s => s.id === Number(selectedStudentId));
+                    return student ? student.studentId : '';
+                  }
+                  return '';
+                })()}
+                readOnly
+              />
               <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
               <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
