@@ -483,63 +483,6 @@ export default function ResultManagement() {
           </motion.form>
         </motion.div>
       )}
-      <AnimatePresence>
-        {filteredResults.map((result, idx) => (
-          <motion.div key={result.id} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * idx }} className="bg-white rounded shadow mb-8 p-6">
-            {/* Header */}
-            <div className="mb-4 flex flex-wrap gap-4 items-center justify-between">
-              <div>
-                <div className="font-bold text-lg">{result.studentName}</div>
-                <div className="text-sm text-gray-500">Age: {result.age} | No in Class: {result.numberInClass} | House: {result.house} | Position: {result.position}</div>
-                <div className="text-sm text-gray-500">Session: {result.session} | Term: {result.term} | Average: {result.overallAverage}</div>
-                <div className="text-sm text-gray-500">Resumption: {result.resumptionDate} | Vacation: {result.vacationDate}</div>
-              </div>
-              <div className="text-right flex flex-col gap-2 items-end">
-                <div className="font-semibold text-primary-700">{result.resultType}</div>
-                <button className="btn btn-xs btn-outline flex items-center gap-1" onClick={() => openEditModal(idx)}><FaEdit />Edit</button>
-              </div>
-            </div>
-            {/* Table */}
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-4 py-2">Subject</th>
-                    <th className="px-4 py-2">1st</th>
-                    <th className="px-4 py-2">2nd</th>
-                    <th className="px-4 py-2">3rd</th>
-                    <th className="px-4 py-2">4th</th>
-                    <th className="px-4 py-2">Exam</th>
-                    <th className="px-4 py-2">Term Avg</th>
-                    <th className="px-4 py-2">Summary</th>
-                    <th className="px-4 py-2">Grade</th>
-                    <th className="px-4 py-2">Remark</th>
-                    <th className="px-4 py-2">Teacher</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.subjects.map((subj, i) => (
-                    <tr key={subj.name} className="border-b hover:bg-gray-50 transition">
-                      <td className="px-4 py-2 font-semibold">{subj.name}</td>
-                      {subj.assessments.map((a, j) => <td className="px-2 py-2" key={j}>{a}</td>)}
-                      <td className="px-2 py-2">{subj.exam}</td>
-                      <td className="px-2 py-2">{subj.termAverage}</td>
-                      <td className="px-2 py-2">{subj.summary}</td>
-                      <td className="px-2 py-2">{subj.grade}</td>
-                      <td className="px-2 py-2">{subj.remark}</td>
-                      <td className="px-2 py-2">{subj.teacherInitial}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {/* Access Mode Info */}
-            <div className="mt-4 text-xs text-gray-500">
-              Access Mode: {result.scratchCardValidated ? 'Scratch Card' : 'Auto/Subscription'}
-            </div>
-          </motion.div>
-        ))}
-      </AnimatePresence>
     </motion.div>
   );
 }
