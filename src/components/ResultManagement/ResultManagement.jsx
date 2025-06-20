@@ -696,7 +696,7 @@ export default function ResultManagement() {
                   <span className='px-2 py-1'>Category: <span className="font-semibold">{result.category}Art Class</span></span>
                   <span className='px-2 py-1'>Number in Class: <span className="font-semibold">{result.numberInClass}</span></span>
                   <span className='px-2 py-1'>Position: <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 shadow-sm">{result.position}</span></span>
-                  <span className='px-2 py-1'>Overall Avg: <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 shadow-sm">{result.overallAverage}</span></span>
+                  <span className='px-2 py-1'>Overall Avg: <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2  shadow-sm">{result.overallAverage}</span></span>
                   <span className='px-2 py-1'>Vacation: <span className="font-semibold">{result.vacationDate}</span></span>
                   <span className='px-2 py-1'>Resumption: <span className="font-semibold">{result.resumptionDate}</span></span>
                 </div>
