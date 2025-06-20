@@ -117,14 +117,13 @@ const mockAcademicCalendar = {
 // When displaying or editing a result, use the stored count (result.assessmentCount) to render assessment fields.
 // This ensures old results are not affected by later changes to assessment config.
 
-// TODO: Replace this mock with a prop or global state from ClassSubjectSetup
-const assessmentMap = useSelector(state => state.school.assessmentMap) || {
-  'JSS1-Art Class': 4,
-  'JSS1-Science Class': 3,
-  // ...other combinations
-};
-
 export default function ResultManagement() {
+  const assessmentMap = useSelector(state => state.school.assessmentMap) || {
+    'JSS1-Art Class': 4,
+    'JSS1-Science Class': 3,
+    // ...other combinations
+  };
+
   const [results, setResults] = useState(initialResults);
   const [filter, setFilter] = useState({ session: '', term: '' });
   const [showModal, setShowModal] = useState(false);
