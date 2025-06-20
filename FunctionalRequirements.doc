@@ -197,6 +197,20 @@ Status:	Active, Disable
 ✔️ View birthdays, next term dates
 
 
+Areas to Adjust in Your Codebase
+Academic Calendar:
+Make it the single source of truth for sessions and terms.
+Result Management:
+Use session/term from the calendar, not hardcoded.
+Store session/term with each result.
+Assessment Setup:
+Optionally, allow assessment count to be set per session/level/class.
+Store assessment count with session context if needed.
+UI:
+All dropdowns and filters for session/term should be dynamic, based on the calendar.
+When a session is selected, only show its terms.
+
+
 
 
 
