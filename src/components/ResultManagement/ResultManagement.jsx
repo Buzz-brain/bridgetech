@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaDownload, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 
 // Use 30 real-like mock student names (from student management)
 const realStudentNames = [
@@ -116,8 +117,8 @@ const mockAcademicCalendar = {
 // When displaying or editing a result, use the stored count (result.assessmentCount) to render assessment fields.
 // This ensures old results are not affected by later changes to assessment config.
 
-// Import assessmentMap from ClassSubjectSetup if possible, or mock here for demo:
-const assessmentMap = {
+// TODO: Replace this mock with a prop or global state from ClassSubjectSetup
+const assessmentMap = useSelector(state => state.school.assessmentMap) || {
   'JSS1-Art Class': 4,
   'JSS1-Science Class': 3,
   // ...other combinations
@@ -257,7 +258,7 @@ export default function ResultManagement() {
     }
     // Determine assessment count for this class/level
     const key = `${form.academicLevel}-${form.academicClass}`;
-    const assessmentCount = assessmentMap[key] || 4; // fallback to 4 if not set
+    const assessmentCount = assessmentMap[key] || 4;
     setResults(r => [
       ...r,
       {
@@ -716,8 +717,9 @@ export default function ResultManagement() {
               <div className="font-semibold mb-2">Subjects</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {form.subjects.map((subj, idx) => {
-                  // Determine the number of assessments for this subject based on form.assessmentCount or assessmentMap
-                  const count = form.assessmentCount || assessmentMap[`${form.academicLevel}-${form.academicClass}`] || 4;
+                  // Determine the number of assessments for this subject based on assessmentMap and current session/level/class
+                  const key = `${form.academicLevel}-${form.academicClass}`;
+                  const count = assessmentMap[key] || 4;
                   return (
                     <div key={idx} className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
                       <div className="font-semibold mb-2">{subj.name}</div>
