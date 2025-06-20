@@ -136,6 +136,8 @@ export default function ResultManagement() {
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
   const [viewResult, setViewResult] = useState(null); // {student, term, session}
   const [uploadContext, setUploadContext] = useState(null); // {student, term}
+  const [search, setSearch] = useState('');
+  const [selectedStudentId, setSelectedStudentId] = useState('');
 
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
@@ -393,13 +395,34 @@ export default function ResultManagement() {
         </motion.div>
       )}
       {/* Modal for adding result */}
-      {showModal && uploadContext && (
+      {showModal && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <motion.form initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-            <button type="button" className="absolute top-2 right-2 text-gray-400 hover:text-red-500" onClick={() => { setShowModal(false); setUploadContext(null); }}>&times;</button>
+            <button type="button" className="absolute top-2 right-2 text-gray-400 hover:text-red-500" onClick={() => setShowModal(false)}>&times;</button>
             <h3 className="text-lg font-bold mb-4">Add Student Result</h3>
             {formError && <div className="text-red-500 mb-2">{formError}</div>}
             <div className="grid grid-cols-2 gap-4 mb-4">
+              {/* Only show search/dropdown if no student is pre-selected */}
+              {!selectedStudentId && (
+                <>
+                  <input
+                    className="input col-span-2"
+                    placeholder="Search student by name or class..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                  />
+                  <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
+                    <option value="">Select Student</option>
+                    {filteredStudents.map(s => (
+                      <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
+                    ))}
+                    {search && filteredStudents.length === 0 && (
+                      <option disabled>No students found or all have results for this term/session</option>
+                    )}
+                  </select>
+                </>
+              )}
+              {/* Student info fields (always shown, always read-only) */}
               <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
               <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
