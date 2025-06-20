@@ -167,7 +167,7 @@ export default function ClassSubjectSetup() {
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Class & Subject Setup</h2>
-        <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Add Subject</button>
+        <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Assign Subject to Class</button>
       </div>
       {/* Dynamic Class Management */}
       <div className="mb-8 bg-white rounded-lg shadow p-4">
@@ -317,7 +317,7 @@ export default function ClassSubjectSetup() {
       {modal.open && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn">
-            <h3 className="text-xl font-bold mb-4">{modal.mode === 'add' ? 'Add Subject to Class' : 'Edit Subject Assignment'}</h3>
+            <h3 className="text-xl font-bold mb-4">{modal.mode === 'add' ? 'Assign Subject to Class' : 'Edit Subject Assignment'}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block font-semibold mb-1">Subject</label>
