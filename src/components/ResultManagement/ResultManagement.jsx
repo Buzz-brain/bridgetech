@@ -12,35 +12,36 @@ const academicClasses = [
 ];
 const studentCategories = ['Boarding student', 'Day student'];
 
-// Example mock students with all fields
-const mockStudents = [
-  {
-    id: 1,
-    name: 'John Doe',
-    age: 13,
-    academicLevel: 'JSS1A',
-    academicClass: 'Science Class',
-    category: 'Boarding student',
-    numberInClass: 25,
-    house: 'Red',
-    session: '2024/2025',
-    term: 'First Term',
-    subjects: ['Mathematics', 'English', 'Basic Science'],
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    age: 14,
-    academicLevel: 'JSS2B',
-    academicClass: 'Art Class',
-    category: 'Day student',
-    numberInClass: 28,
-    house: 'Blue',
-    session: '2024/2025',
-    term: 'First Term',
-    subjects: ['Mathematics', 'English', 'Social Studies'],
-  },
-];
+// Generate mock students for all permutations
+const generateMockStudents = () => {
+  const students = [];
+  let id = 1;
+  academicLevels.forEach(level => {
+    academicClasses.forEach(cls => {
+      studentCategories.forEach(cat => {
+        for (let i = 1; i <= 10; i++) {
+          students.push({
+            id: id++,
+            name: `${level}-${cls}-${cat}-Student${i}`,
+            age: 12 + (i % 6),
+            academicLevel: level,
+            academicClass: cls,
+            category: cat,
+            numberInClass: 30,
+            house: ['Red', 'Blue', 'Green', 'Yellow'][i % 4],
+            session: '2024/2025',
+            term: 'First Term',
+            subjects: ['Mathematics', 'English', 'Basic Science'],
+          });
+        }
+      });
+    });
+  });
+  return students;
+};
+const mockStudents = generateMockStudents();
+
+// Example mock subjects
 const mockSubjects = {
   JSS1: ['Mathematics', 'English', 'Basic Science'],
   JSS2: ['Mathematics', 'English', 'Social Studies'],
@@ -129,6 +130,7 @@ export default function ResultManagement() {
   const [selectedAcademicClass, setSelectedAcademicClass] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
+  const [viewResult, setViewResult] = useState(null); // {student, term, session}
 
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
@@ -147,6 +149,10 @@ export default function ResultManagement() {
   // Helper: for a student, does result exist for term/session?
   const hasResult = (studentName, term) =>
     results.some(r => r.studentName === studentName && r.session === selectedSession && r.term === term);
+
+  // Helper: get result for modal view
+  const getResult = (studentName, term) =>
+    results.find(r => r.studentName === studentName && r.session === selectedSession && r.term === term);
 
   // Filter students for dropdown: search + exclude those with result for session/term
   const filteredStudents = mockStudents.filter(s => {
@@ -350,7 +356,7 @@ export default function ResultManagement() {
           </select>
         </div>
       )}
-      {/* Step 5: Student List with Term Indicators */}
+      {/* Step 5: Student List with Term Status */}
       {selectedAcademicLevel && selectedAcademicClass && selectedCategory && (
         <div className="mb-6">
           <div className="font-semibold mb-2">Students in {selectedAcademicLevel} - {selectedAcademicClass} - {selectedCategory}</div>
@@ -371,7 +377,12 @@ export default function ResultManagement() {
                     {termsForSession.map(term => (
                       <td key={term} className="px-4 py-2 text-center">
                         {hasResult(student.name, term) ? (
-                          <span className="inline-flex items-center text-green-600 font-bold">&#10003; Uploaded</span>
+                          <button
+                            className="btn btn-xs btn-outline text-green-700 border-green-400"
+                            onClick={() => setViewResult({ student, term, session: selectedSession })}
+                          >
+                            View
+                          </button>
                         ) : (
                           <button
                             className="btn btn-xs btn-success"
@@ -382,7 +393,7 @@ export default function ResultManagement() {
                               setForm(f => ({ ...f, session: selectedSession, term }));
                             }}
                           >
-                            Upload Result
+                            Upload
                           </button>
                         )}
                       </td>
@@ -393,6 +404,24 @@ export default function ResultManagement() {
             </table>
           </div>
         </div>
+      )}
+      {/* Modal for viewing result status */}
+      {viewResult && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <motion.div initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl relative">
+            <button type="button" className="absolute top-2 right-2 text-gray-400 hover:text-red-500" onClick={() => setViewResult(null)}>&times;</button>
+            <h3 className="text-lg font-bold mb-4">Result Status</h3>
+            <div className="mb-2 font-semibold">{viewResult.student.name} - {viewResult.term} ({viewResult.session})</div>
+            {getResult(viewResult.student.name, viewResult.term) ? (
+              <div className="text-green-700 font-bold">Result Uploaded</div>
+            ) : (
+              <div className="text-red-600 font-bold">No Result Uploaded</div>
+            )}
+            <div className="flex justify-end mt-4">
+              <button className="btn" onClick={() => setViewResult(null)}>Close</button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
       {/* Modal for adding result */}
       {showModal && (
