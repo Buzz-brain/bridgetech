@@ -118,7 +118,8 @@ const mockAcademicCalendar = {
 // This ensures old results are not affected by later changes to assessment config.
 
 export default function ResultManagement() {
-  const assessmentMap = useSelector(state => state.school.assessmentMap) || {
+  // Use optional chaining to avoid TypeError if state.school is undefined
+  const assessmentMap = useSelector(state => state.school?.assessmentMap) || {
     'JSS1-Art Class': 4,
     'JSS1-Science Class': 3,
     // ...other combinations
