@@ -92,6 +92,36 @@ const initialResults = [
         remark: 'Very Good',
         teacherInitial: 'JJ',
       },
+      {
+        name: 'English',
+        assessments: [14, 15, 13, 14],
+        exam: 28,
+        termAverage: 84,
+        summary: 'Grammar, Comprehension',
+        grade: 'B',
+        remark: 'Very Good',
+        teacherInitial: 'JJ',
+      },
+      {
+        name: 'English',
+        assessments: [14, 15, 13, 14],
+        exam: 28,
+        termAverage: 84,
+        summary: 'Grammar, Comprehension',
+        grade: 'B',
+        remark: 'Very Good',
+        teacherInitial: 'JJ',
+      },
+      {
+        name: 'English',
+        assessments: [14, 15, 13, 14],
+        exam: 28,
+        termAverage: 84,
+        summary: 'Grammar, Comprehension',
+        grade: 'B',
+        remark: 'Very Good',
+        teacherInitial: 'JJ',
+      },
     ],
     scratchCardValidated: true,
   },
@@ -637,10 +667,7 @@ export default function ResultManagement() {
                 <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
                 <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
                   <span>Session: <span className="font-semibold text-white">{viewResult.session}</span></span>
-                  <span>Class: <span className="font-semibold text-white">{viewResult.student.academicClass}</span></span>
-                  <span>Category: <span className="font-semibold text-white">{viewResult.student.category}</span></span>
-                  <span>House: <span className="font-semibold text-white">{viewResult.student.house}</span></span>
-                  <span>Age: <span className="font-semibold text-white">{viewResult.student.age}</span></span>
+                  {/* Class removed as per user request */}
                 </div>
               </div>
               <div className="flex gap-2 mt-3 md:mt-0">
@@ -648,6 +675,16 @@ export default function ResultManagement() {
                 <button className="btn btn-sm btn-outline-white" onClick={() => setViewResult(null)} type="button">Close</button>
               </div>
             </div>
+            {/* Centered Result Type */}
+            {(() => {
+              const result = getResult(viewResult.student.name, viewResult.term);
+              if (!result) return null;
+              return (
+                <div className="w-full flex flex-col items-center justify-center mt-2 mb-2">
+                  <div className="text-xl md:text-2xl font-bold text-blue-800 text-center">{result.resultType}</div>
+                </div>
+              );
+            })()}
             {/* Academic Summary Bar */}
             {(() => {
               const result = getResult(viewResult.student.name, viewResult.term);
@@ -655,11 +692,22 @@ export default function ResultManagement() {
               return (
                 <div className="flex flex-wrap gap-x-8 gap-y-2 px-8 py-3 bg-blue-50/80 border-b border-blue-200 text-blue-900 text-xs md:text-sm font-medium justify-between">
                   <span>Number in Class: <span className="font-semibold">{result.numberInClass}</span></span>
-                  <span>Result Type: <span className="font-semibold">{result.resultType}</span></span>
                   <span>Vacation: <span className="font-semibold">{result.vacationDate}</span></span>
                   <span>Resumption: <span className="font-semibold">{result.resumptionDate}</span></span>
                   <span>Overall Avg: <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span></span>
                   <span>Position: <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span></span>
+                </div>
+              );
+            })()}
+            {/* Student Details Bar (Age, House, Category) */}
+            {(() => {
+              const result = getResult(viewResult.student.name, viewResult.term);
+              if (!result) return null;
+              return (
+                <div className="flex flex-wrap gap-x-8 gap-y-2 px-8 py-2 bg-blue-50/60 border-b border-blue-100 text-blue-900 text-xs md:text-sm font-medium justify-center">
+                  <span>Age: <span className="font-semibold">{result.age}</span></span>
+                  <span>House: <span className="font-semibold">{result.house}</span></span>
+                  <span>Category: <span className="font-semibold">{result.category}</span></span>
                 </div>
               );
             })()}
