@@ -121,7 +121,23 @@ Subject Teacher: (nil at first when the subject is just created list all the tea
 Status:	Active, Disable
 
 ✔️ Result Management
-
+📊 RESULT SYSTEM
+✔️ Result Entry:
+✔️ By subject, class, term, session
+✔️ Fields:
+✔️ 1st–4th assessments
+✔️ Exam score
+✔️ Summary of term’s work
+✔️ Term grade, remark
+✔️ Teacher initial
+✔️ Result Display:
+✔️ Header: name, age, no in class, average, house, position, next term dates
+✔️ Result breakdown (with beautiful tabular UI)
+✔️ Download result PDF
+✔️ Access Modes:
+✔️ Scratch card input if required
+✔️ Auto-unlocked based on config
+✔️ Subscription model
 
 
 
@@ -145,23 +161,7 @@ Status:	Active, Disable
 ✔️ Transcript & Report Download
 ✔️ Audit Log Viewer
 
-📊 RESULT SYSTEM
-✔️ Result Entry:
-✔️ By subject, class, term, session
-✔️ Fields:
-✔️ 1st–4th assessments
-✔️ Exam score
-✔️ Summary of term’s work
-✔️ Term grade, remark
-✔️ Teacher initial
-✔️ Result Display:
-✔️ Header: name, age, no in class, average, house, position, next term dates
-✔️ Result breakdown (with beautiful tabular UI)
-✔️ Download result PDF
-✔️ Access Modes:
-✔️ Scratch card input if required
-✔️ Auto-unlocked based on config
-✔️ Subscription model
+
 
 🗃 TRANSCRIPTS & ARCHIVE
 ✔️ Download full transcript per session/class

@@ -731,7 +731,8 @@ export default function ResultManagement() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <motion.div initial={{ scale: 0.97, y: 30 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-3xl relative max-h-[95vh] overflow-y-auto border border-blue-200 printable-result">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow modal-header-print">
+            {/* <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow modal-header-print"> */}
+            <div className="bg-blue-700 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow modal-header-print">
               <div>
                 <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
                 <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
