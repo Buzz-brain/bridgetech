@@ -702,18 +702,6 @@ export default function ResultManagement() {
                 </div>
               );
             })()}
-            {/* Student Details Bar (Age, House, Category) */}
-            {(() => {
-              const result = getResult(viewResult.student.name, viewResult.term);
-              if (!result) return null;
-              return (
-                <div className="flex flex-wrap gap-x-8 gap-y-2 px-8 py-2 bg-blue-50/60 border-b border-blue-100 text-blue-900 text-xs md:text-sm font-medium justify-center">
-                  <span>Age: <span className="font-semibold">{result.age}</span></span>
-                  <span>House: <span className="font-semibold">{result.house}</span></span>
-                  <span>Category: <span className="font-semibold">{result.category}</span></span>
-                </div>
-              );
-            })()}
             {/* Content */}
             <div className="p-6 md:p-8 bg-gradient-to-b from-blue-50/60 to-white">
               {(() => {
