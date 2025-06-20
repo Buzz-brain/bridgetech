@@ -3,6 +3,29 @@ import { FaDownload, FaPlus, FaTrash, FaEdit, FaPrint } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 
+// Print-specific styles to preserve modal header color
+const printStyles = `
+@media print {
+  .printable-result .modal-header-print {
+    background: #2563eb !important; /* solid blue fallback */
+    color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .printable-result .modal-header-print * {
+    color: #fff !important;
+  }
+}
+`;
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  if (!document.getElementById('print-modal-header-style')) {
+    const style = document.createElement('style');
+    style.id = 'print-modal-header-style';
+    style.innerHTML = printStyles;
+    document.head.appendChild(style);
+  }
+}
+
 // Use 30 real-like mock student names (from student management)
 const realStudentNames = [
   'John Doe', 'Jane Smith', 'Michael Johnson', 'Emily Davis', 'David Brown', 'Sarah Wilson',
@@ -689,7 +712,7 @@ export default function ResultManagement() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <motion.div initial={{ scale: 0.97, y: 30 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-3xl relative max-h-[95vh] overflow-y-auto border border-blue-200 printable-result">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow">
+            <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow modal-header-print">
               <div>
                 <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
                 <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
