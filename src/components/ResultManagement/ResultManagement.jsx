@@ -333,10 +333,9 @@ export default function ResultManagement() {
           termAverage: Number(s.termAverage),
         })),
       },
-     ]);
+    ]);
     setShowModal(false);
   };
-  
 
   // When a student is selected, auto-fill form fields
   React.useEffect(() => {
@@ -692,8 +691,11 @@ export default function ResultManagement() {
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow">
               <div>
-                <div className="text-2xl md:text-3xl font-extrabold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100 text-lg md:text-xl'>({viewResult.student.studentId})</span></div>
-                {/* Session removed as per latest UI feedback */}
+                <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
+                <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
+                  <span>Session: <span className="font-semibold text-white">{viewResult.session}</span></span>
+                  {/* Class removed as per user request */}
+                </div>
               </div>
               <div className="flex gap-2 mt-3 md:mt-0">
                 <button className="btn btn-sm btn-outline-white" onClick={handleDownloadPDF} type="button"><FaDownload className="inline mr-1" /> PDF</button>
