@@ -5,36 +5,34 @@ import { Filter, Layers, Users, BadgeCheck, BookOpen, UserCheck } from 'lucide-r
 
 // Mock data
 const initialSubjects = [
-  { id: 1, subject: 'Mathematics', category: 'Science', class: 'JSS1A', teacher: 'Mr. John', status: 'Active' },
-  { id: 2, subject: 'English', category: 'Arts', class: 'JSS1A', teacher: 'Ms. Jane', status: 'Active' },
-  { id: 3, subject: 'Biology', category: 'Science', class: 'JSS3B', teacher: 'Dr. Smith', status: 'Disabled' },
+  { id: 1, subject: 'Mathematics', level: 'JSS1', class: 'Art Class', teacher: 'Mr. John', status: 'Active' },
+  { id: 2, subject: 'English', level: 'JSS1', class: 'Art Class', teacher: 'Ms. Jane', status: 'Active' },
+  { id: 3, subject: 'Biology', level: 'JSS3', class: 'Science Class', teacher: 'Dr. Smith', status: 'Disabled' },
 ];
 const allTeachers = ['Mr. John', 'Ms. Jane', 'Dr. Smith', 'Mrs. Doe'];
 const allStatus = ['Active', 'Disabled'];
+const levelList = ['JSS1', 'JSS2', 'JSS3', 'SS1', 'SS2', 'SS3'];
+const classList = ['Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class'];
 
 export default function ClassSubjectSetup() {
   const [data, setData] = useState(initialSubjects);
-  const [filter, setFilter] = useState({ category: '', class: '', teacher: '', status: '' });
+  const [filter, setFilter] = useState({ level: '', class: '', teacher: '', status: '' });
   const [modal, setModal] = useState({ open: false, mode: 'add', entry: null });
   const [deleteModal, setDeleteModal] = useState({ open: false, entry: null });
-  // Dynamic state for classes, subjects, categories
-  const [classList, setClassList] = useState(['JSS1A', 'JSS3B', 'SS1A', 'SS2B']);
   const [subjectList, setSubjectList] = useState(['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics']);
-  const [categoryList, setCategoryList] = useState(['Science', 'Arts', 'Commercial', 'Technology']);
+  const [newLevel, setNewLevel] = useState('');
+  const [editLevelIdx, setEditLevelIdx] = useState(null);
+  const [editLevelValue, setEditLevelValue] = useState('');
   const [newClass, setNewClass] = useState('');
   const [editClassIdx, setEditClassIdx] = useState(null);
   const [editClassValue, setEditClassValue] = useState('');
-  // New state for subject/category management
   const [newSubject, setNewSubject] = useState('');
   const [editSubjectIdx, setEditSubjectIdx] = useState(null);
   const [editSubjectValue, setEditSubjectValue] = useState('');
-  const [newCategory, setNewCategory] = useState('');
-  const [editCategoryIdx, setEditCategoryIdx] = useState(null);
-  const [editCategoryValue, setEditCategoryValue] = useState('');
 
   // Filtering
   const filteredData = data.filter(row =>
-    (!filter.category || row.category === filter.category) &&
+    (!filter.level || row.level === filter.level) &&
     (!filter.class || row.class === filter.class) &&
     (!filter.teacher || row.teacher === filter.teacher) &&
     (!filter.status || row.status === filter.status)
@@ -43,14 +41,14 @@ export default function ClassSubjectSetup() {
   // Modal form state
   const [form, setForm] = useState({
     subject: subjectList[0],
-    category: categoryList[0],
+    level: levelList[0],
     class: classList[0],
     teacher: allTeachers[0],
     status: allStatus[0],
   });
 
   const openAddModal = () => {
-    setForm({ subject: subjectList[0], category: categoryList[0], class: classList[0], teacher: allTeachers[0], status: allStatus[0] });
+    setForm({ subject: subjectList[0], level: levelList[0], class: classList[0], teacher: allTeachers[0], status: allStatus[0] });
     setModal({ open: true, mode: 'add', entry: null });
   };
   const openEditModal = (entry) => {
@@ -76,6 +74,33 @@ export default function ClassSubjectSetup() {
   const handleDelete = () => {
     setData(data.filter(d => d.id !== deleteModal.entry.id));
     closeDeleteModal();
+  };
+  // Add level
+  const handleAddLevel = e => {
+    e.preventDefault();
+    if (newLevel && !levelList.includes(newLevel)) {
+      setLevelList([...levelList, newLevel]);
+      setNewLevel('');
+    }
+  };
+  // Edit level
+  const handleEditLevel = idx => {
+    setEditLevelIdx(idx);
+    setEditLevelValue(levelList[idx]);
+  };
+  const handleSaveEditLevel = idx => {
+    if (editLevelValue && !levelList.includes(editLevelValue)) {
+      const updated = [...levelList];
+      updated[idx] = editLevelValue;
+      setLevelList(updated);
+      setEditLevelIdx(null);
+      setEditLevelValue('');
+    }
+  };
+  // Delete level
+  const handleDeleteLevel = idx => {
+    const updated = levelList.filter((_, i) => i !== idx);
+    setLevelList(updated);
   };
   // Add class
   const handleAddClass = e => {
@@ -131,49 +156,49 @@ export default function ClassSubjectSetup() {
     const updated = subjectList.filter((_, i) => i !== idx);
     setSubjectList(updated);
   };
-  // Add category
-  const handleAddCategory = e => {
-    e.preventDefault();
-    if (newCategory && !categoryList.includes(newCategory)) {
-      setCategoryList([...categoryList, newCategory]);
-      setNewCategory('');
-    }
-  };
-  // Edit category
-  const handleEditCategory = idx => {
-    setEditCategoryIdx(idx);
-    setEditCategoryValue(categoryList[idx]);
-  };
-  const handleSaveEditCategory = idx => {
-    if (editCategoryValue && !categoryList.includes(editCategoryValue)) {
-      const updated = [...categoryList];
-      updated[idx] = editCategoryValue;
-      setCategoryList(updated);
-      setEditCategoryIdx(null);
-      setEditCategoryValue('');
-    }
-  };
-  // Delete category
-  const handleDeleteCategory = idx => {
-    const updated = categoryList.filter((_, i) => i !== idx);
-    setCategoryList(updated);
-  };
 
   // Update form fields when lists change
   React.useEffect(() => {
-    setForm(f => ({ ...f, class: classList[0] || '', subject: subjectList[0] || '', category: categoryList[0] || '' }));
-  }, [classList, subjectList, categoryList]);
+    setForm(f => ({ ...f, level: levelList[0] || '', class: classList[0] || '', subject: subjectList[0] || '' }));
+  }, [levelList, classList, subjectList]);
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-8">Class & Subject Setup</h2>
-      {/* Management Panels: Classes, Subjects, Categories */}
+      {/* Management Panels: Levels, Classes, Subjects */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {/* Manage Classes */}
+        {/* Manage Levels */}
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white rounded-lg shadow p-4">
+          <h4 className="font-semibold mb-2">Manage Levels</h4>
+          <form className="flex gap-2 mb-4" onSubmit={handleAddLevel}>
+            <input className="input w-full" placeholder="Add new level (e.g. JSS1)" value={newLevel} onChange={e => setNewLevel(e.target.value)} />
+            <button className="btn btn-primary" type="submit">Add</button>
+          </form>
+          <ul className="flex flex-wrap gap-2">
+            {levelList.map((lvl, idx) => (
+              <li key={lvl} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+                {editLevelIdx === idx ? (
+                  <>
+                    <input className="input w-20" value={editLevelValue} onChange={e => setEditLevelValue(e.target.value)} />
+                    <button className="btn btn-xs btn-success" onClick={() => handleSaveEditLevel(idx)}><FaCheck /></button>
+                    <button className="btn btn-xs" onClick={() => setEditLevelIdx(null)}><FaTimes /></button>
+                  </>
+                ) : (
+                  <>
+                    <span>{lvl}</span>
+                    <button className="btn btn-xs btn-secondary" onClick={() => handleEditLevel(idx)}><FaEdit /></button>
+                    <button className="btn btn-xs btn-error" onClick={() => handleDeleteLevel(idx)}><FaTrash /></button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+        {/* Manage Classes */}
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="bg-white rounded-lg shadow p-4">
           <h4 className="font-semibold mb-2">Manage Classes</h4>
           <form className="flex gap-2 mb-4" onSubmit={handleAddClass}>
-            <input className="input w-full" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
+            <input className="input w-full" placeholder="Add new class (e.g. Art Class)" value={newClass} onChange={e => setNewClass(e.target.value)} />
             <button className="btn btn-primary" type="submit">Add</button>
           </form>
           <ul className="flex flex-wrap gap-2">
@@ -197,7 +222,7 @@ export default function ClassSubjectSetup() {
           </ul>
         </motion.div>
         {/* Manage Subjects */}
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="bg-white rounded-lg shadow p-4">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="bg-white rounded-lg shadow p-4">
           <h4 className="font-semibold mb-2">Manage Subjects</h4>
           <form className="flex gap-2 mb-4" onSubmit={handleAddSubject}>
             <input className="input w-full" placeholder="Add new subject (e.g. Mathematics)" value={newSubject} onChange={e => setNewSubject(e.target.value)} />
@@ -223,33 +248,6 @@ export default function ClassSubjectSetup() {
             ))}
           </ul>
         </motion.div>
-        {/* Manage Categories */}
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }} className="bg-white rounded-lg shadow p-4">
-          <h4 className="font-semibold mb-2">Manage Categories</h4>
-          <form className="flex gap-2 mb-4" onSubmit={handleAddCategory}>
-            <input className="input w-full" placeholder="Add new category (e.g. Science)" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
-            <button className="btn btn-primary" type="submit">Add</button>
-          </form>
-          <ul className="flex flex-wrap gap-2">
-            {categoryList.map((cat, idx) => (
-              <li key={cat} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
-                {editCategoryIdx === idx ? (
-                  <>
-                    <input className="input w-20" value={editCategoryValue} onChange={e => setEditCategoryValue(e.target.value)} />
-                    <button className="btn btn-xs btn-success" onClick={() => handleSaveEditCategory(idx)}><FaCheck /></button>
-                    <button className="btn btn-xs" onClick={() => setEditCategoryIdx(null)}><FaTimes /></button>
-                  </>
-                ) : (
-                  <>
-                    <span>{cat}</span>
-                    <button className="btn btn-xs btn-secondary" onClick={() => handleEditCategory(idx)}><FaEdit /></button>
-                    <button className="btn btn-xs btn-error" onClick={() => handleDeleteCategory(idx)}><FaTrash /></button>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
       </div>
       {/* Assignment Section */}
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="bg-white rounded-lg shadow p-6 mb-8">
@@ -261,14 +259,14 @@ export default function ClassSubjectSetup() {
         <div className="flex flex-wrap items-center gap-4 mb-6">
           <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
           <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-gray-400" />
-            <select className="input w-36" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
-              <option value="">All Categories</option>
-              {categoryList.map(c => <option key={c}>{c}</option>)}
+            <Layers className="w-4 h-4 text-gray-400" />
+            <select className="input w-36" value={filter.level} onChange={e => setFilter({ ...filter, level: e.target.value })}>
+              <option value="">All Levels</option>
+              {levelList.map(l => <option key={l}>{l}</option>)}
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-gray-400" />
+            <BookOpen className="w-4 h-4 text-gray-400" />
             <select className="input w-36" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
               <option value="">All Classes</option>
               {classList.map(c => <option key={c}>{c}</option>)}
@@ -296,7 +294,7 @@ export default function ClassSubjectSetup() {
               <tr className="bg-gray-100">
                 <th className="px-4 py-2">S/N</th>
                 <th className="px-4 py-2"><FaBook className="inline mr-1" />Subject</th>
-                <th className="px-4 py-2">Category</th>
+                <th className="px-4 py-2">Level</th>
                 <th className="px-4 py-2">Class</th>
                 <th className="px-4 py-2"><FaChalkboardTeacher className="inline mr-1" />Teacher</th>
                 <th className="px-4 py-2">Status</th>
@@ -311,7 +309,7 @@ export default function ClassSubjectSetup() {
                 <tr key={row.id} className="border-b hover:bg-gray-50 transition">
                   <td className="px-4 py-2">{idx + 1}</td>
                   <td className="px-4 py-2">{row.subject}</td>
-                  <td className="px-4 py-2">{row.category}</td>
+                  <td className="px-4 py-2">{row.level}</td>
                   <td className="px-4 py-2">{row.class}</td>
                   <td className="px-4 py-2">{row.teacher}</td>
                   <td className="px-4 py-2">
@@ -342,11 +340,11 @@ export default function ClassSubjectSetup() {
                 <p className="text-xs text-gray-500 mt-1">Select the subject to assign.</p>
               </div>
               <div>
-                <label className="block font-semibold mb-1">Category</label>
-                <select name="category" className="input w-full" value={form.category} onChange={handleFormChange} required>
-                  {categoryList.map(c => <option key={c}>{c}</option>)}
+                <label className="block font-semibold mb-1">Level</label>
+                <select name="level" className="input w-full" value={form.level} onChange={handleFormChange} required>
+                  {levelList.map(l => <option key={l}>{l}</option>)}
                 </select>
-                <p className="text-xs text-gray-500 mt-1">Choose the subject category.</p>
+                <p className="text-xs text-gray-500 mt-1">Select the academic level.</p>
               </div>
               <div>
                 <label className="block font-semibold mb-1">Class</label>
