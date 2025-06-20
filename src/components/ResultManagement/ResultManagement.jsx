@@ -653,46 +653,10 @@ export default function ResultManagement() {
                 const assessmentCount = result.assessmentCount || assessmentMap[key] || 4;
                 return (
                   <div className="space-y-8">
-                    {/* Info Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Student Info */}
-                      <div>
-                        <div className="font-bold text-blue-800 mb-2 text-base">Student Information</div>
-                        <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Full Name:</span> <span className="text-gray-800">{result.studentName}</span></div>
-                          <div><span className="font-semibold text-blue-700">Student ID:</span> <span>{viewResult.student.studentId}</span></div>
-                          <div><span className="font-semibold text-blue-700">Category:</span> <span>{result.category}</span></div>
-                          <div><span className="font-semibold text-blue-700">House:</span> <span>{result.house}</span></div>
-                          <div><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
-                        </div>
-                      </div>
-                      {/* Academic Info */}
-                      <div>
-                        <div className="font-bold text-blue-800 mb-2 text-base">Academic Summary</div>
-                        <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Level:</span> <span>{result.academicLevel}</span></div>
-                          <div><span className="font-semibold text-blue-700">Class:</span> <span>{result.academicClass}</span></div>
-                          <div><span className="font-semibold text-blue-700">Session:</span> <span>{result.session}</span></div>
-                          <div><span className="font-semibold text-blue-700">Term:</span> <span>{result.term}</span></div>
-                          <div><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
-                          <div><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
-                          <div><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
-                          <div><span className="font-semibold text-blue-700">Resumption Date:</span> <span>{result.resumptionDate}</span></div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="font-semibold text-blue-700">Overall Average:</span>
-                            <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-blue-700">Position:</span>
-                            <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Subjects Table */}
+                    {/* Subjects Table - MAIN FOCUS */}
                     <div>
                       <div className="font-bold text-blue-800 mb-2 text-base">Subjects & Scores</div>
-                      <div className="rounded-xl shadow border border-blue-100 bg-white/90 overflow-x-auto">
+                      <div className="rounded-xl shadow border-2 border-blue-400 bg-white/95 overflow-x-auto ring-2 ring-blue-200">
                         <table className="min-w-full table-auto text-xs md:text-sm">
                           <thead>
                             <tr className="bg-blue-100 text-blue-900">
@@ -725,6 +689,44 @@ export default function ResultManagement() {
                             ))}
                           </tbody>
                         </table>
+                      </div>
+                    </div>
+                    {/* Divider */}
+                    <div className="my-2 border-t border-blue-200" />
+                    {/* Secondary Info Section - visually de-emphasized */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-80 text-sm">
+                      {/* Student Info */}
+                      <div>
+                        <div className="font-bold text-blue-700 mb-2 text-sm">Student Information</div>
+                        <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
+                          <div><span className="font-semibold text-blue-700">Full Name:</span> <span className="text-gray-800">{result.studentName}</span></div>
+                          <div><span className="font-semibold text-blue-700">Student ID:</span> <span>{viewResult.student.studentId}</span></div>
+                          <div><span className="font-semibold text-blue-700">Category:</span> <span>{result.category}</span></div>
+                          <div><span className="font-semibold text-blue-700">House:</span> <span>{result.house}</span></div>
+                          <div><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
+                        </div>
+                      </div>
+                      {/* Academic Info */}
+                      <div>
+                        <div className="font-bold text-blue-700 mb-2 text-sm">Academic Summary</div>
+                        <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
+                          <div><span className="font-semibold text-blue-700">Level:</span> <span>{result.academicLevel}</span></div>
+                          <div><span className="font-semibold text-blue-700">Class:</span> <span>{result.academicClass}</span></div>
+                          <div><span className="font-semibold text-blue-700">Session:</span> <span>{result.session}</span></div>
+                          <div><span className="font-semibold text-blue-700">Term:</span> <span>{result.term}</span></div>
+                          <div><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
+                          <div><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
+                          <div><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
+                          <div><span className="font-semibold text-blue-700">Resumption Date:</span> <span>{result.resumptionDate}</span></div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="font-semibold text-blue-700">Overall Average:</span>
+                            <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-blue-700">Position:</span>
+                            <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     {/* Notes Section */}
