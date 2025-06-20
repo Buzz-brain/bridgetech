@@ -8,8 +8,6 @@ const initialSubjects = [
   { id: 2, subject: 'English', category: 'Arts', class: 'JSS1A', teacher: 'Ms. Jane', status: 'Active' },
   { id: 3, subject: 'Biology', category: 'Science', class: 'JSS3B', teacher: 'Dr. Smith', status: 'Disabled' },
 ];
-const allSubjects = ['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics'];
-const allCategories = ['Science', 'Arts', 'Commercial', 'Technology'];
 const allTeachers = ['Mr. John', 'Ms. Jane', 'Dr. Smith', 'Mrs. Doe'];
 const allStatus = ['Active', 'Disabled'];
 
@@ -18,11 +16,20 @@ export default function ClassSubjectSetup() {
   const [filter, setFilter] = useState({ category: '', class: '', teacher: '', status: '' });
   const [modal, setModal] = useState({ open: false, mode: 'add', entry: null });
   const [deleteModal, setDeleteModal] = useState({ open: false, entry: null });
-  // Dynamic class list state
+  // Dynamic state for classes, subjects, categories
   const [classList, setClassList] = useState(['JSS1A', 'JSS3B', 'SS1A', 'SS2B']);
+  const [subjectList, setSubjectList] = useState(['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics']);
+  const [categoryList, setCategoryList] = useState(['Science', 'Arts', 'Commercial', 'Technology']);
   const [newClass, setNewClass] = useState('');
   const [editClassIdx, setEditClassIdx] = useState(null);
   const [editClassValue, setEditClassValue] = useState('');
+  // New state for subject/category management
+  const [newSubject, setNewSubject] = useState('');
+  const [editSubjectIdx, setEditSubjectIdx] = useState(null);
+  const [editSubjectValue, setEditSubjectValue] = useState('');
+  const [newCategory, setNewCategory] = useState('');
+  const [editCategoryIdx, setEditCategoryIdx] = useState(null);
+  const [editCategoryValue, setEditCategoryValue] = useState('');
 
   // Filtering
   const filteredData = data.filter(row =>
@@ -34,15 +41,15 @@ export default function ClassSubjectSetup() {
 
   // Modal form state
   const [form, setForm] = useState({
-    subject: allSubjects[0],
-    category: allCategories[0],
+    subject: subjectList[0],
+    category: categoryList[0],
     class: classList[0],
     teacher: allTeachers[0],
     status: allStatus[0],
   });
 
   const openAddModal = () => {
-    setForm({ subject: allSubjects[0], category: allCategories[0], class: classList[0], teacher: allTeachers[0], status: allStatus[0] });
+    setForm({ subject: subjectList[0], category: categoryList[0], class: classList[0], teacher: allTeachers[0], status: allStatus[0] });
     setModal({ open: true, mode: 'add', entry: null });
   };
   const openEditModal = (entry) => {
@@ -96,11 +103,65 @@ export default function ClassSubjectSetup() {
     const updated = classList.filter((_, i) => i !== idx);
     setClassList(updated);
   };
+  // Add subject
+  const handleAddSubject = e => {
+    e.preventDefault();
+    if (newSubject && !subjectList.includes(newSubject)) {
+      setSubjectList([...subjectList, newSubject]);
+      setNewSubject('');
+    }
+  };
+  // Edit subject
+  const handleEditSubject = idx => {
+    setEditSubjectIdx(idx);
+    setEditSubjectValue(subjectList[idx]);
+  };
+  const handleSaveEditSubject = idx => {
+    if (editSubjectValue && !subjectList.includes(editSubjectValue)) {
+      const updated = [...subjectList];
+      updated[idx] = editSubjectValue;
+      setSubjectList(updated);
+      setEditSubjectIdx(null);
+      setEditSubjectValue('');
+    }
+  };
+  // Delete subject
+  const handleDeleteSubject = idx => {
+    const updated = subjectList.filter((_, i) => i !== idx);
+    setSubjectList(updated);
+  };
+  // Add category
+  const handleAddCategory = e => {
+    e.preventDefault();
+    if (newCategory && !categoryList.includes(newCategory)) {
+      setCategoryList([...categoryList, newCategory]);
+      setNewCategory('');
+    }
+  };
+  // Edit category
+  const handleEditCategory = idx => {
+    setEditCategoryIdx(idx);
+    setEditCategoryValue(categoryList[idx]);
+  };
+  const handleSaveEditCategory = idx => {
+    if (editCategoryValue && !categoryList.includes(editCategoryValue)) {
+      const updated = [...categoryList];
+      updated[idx] = editCategoryValue;
+      setCategoryList(updated);
+      setEditCategoryIdx(null);
+      setEditCategoryValue('');
+    }
+  };
+  // Delete category
+  const handleDeleteCategory = idx => {
+    const updated = categoryList.filter((_, i) => i !== idx);
+    setCategoryList(updated);
+  };
 
-  // Update form class when classList changes
+  // Update form fields when lists change
   React.useEffect(() => {
-    setForm(f => ({ ...f, class: classList[0] || '' }));
-  }, [classList]);
+    setForm(f => ({ ...f, class: classList[0] || '', subject: subjectList[0] || '', category: categoryList[0] || '' }));
+  }, [classList, subjectList, categoryList]);
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
@@ -115,7 +176,7 @@ export default function ClassSubjectSetup() {
           <input className="input w-48" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
           <button className="btn btn-primary" type="submit">Add Class</button>
         </form>
-        <ul className="flex flex-wrap gap-2">
+        <ul className="flex flex-wrap gap-2 mb-4">
           {classList.map((cls, idx) => (
             <li key={cls} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
               {editClassIdx === idx ? (
@@ -134,6 +195,54 @@ export default function ClassSubjectSetup() {
             </li>
           ))}
         </ul>
+        <h4 className="font-semibold mb-2 mt-6">Manage Subjects</h4>
+        <form className="flex gap-2 mb-4" onSubmit={handleAddSubject}>
+          <input className="input w-48" placeholder="Add new subject (e.g. Mathematics)" value={newSubject} onChange={e => setNewSubject(e.target.value)} />
+          <button className="btn btn-primary" type="submit">Add Subject</button>
+        </form>
+        <ul className="flex flex-wrap gap-2 mb-4">
+          {subjectList.map((subj, idx) => (
+            <li key={subj} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+              {editSubjectIdx === idx ? (
+                <>
+                  <input className="input w-24" value={editSubjectValue} onChange={e => setEditSubjectValue(e.target.value)} />
+                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditSubject(idx)}><FaCheck /></button>
+                  <button className="btn btn-xs" onClick={() => setEditSubjectIdx(null)}><FaTimes /></button>
+                </>
+              ) : (
+                <>
+                  <span>{subj}</span>
+                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditSubject(idx)}><FaEdit /></button>
+                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteSubject(idx)}><FaTrash /></button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+        <h4 className="font-semibold mb-2 mt-6">Manage Categories</h4>
+        <form className="flex gap-2 mb-4" onSubmit={handleAddCategory}>
+          <input className="input w-48" placeholder="Add new category (e.g. Science)" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
+          <button className="btn btn-primary" type="submit">Add Category</button>
+        </form>
+        <ul className="flex flex-wrap gap-2">
+          {categoryList.map((cat, idx) => (
+            <li key={cat} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+              {editCategoryIdx === idx ? (
+                <>
+                  <input className="input w-24" value={editCategoryValue} onChange={e => setEditCategoryValue(e.target.value)} />
+                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditCategory(idx)}><FaCheck /></button>
+                  <button className="btn btn-xs" onClick={() => setEditCategoryIdx(null)}><FaTimes /></button>
+                </>
+              ) : (
+                <>
+                  <span>{cat}</span>
+                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditCategory(idx)}><FaEdit /></button>
+                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteCategory(idx)}><FaTrash /></button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
       {/* Filters with icons, horizontal row */}
       <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
@@ -142,7 +251,7 @@ export default function ClassSubjectSetup() {
           <BookOpen className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
             <option value="">All Categories</option>
-            {allCategories.map(c => <option key={c}>{c}</option>)}
+            {categoryList.map(c => <option key={c}>{c}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
@@ -213,14 +322,14 @@ export default function ClassSubjectSetup() {
               <div>
                 <label className="block font-semibold mb-1">Subject</label>
                 <select name="subject" className="input w-full" value={form.subject} onChange={handleFormChange} required>
-                  {allSubjects.map(s => <option key={s}>{s}</option>)}
+                  {subjectList.map(s => <option key={s}>{s}</option>)}
                 </select>
                 <p className="text-xs text-gray-500 mt-1">Select the subject to assign.</p>
               </div>
               <div>
                 <label className="block font-semibold mb-1">Category</label>
                 <select name="category" className="input w-full" value={form.category} onChange={handleFormChange} required>
-                  {allCategories.map(c => <option key={c}>{c}</option>)}
+                  {categoryList.map(c => <option key={c}>{c}</option>)}
                 </select>
                 <p className="text-xs text-gray-500 mt-1">Choose the subject category.</p>
               </div>
