@@ -100,6 +100,23 @@ export default function ResultManagement() {
   });
   const [formError, setFormError] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [search, setSearch] = useState('');
+
+  // Helper: students who already have results for the selected session/term
+  const studentsWithResult = results
+    .filter(r => r.session === form.session && r.term === form.term)
+    .map(r => r.studentName);
+
+  // Filter students for dropdown: search + exclude those with result for session/term
+  const filteredStudents = mockStudents.filter(s => {
+    const matchesSearch =
+      !search ||
+      s.name.toLowerCase().includes(search.toLowerCase()) ||
+      (s.classLevel && s.classLevel.toLowerCase().includes(search.toLowerCase()));
+    const alreadyHasResult =
+      form.session && form.term && studentsWithResult.includes(s.name);
+    return matchesSearch && !alreadyHasResult;
+  });
 
   const filteredResults = results.filter(r =>
     (!filter.session || r.session === filter.session) &&
@@ -245,11 +262,20 @@ export default function ResultManagement() {
             <h3 className="text-lg font-bold mb-4">Add Student Result</h3>
             {formError && <div className="text-red-500 mb-2">{formError}</div>}
             <div className="grid grid-cols-2 gap-4 mb-4">
+              <input
+                className="input col-span-2"
+                placeholder="Search student by name or class..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
               <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
                 <option value="">Select Student</option>
-                {mockStudents.map(s => (
+                {filteredStudents.map(s => (
                   <option key={s.id} value={s.id}>{s.name} ({s.classLevel})</option>
                 ))}
+                {search && filteredStudents.length === 0 && (
+                  <option disabled>No students found or all have results for this term/session</option>
+                )}
               </select>
               <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
