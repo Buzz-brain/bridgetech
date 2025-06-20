@@ -353,6 +353,12 @@ export default function ResultManagement() {
     return '';
   };
 
+  // Helper: check if all results for all terms in the session are completed for a student
+  const allResultsCompleted = (student) => {
+    const termsForSession = mockAcademicCalendar[selectedSession] || [];
+    return termsForSession.every(term => hasResult(student.name, term));
+  };
+
   // NEW: Validate promotion/demotion/retention/graduation
   const validatePromotion = (student, action, newLevel, newClass) => {
     // 1. Block if results for all terms in session are not completed
