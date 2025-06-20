@@ -160,6 +160,11 @@ export default function ResultManagement() {
   const getResult = (studentName, term) =>
     results.find(r => r.studentName === studentName && r.session === selectedSession && r.term === term);
 
+  // Helper: students who already have results for the selected session/term (for filtering dropdown)
+  const studentsWithResult = results
+    .filter(r => r.session === form.session && r.term === form.term)
+    .map(r => r.studentName);
+
   // Filter students for dropdown: search + exclude those with result for session/term
   const filteredStudents = mockStudents.filter(s => {
     const matchesSearch =
