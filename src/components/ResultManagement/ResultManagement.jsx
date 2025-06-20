@@ -338,7 +338,29 @@ export default function ResultManagement() {
     setShowPromotionModal(true);
   };
   const confirmSinglePromotion = () => {
-    // TODO: Integrate with backend or global state
+    // Find and update the student in mockStudents
+    const updatedStudents = mockStudents.map(s => {
+      if (s.id !== promotionStudent.id) return s;
+      // Add to academicHistory for the selected session
+      const newHistory = [
+        ...(s.academicHistory || []),
+        {
+          session: selectedSession,
+          level: singlePromotion.newLevel,
+          class: singlePromotion.newClass,
+          status: singlePromotion.action === 'Promote' ? 'Promoted' : singlePromotion.action === 'Demote' ? 'Demoted' : singlePromotion.action === 'Retain' ? 'Retained' : 'Graduated',
+        },
+      ];
+      return {
+        ...s,
+        academicLevel: singlePromotion.newLevel,
+        academicClass: singlePromotion.newClass,
+        academicHistory: newHistory,
+      };
+    });
+    // This only updates the local array; in a real app, update backend/global state
+    // For demo, force a re-render by updating a dummy state
+    setPromotionStudent(null);
     setShowPromotionModal(false);
   };
 
