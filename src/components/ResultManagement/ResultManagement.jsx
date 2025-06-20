@@ -2,14 +2,25 @@ import React, { useState } from 'react';
 import { FaDownload, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Mock student, class, and subject data
+// Updated mock data for all academic levels, classes, and categories
+const academicLevels = [
+  'Nil', 'JSS1', 'JSS1A', 'JSS1B', 'JSS2', 'JSS2A', 'JSS2B', 'JSS3', 'JSS3A', 'JSS3B',
+  'SSS1', 'SSS1A', 'SSS1B', 'SSS2', 'SSS2A', 'SSS2B', 'SSS3', 'SSS3A', 'SSS3B',
+];
+const academicClasses = [
+  'Nil', 'Art Class', 'Commercial Class', 'General Class', 'Science Class', 'Technology Class',
+];
+const studentCategories = ['Boarding student', 'Day student'];
+
+// Example mock students with all fields
 const mockStudents = [
   {
     id: 1,
     name: 'John Doe',
     age: 13,
-    classLevel: 'JSS1',
-    category: 'Junior',
+    academicLevel: 'JSS1A',
+    academicClass: 'Science Class',
+    category: 'Boarding student',
     numberInClass: 25,
     house: 'Red',
     session: '2024/2025',
@@ -20,8 +31,9 @@ const mockStudents = [
     id: 2,
     name: 'Jane Smith',
     age: 14,
-    classLevel: 'JSS2',
-    category: 'Junior',
+    academicLevel: 'JSS2B',
+    academicClass: 'Art Class',
+    category: 'Day student',
     numberInClass: 28,
     house: 'Blue',
     session: '2024/2025',
@@ -113,15 +125,21 @@ export default function ResultManagement() {
   const [formError, setFormError] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
   const [search, setSearch] = useState('');
-  const [selectedClassLevel, setSelectedClassLevel] = useState('');
+  const [selectedAcademicLevel, setSelectedAcademicLevel] = useState('');
+  const [selectedAcademicClass, setSelectedAcademicClass] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
 
-  // Filter categories for selected class level
-  const availableCategories = selectedClassLevel ? mockCategories[selectedClassLevel] : [];
-  // Filter students for selected class level/category
-  const studentsInCategory = mockStudents.filter(
-    s => s.classLevel === selectedClassLevel && s.category === selectedCategory
+  // Filter classes and categories for selected academic level
+  const availableClasses = academicClasses;
+  const availableCategories = studentCategories;
+
+  // Filter students for selected academic level/class/category
+  const studentsInSelection = mockStudents.filter(
+    s =>
+      (!selectedAcademicLevel || s.academicLevel === selectedAcademicLevel) &&
+      (!selectedAcademicClass || s.academicClass === selectedAcademicClass) &&
+      (!selectedCategory || s.category === selectedCategory)
   );
   // Terms for selected session
   const termsForSession = mockAcademicCalendar[selectedSession] || [];
@@ -135,7 +153,7 @@ export default function ResultManagement() {
     const matchesSearch =
       !search ||
       s.name.toLowerCase().includes(search.toLowerCase()) ||
-      (s.classLevel && s.classLevel.toLowerCase().includes(search.toLowerCase()));
+      (s.academicLevel && s.academicLevel.toLowerCase().includes(search.toLowerCase()));
     const alreadyHasResult =
       form.session && form.term && studentsWithResult.includes(s.name);
     return matchesSearch && !alreadyHasResult;
@@ -231,7 +249,8 @@ export default function ResultManagement() {
         house: student.house,
         session: student.session,
         term: student.term,
-        classLevel: student.classLevel,
+        academicLevel: student.academicLevel,
+        academicClass: student.academicClass,
         category: student.category,
         subjects: student.subjects.map(subj => ({
           name: subj,
@@ -253,7 +272,8 @@ export default function ResultManagement() {
         house: '',
         session: '',
         term: '',
-        classLevel: '',
+        academicLevel: '',
+        academicClass: '',
         category: '',
         subjects: [
           { name: '', assessments: ['', '', '', ''], exam: '', termAverage: '', summary: '', grade: '', remark: '', teacherInitial: '' },
@@ -265,28 +285,49 @@ export default function ResultManagement() {
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-6">Result Management</h2>
-      {/* Step 1: Class Level Selection */}
+      {/* Step 1: Academic Level Selection */}
       <div className="mb-6">
-        <div className="font-semibold mb-2">Select Class Level</div>
+        <div className="font-semibold mb-2">Select Academic Level</div>
         <div className="flex gap-2 flex-wrap">
-          {mockClassLevels.map(cl => (
+          {academicLevels.map(level => (
             <button
-              key={cl}
-              className={`btn ${selectedClassLevel === cl ? 'btn-primary' : 'btn-outline'}`}
+              key={level}
+              className={`btn ${selectedAcademicLevel === level ? 'btn-primary' : 'btn-outline'}`}
               onClick={() => {
-                setSelectedClassLevel(cl);
+                setSelectedAcademicLevel(level);
+                setSelectedAcademicClass('');
                 setSelectedCategory('');
               }}
             >
-              {cl}
+              {level}
             </button>
           ))}
         </div>
       </div>
-      {/* Step 2: Category Selection */}
-      {selectedClassLevel && (
+      {/* Step 2: Academic Class Selection */}
+      {selectedAcademicLevel && (
         <div className="mb-6">
-          <div className="font-semibold mb-2">Select Category</div>
+          <div className="font-semibold mb-2">Select Academic Class</div>
+          <div className="flex gap-2 flex-wrap">
+            {availableClasses.map(cls => (
+              <button
+                key={cls}
+                className={`btn ${selectedAcademicClass === cls ? 'btn-primary' : 'btn-outline'}`}
+                onClick={() => {
+                  setSelectedAcademicClass(cls);
+                  setSelectedCategory('');
+                }}
+              >
+                {cls}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {/* Step 3: Student Category Selection */}
+      {selectedAcademicLevel && selectedAcademicClass && (
+        <div className="mb-6">
+          <div className="font-semibold mb-2">Select Student Category</div>
           <div className="flex gap-2 flex-wrap">
             {availableCategories.map(cat => (
               <button
@@ -300,8 +341,8 @@ export default function ResultManagement() {
           </div>
         </div>
       )}
-      {/* Step 3: Session Selection */}
-      {selectedClassLevel && selectedCategory && (
+      {/* Step 4: Session Selection */}
+      {selectedAcademicLevel && selectedAcademicClass && selectedCategory && (
         <div className="mb-6">
           <div className="font-semibold mb-2">Select Session</div>
           <select className="input" value={selectedSession} onChange={e => setSelectedSession(e.target.value)}>
@@ -309,10 +350,10 @@ export default function ResultManagement() {
           </select>
         </div>
       )}
-      {/* Step 4: Student List with Term Indicators */}
-      {selectedClassLevel && selectedCategory && (
+      {/* Step 5: Student List with Term Indicators */}
+      {selectedAcademicLevel && selectedAcademicClass && selectedCategory && (
         <div className="mb-6">
-          <div className="font-semibold mb-2">Students in {selectedClassLevel} - {selectedCategory}</div>
+          <div className="font-semibold mb-2">Students in {selectedAcademicLevel} - {selectedAcademicClass} - {selectedCategory}</div>
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               <thead>
@@ -324,7 +365,7 @@ export default function ResultManagement() {
                 </tr>
               </thead>
               <tbody>
-                {studentsInCategory.map(student => (
+                {studentsInSelection.map(student => (
                   <tr key={student.id} className="border-b">
                     <td className="px-4 py-2 font-semibold">{student.name}</td>
                     {termsForSession.map(term => (
@@ -370,7 +411,7 @@ export default function ResultManagement() {
               <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
                 <option value="">Select Student</option>
                 {filteredStudents.map(s => (
-                  <option key={s.id} value={s.id}>{s.name} ({s.classLevel})</option>
+                  <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
                 ))}
                 {search && filteredStudents.length === 0 && (
                   <option disabled>No students found or all have results for this term/session</option>
@@ -380,7 +421,8 @@ export default function ResultManagement() {
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
               <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
               <input className="input" name="house" placeholder="House" value={form.house} readOnly />
-              <input className="input" name="classLevel" placeholder="Class Level" value={form.classLevel || ''} readOnly />
+              <input className="input" name="academicLevel" placeholder="Academic Level" value={form.academicLevel || ''} readOnly />
+              <input className="input" name="academicClass" placeholder="Academic Class" value={form.academicClass || ''} readOnly />
               <input className="input" name="category" placeholder="Category" value={form.category || ''} readOnly />
               <input className="input" name="session" placeholder="Session" value={form.session} readOnly />
               <input className="input" name="term" placeholder="Term" value={form.term} readOnly />
