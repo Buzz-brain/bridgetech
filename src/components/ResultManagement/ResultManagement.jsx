@@ -509,19 +509,65 @@ export default function ResultManagement() {
             </div>
             <div className="mb-4">
               <div className="font-semibold mb-2">Subjects</div>
-              {form.subjects.map((subj, idx) => (
-                <div key={idx} className="grid grid-cols-10 gap-2 mb-2 items-center">
-                  <input className="input col-span-2" placeholder="Subject Name" value={subj.name} readOnly />
-                  {[0,1,2,3].map(aIdx => (
-                    <input key={aIdx} className="input" placeholder={`${aIdx+1}st`} type="number" value={subj.assessments[aIdx]} onChange={e => handleSubjectChange(idx, `assessment${aIdx}`, e.target.value)} />
-                  ))}
-                  <input className="input" placeholder="Exam" type="number" value={subj.exam} onChange={e => handleSubjectChange(idx, 'exam', e.target.value)} />
-                  <input className="input" placeholder="Term Avg" type="number" value={subj.termAverage} onChange={e => handleSubjectChange(idx, 'termAverage', e.target.value)} />
-                  <input className="input" placeholder="Grade" value={subj.grade} onChange={e => handleSubjectChange(idx, 'grade', e.target.value)} />
-                  <input className="input" placeholder="Remark" value={subj.remark} onChange={e => handleSubjectChange(idx, 'remark', e.target.value)} />
-                  <input className="input" placeholder="Teacher" value={subj.teacherInitial} onChange={e => handleSubjectChange(idx, 'teacherInitial', e.target.value)} />
-                </div>
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {form.subjects.map((subj, idx) => (
+                  <div key={idx} className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
+                    <div className="font-semibold mb-2">{subj.name}</div>
+                    <div className="flex flex-wrap gap-2 items-center">
+                      {[0,1,2,3].map(aIdx => (
+                        <input
+                          key={aIdx}
+                          className="input w-20"
+                          placeholder={`A${aIdx+1}`}
+                          type="number"
+                          value={subj.assessments[aIdx]}
+                          onChange={e => handleSubjectChange(idx, `assessment${aIdx}`, e.target.value)}
+                        />
+                      ))}
+                      <input
+                        className="input w-24"
+                        placeholder="Exam"
+                        type="number"
+                        value={subj.exam}
+                        onChange={e => handleSubjectChange(idx, 'exam', e.target.value)}
+                      />
+                      <input
+                        className="input w-24"
+                        placeholder="Term Avg"
+                        type="number"
+                        value={subj.termAverage}
+                        onChange={e => handleSubjectChange(idx, 'termAverage', e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-2 mt-2">
+                      <input
+                        className="input flex-1"
+                        placeholder="Grade"
+                        value={subj.grade}
+                        onChange={e => handleSubjectChange(idx, 'grade', e.target.value)}
+                      />
+                      <input
+                        className="input flex-1"
+                        placeholder="Remark"
+                        value={subj.remark}
+                        onChange={e => handleSubjectChange(idx, 'remark', e.target.value)}
+                      />
+                      <input
+                        className="input flex-1"
+                        placeholder="Teacher"
+                        value={subj.teacherInitial}
+                        onChange={e => handleSubjectChange(idx, 'teacherInitial', e.target.value)}
+                      />
+                    </div>
+                    <input
+                      className="input mt-2"
+                      placeholder="Summary"
+                      value={subj.summary}
+                      onChange={e => handleSubjectChange(idx, 'summary', e.target.value)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex justify-end gap-2">
               <button type="button" className="btn" onClick={() => setShowModal(false)}>Cancel</button>
