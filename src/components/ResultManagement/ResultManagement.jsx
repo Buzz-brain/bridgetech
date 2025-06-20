@@ -635,7 +635,14 @@ export default function ResultManagement() {
             <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow">
               <div>
                 <div className="text-lg font-bold tracking-wide">{viewResult.student.name} <span className='font-normal text-blue-100'>({viewResult.student.studentId})</span></div>
-                <div className="text-sm mt-1">{viewResult.session} &bull; {viewResult.term}</div>
+                <div className="flex flex-wrap gap-4 mt-1 text-sm text-blue-100">
+                  <span>Session: <span className="font-semibold text-white">{viewResult.session}</span></span>
+                  <span>Term: <span className="font-semibold text-white">{viewResult.term}</span></span>
+                  <span>Level: <span className="font-semibold text-white">{viewResult.student.academicLevel}</span></span>
+                  <span>Class: <span className="font-semibold text-white">{viewResult.student.academicClass}</span></span>
+                  <span>Category: <span className="font-semibold text-white">{viewResult.student.category}</span></span>
+                  <span>House: <span className="font-semibold text-white">{viewResult.student.house}</span></span>
+                </div>
               </div>
               <div className="flex gap-2 mt-3 md:mt-0">
                 <button className="btn btn-sm btn-outline-white" onClick={handleDownloadPDF} type="button"><FaDownload className="inline mr-1" /> PDF</button>
@@ -695,25 +702,17 @@ export default function ResultManagement() {
                     <div className="my-2 border-t border-blue-200" />
                     {/* Secondary Info Section - visually de-emphasized */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-80 text-sm">
-                      {/* Student Info */}
+                      {/* Student Info (only Age) */}
                       <div>
                         <div className="font-bold text-blue-700 mb-2 text-sm">Student Information</div>
                         <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Full Name:</span> <span className="text-gray-800">{result.studentName}</span></div>
-                          <div><span className="font-semibold text-blue-700">Student ID:</span> <span>{viewResult.student.studentId}</span></div>
-                          <div><span className="font-semibold text-blue-700">Category:</span> <span>{result.category}</span></div>
-                          <div><span className="font-semibold text-blue-700">House:</span> <span>{result.house}</span></div>
                           <div><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
                         </div>
                       </div>
-                      {/* Academic Info */}
+                      {/* Academic Info (unique fields only) */}
                       <div>
                         <div className="font-bold text-blue-700 mb-2 text-sm">Academic Summary</div>
                         <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Level:</span> <span>{result.academicLevel}</span></div>
-                          <div><span className="font-semibold text-blue-700">Class:</span> <span>{result.academicClass}</span></div>
-                          <div><span className="font-semibold text-blue-700">Session:</span> <span>{result.session}</span></div>
-                          <div><span className="font-semibold text-blue-700">Term:</span> <span>{result.term}</span></div>
                           <div><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
                           <div><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
                           <div><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
