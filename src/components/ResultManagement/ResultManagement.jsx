@@ -11,9 +11,16 @@ const printStyles = `
     color: #fff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
   }
   .printable-result .modal-header-print * {
     color: #fff !important;
+    background: transparent !important;
+    text-shadow: none !important;
+  }
+  .printable-result .modal-header-print .text-blue-100 {
+    color: #dbeafe !important;
   }
 }
 `;
