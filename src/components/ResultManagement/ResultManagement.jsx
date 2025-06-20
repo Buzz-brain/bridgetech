@@ -77,6 +77,18 @@ const initialResults = [
 const terms = ['First Term', 'Second Term', 'Third Term'];
 const sessions = ['2024/2025', '2025/2026'];
 
+// Mock class levels, categories, and academic calendar terms
+const mockClassLevels = ['JSS1', 'JSS2', 'JSS3'];
+const mockCategories = {
+  JSS1: ['Junior'],
+  JSS2: ['Junior'],
+  JSS3: ['Junior'],
+};
+const mockAcademicCalendar = {
+  '2024/2025': ['First Term', 'Second Term', 'Third Term'],
+  '2025/2026': ['First Term', 'Second Term', 'Third Term'],
+};
+
 export default function ResultManagement() {
   const [results, setResults] = useState(initialResults);
   const [filter, setFilter] = useState({ session: '', term: '' });
@@ -101,11 +113,22 @@ export default function ResultManagement() {
   const [formError, setFormError] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
   const [search, setSearch] = useState('');
+  const [selectedClassLevel, setSelectedClassLevel] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedSession, setSelectedSession] = useState(sessions[0]);
 
-  // Helper: students who already have results for the selected session/term
-  const studentsWithResult = results
-    .filter(r => r.session === form.session && r.term === form.term)
-    .map(r => r.studentName);
+  // Filter categories for selected class level
+  const availableCategories = selectedClassLevel ? mockCategories[selectedClassLevel] : [];
+  // Filter students for selected class level/category
+  const studentsInCategory = mockStudents.filter(
+    s => s.classLevel === selectedClassLevel && s.category === selectedCategory
+  );
+  // Terms for selected session
+  const termsForSession = mockAcademicCalendar[selectedSession] || [];
+
+  // Helper: for a student, does result exist for term/session?
+  const hasResult = (studentName, term) =>
+    results.some(r => r.studentName === studentName && r.session === selectedSession && r.term === term);
 
   // Filter students for dropdown: search + exclude those with result for session/term
   const filteredStudents = mockStudents.filter(s => {
@@ -242,18 +265,94 @@ export default function ResultManagement() {
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-6">Result Management</h2>
-      <div className="flex gap-4 mb-6 bg-white rounded-lg shadow p-4">
-        <select className="input" value={filter.session} onChange={e => setFilter(f => ({ ...f, session: e.target.value }))}>
-          <option value="">All Sessions</option>
-          {sessions.map(s => <option key={s}>{s}</option>)}
-        </select>
-        <select className="input" value={filter.term} onChange={e => setFilter(f => ({ ...f, term: e.target.value }))}>
-          <option value="">All Terms</option>
-          {terms.map(t => <option key={t}>{t}</option>)}
-        </select>
-        <button className="btn btn-primary ml-auto flex items-center" onClick={handleDownloadPDF}><FaDownload className="mr-2" />Download PDF</button>
-        <button className="btn btn-success flex items-center" onClick={handleAddResult}><FaPlus className="mr-2" />Add Result</button>
+      {/* Step 1: Class Level Selection */}
+      <div className="mb-6">
+        <div className="font-semibold mb-2">Select Class Level</div>
+        <div className="flex gap-2 flex-wrap">
+          {mockClassLevels.map(cl => (
+            <button
+              key={cl}
+              className={`btn ${selectedClassLevel === cl ? 'btn-primary' : 'btn-outline'}`}
+              onClick={() => {
+                setSelectedClassLevel(cl);
+                setSelectedCategory('');
+              }}
+            >
+              {cl}
+            </button>
+          ))}
+        </div>
       </div>
+      {/* Step 2: Category Selection */}
+      {selectedClassLevel && (
+        <div className="mb-6">
+          <div className="font-semibold mb-2">Select Category</div>
+          <div className="flex gap-2 flex-wrap">
+            {availableCategories.map(cat => (
+              <button
+                key={cat}
+                className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-outline'}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {/* Step 3: Session Selection */}
+      {selectedClassLevel && selectedCategory && (
+        <div className="mb-6">
+          <div className="font-semibold mb-2">Select Session</div>
+          <select className="input" value={selectedSession} onChange={e => setSelectedSession(e.target.value)}>
+            {sessions.map(s => <option key={s}>{s}</option>)}
+          </select>
+        </div>
+      )}
+      {/* Step 4: Student List with Term Indicators */}
+      {selectedClassLevel && selectedCategory && (
+        <div className="mb-6">
+          <div className="font-semibold mb-2">Students in {selectedClassLevel} - {selectedCategory}</div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-4 py-2">Student</th>
+                  {termsForSession.map(term => (
+                    <th key={term} className="px-4 py-2">{term}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {studentsInCategory.map(student => (
+                  <tr key={student.id} className="border-b">
+                    <td className="px-4 py-2 font-semibold">{student.name}</td>
+                    {termsForSession.map(term => (
+                      <td key={term} className="px-4 py-2 text-center">
+                        {hasResult(student.name, term) ? (
+                          <span className="inline-flex items-center text-green-600 font-bold">&#10003; Uploaded</span>
+                        ) : (
+                          <button
+                            className="btn btn-xs btn-success"
+                            onClick={() => {
+                              setSelectedStudentId(student.id.toString());
+                              setFormError('');
+                              setShowModal(true);
+                              setForm(f => ({ ...f, session: selectedSession, term }));
+                            }}
+                          >
+                            Upload Result
+                          </button>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       {/* Modal for adding result */}
       {showModal && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
