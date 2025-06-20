@@ -165,153 +165,166 @@ export default function ClassSubjectSetup() {
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Class & Subject Setup</h2>
-        <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Assign Subject to Class</button>
-      </div>
-      {/* Dynamic Class Management */}
-      <div className="mb-8 bg-white rounded-lg shadow p-4">
-        <h4 className="font-semibold mb-2">Manage Classes</h4>
-        <form className="flex gap-2 mb-4" onSubmit={handleAddClass}>
-          <input className="input w-48" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
-          <button className="btn btn-primary" type="submit">Add Class</button>
-        </form>
-        <ul className="flex flex-wrap gap-2 mb-4">
-          {classList.map((cls, idx) => (
-            <li key={cls} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
-              {editClassIdx === idx ? (
-                <>
-                  <input className="input w-24" value={editClassValue} onChange={e => setEditClassValue(e.target.value)} />
-                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditClass(idx)}><FaCheck /></button>
-                  <button className="btn btn-xs" onClick={() => setEditClassIdx(null)}><FaTimes /></button>
-                </>
-              ) : (
-                <>
-                  <span>{cls}</span>
-                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditClass(idx)}><FaEdit /></button>
-                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteClass(idx)}><FaTrash /></button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-        <h4 className="font-semibold mb-2 mt-6">Manage Subjects</h4>
-        <form className="flex gap-2 mb-4" onSubmit={handleAddSubject}>
-          <input className="input w-48" placeholder="Add new subject (e.g. Mathematics)" value={newSubject} onChange={e => setNewSubject(e.target.value)} />
-          <button className="btn btn-primary" type="submit">Add Subject</button>
-        </form>
-        <ul className="flex flex-wrap gap-2 mb-4">
-          {subjectList.map((subj, idx) => (
-            <li key={subj} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
-              {editSubjectIdx === idx ? (
-                <>
-                  <input className="input w-24" value={editSubjectValue} onChange={e => setEditSubjectValue(e.target.value)} />
-                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditSubject(idx)}><FaCheck /></button>
-                  <button className="btn btn-xs" onClick={() => setEditSubjectIdx(null)}><FaTimes /></button>
-                </>
-              ) : (
-                <>
-                  <span>{subj}</span>
-                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditSubject(idx)}><FaEdit /></button>
-                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteSubject(idx)}><FaTrash /></button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-        <h4 className="font-semibold mb-2 mt-6">Manage Categories</h4>
-        <form className="flex gap-2 mb-4" onSubmit={handleAddCategory}>
-          <input className="input w-48" placeholder="Add new category (e.g. Science)" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
-          <button className="btn btn-primary" type="submit">Add Category</button>
-        </form>
-        <ul className="flex flex-wrap gap-2">
-          {categoryList.map((cat, idx) => (
-            <li key={cat} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
-              {editCategoryIdx === idx ? (
-                <>
-                  <input className="input w-24" value={editCategoryValue} onChange={e => setEditCategoryValue(e.target.value)} />
-                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditCategory(idx)}><FaCheck /></button>
-                  <button className="btn btn-xs" onClick={() => setEditCategoryIdx(null)}><FaTimes /></button>
-                </>
-              ) : (
-                <>
-                  <span>{cat}</span>
-                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditCategory(idx)}><FaEdit /></button>
-                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteCategory(idx)}><FaTrash /></button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* Filters with icons, horizontal row */}
-      <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
-        <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
-        <div className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-gray-400" />
-          <select className="input w-36" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
-            <option value="">All Categories</option>
-            {categoryList.map(c => <option key={c}>{c}</option>)}
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-gray-400" />
-          <select className="input w-36" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
-            <option value="">All Classes</option>
-            {classList.map(c => <option key={c}>{c}</option>)}
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <UserCheck className="w-4 h-4 text-gray-400" />
-          <select className="input w-36" value={filter.teacher} onChange={e => setFilter({ ...filter, teacher: e.target.value })}>
-            <option value="">All Teachers</option>
-            {allTeachers.map(t => <option key={t}>{t}</option>)}
-          </select>
-        </div>
-        <div className="flex items-center gap-2">
-          <BadgeCheck className="w-4 h-4 text-gray-400" />
-          <select className="input w-36" value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
-            <option value="">All Status</option>
-            {allStatus.map(s => <option key={s}>{s}</option>)}
-          </select>
-        </div>
-      </div>
-      {/* Table */}
-      <div className="overflow-x-auto bg-white rounded shadow">
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2">S/N</th>
-              <th className="px-4 py-2"><FaBook className="inline mr-1" />Subject</th>
-              <th className="px-4 py-2">Category</th>
-              <th className="px-4 py-2">Class</th>
-              <th className="px-4 py-2"><FaChalkboardTeacher className="inline mr-1" />Teacher</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length === 0 && (
-              <tr><td colSpan={7} className="text-center py-6 text-gray-400">No records found.</td></tr>
-            )}
-            {filteredData.map((row, idx) => (
-              <tr key={row.id} className="border-b hover:bg-gray-50 transition">
-                <td className="px-4 py-2">{idx + 1}</td>
-                <td className="px-4 py-2">{row.subject}</td>
-                <td className="px-4 py-2">{row.category}</td>
-                <td className="px-4 py-2">{row.class}</td>
-                <td className="px-4 py-2">{row.teacher}</td>
-                <td className="px-4 py-2">
-                  {row.status === 'Active' ? <span className="text-green-600 flex items-center gap-1"><FaCheck /> Active</span> : <span className="text-red-500 flex items-center gap-1"><FaTimes /> Disabled</span>}
-                </td>
-                <td className="px-4 py-2 flex gap-2">
-                  <button className="btn btn-xs btn-secondary flex items-center gap-1" onClick={() => openEditModal(row)}><FaEdit /> Edit</button>
-                  <button className="btn btn-xs btn-error flex items-center gap-1" onClick={() => openDeleteModal(row)}><FaTrash /> Delete</button>
-                </td>
-              </tr>
+      <h2 className="text-2xl font-bold mb-8">Class & Subject Setup</h2>
+      {/* Management Panels: Classes, Subjects, Categories */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {/* Manage Classes */}
+        <div className="bg-white rounded-lg shadow p-4">
+          <h4 className="font-semibold mb-2">Manage Classes</h4>
+          <form className="flex gap-2 mb-4" onSubmit={handleAddClass}>
+            <input className="input w-full" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
+            <button className="btn btn-primary" type="submit">Add</button>
+          </form>
+          <ul className="flex flex-wrap gap-2">
+            {classList.map((cls, idx) => (
+              <li key={cls} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+                {editClassIdx === idx ? (
+                  <>
+                    <input className="input w-20" value={editClassValue} onChange={e => setEditClassValue(e.target.value)} />
+                    <button className="btn btn-xs btn-success" onClick={() => handleSaveEditClass(idx)}><FaCheck /></button>
+                    <button className="btn btn-xs" onClick={() => setEditClassIdx(null)}><FaTimes /></button>
+                  </>
+                ) : (
+                  <>
+                    <span>{cls}</span>
+                    <button className="btn btn-xs btn-secondary" onClick={() => handleEditClass(idx)}><FaEdit /></button>
+                    <button className="btn btn-xs btn-error" onClick={() => handleDeleteClass(idx)}><FaTrash /></button>
+                  </>
+                )}
+              </li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </div>
+        {/* Manage Subjects */}
+        <div className="bg-white rounded-lg shadow p-4">
+          <h4 className="font-semibold mb-2">Manage Subjects</h4>
+          <form className="flex gap-2 mb-4" onSubmit={handleAddSubject}>
+            <input className="input w-full" placeholder="Add new subject (e.g. Mathematics)" value={newSubject} onChange={e => setNewSubject(e.target.value)} />
+            <button className="btn btn-primary" type="submit">Add</button>
+          </form>
+          <ul className="flex flex-wrap gap-2">
+            {subjectList.map((subj, idx) => (
+              <li key={subj} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+                {editSubjectIdx === idx ? (
+                  <>
+                    <input className="input w-20" value={editSubjectValue} onChange={e => setEditSubjectValue(e.target.value)} />
+                    <button className="btn btn-xs btn-success" onClick={() => handleSaveEditSubject(idx)}><FaCheck /></button>
+                    <button className="btn btn-xs" onClick={() => setEditSubjectIdx(null)}><FaTimes /></button>
+                  </>
+                ) : (
+                  <>
+                    <span>{subj}</span>
+                    <button className="btn btn-xs btn-secondary" onClick={() => handleEditSubject(idx)}><FaEdit /></button>
+                    <button className="btn btn-xs btn-error" onClick={() => handleDeleteSubject(idx)}><FaTrash /></button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Manage Categories */}
+        <div className="bg-white rounded-lg shadow p-4">
+          <h4 className="font-semibold mb-2">Manage Categories</h4>
+          <form className="flex gap-2 mb-4" onSubmit={handleAddCategory}>
+            <input className="input w-full" placeholder="Add new category (e.g. Science)" value={newCategory} onChange={e => setNewCategory(e.target.value)} />
+            <button className="btn btn-primary" type="submit">Add</button>
+          </form>
+          <ul className="flex flex-wrap gap-2">
+            {categoryList.map((cat, idx) => (
+              <li key={cat} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+                {editCategoryIdx === idx ? (
+                  <>
+                    <input className="input w-20" value={editCategoryValue} onChange={e => setEditCategoryValue(e.target.value)} />
+                    <button className="btn btn-xs btn-success" onClick={() => handleSaveEditCategory(idx)}><FaCheck /></button>
+                    <button className="btn btn-xs" onClick={() => setEditCategoryIdx(null)}><FaTimes /></button>
+                  </>
+                ) : (
+                  <>
+                    <span>{cat}</span>
+                    <button className="btn btn-xs btn-secondary" onClick={() => handleEditCategory(idx)}><FaEdit /></button>
+                    <button className="btn btn-xs btn-error" onClick={() => handleDeleteCategory(idx)}><FaTrash /></button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      {/* Assignment Section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <h3 className="text-lg font-bold">Assign Subject to Class</h3>
+          <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Assign Subject</button>
+        </div>
+        {/* Filters with icons, horizontal row */}
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+          <span className="flex items-center gap-2 text-primary-700 font-semibold text-base"><Filter className="w-4 h-4" /> Filters:</span>
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-gray-400" />
+            <select className="input w-36" value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
+              <option value="">All Categories</option>
+              {categoryList.map(c => <option key={c}>{c}</option>)}
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-gray-400" />
+            <select className="input w-36" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
+              <option value="">All Classes</option>
+              {classList.map(c => <option key={c}>{c}</option>)}
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-gray-400" />
+            <select className="input w-36" value={filter.teacher} onChange={e => setFilter({ ...filter, teacher: e.target.value })}>
+              <option value="">All Teachers</option>
+              {allTeachers.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="w-4 h-4 text-gray-400" />
+            <select className="input w-36" value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
+              <option value="">All Status</option>
+              {allStatus.map(s => <option key={s}>{s}</option>)}
+            </select>
+          </div>
+        </div>
+        {/* Table */}
+        <div className="overflow-x-auto rounded shadow">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="px-4 py-2">S/N</th>
+                <th className="px-4 py-2"><FaBook className="inline mr-1" />Subject</th>
+                <th className="px-4 py-2">Category</th>
+                <th className="px-4 py-2">Class</th>
+                <th className="px-4 py-2"><FaChalkboardTeacher className="inline mr-1" />Teacher</th>
+                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.length === 0 && (
+                <tr><td colSpan={7} className="text-center py-6 text-gray-400">No records found.</td></tr>
+              )}
+              {filteredData.map((row, idx) => (
+                <tr key={row.id} className="border-b hover:bg-gray-50 transition">
+                  <td className="px-4 py-2">{idx + 1}</td>
+                  <td className="px-4 py-2">{row.subject}</td>
+                  <td className="px-4 py-2">{row.category}</td>
+                  <td className="px-4 py-2">{row.class}</td>
+                  <td className="px-4 py-2">{row.teacher}</td>
+                  <td className="px-4 py-2">
+                    {row.status === 'Active' ? <span className="text-green-600 flex items-center gap-1"><FaCheck /> Active</span> : <span className="text-red-500 flex items-center gap-1"><FaTimes /> Disabled</span>}
+                  </td>
+                  <td className="px-4 py-2 flex gap-2">
+                    <button className="btn btn-xs btn-secondary flex items-center gap-1" onClick={() => openEditModal(row)}><FaEdit /> Edit</button>
+                    <button className="btn btn-xs btn-error flex items-center gap-1" onClick={() => openDeleteModal(row)}><FaTrash /> Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {/* Add/Edit Modal */}
       {modal.open && (
