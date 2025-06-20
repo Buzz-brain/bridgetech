@@ -630,18 +630,74 @@ export default function ResultManagement() {
       {/* Modal for viewing result status */}
       {viewResult && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <motion.div initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl relative">
+          <motion.div initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
             <button type="button" className="absolute top-2 right-2 text-gray-400 hover:text-red-500" onClick={() => setViewResult(null)}>&times;</button>
-            <h3 className="text-lg font-bold mb-4">Result Status</h3>
-            <div className="mb-2 font-semibold">{viewResult.student.name} - {viewResult.term} ({viewResult.session})</div>
-            {getResult(viewResult.student.name, viewResult.term) ? (
-              <div className="text-green-700 font-bold">Result Uploaded</div>
-            ) : (
-              <div className="text-red-600 font-bold">No Result Uploaded</div>
-            )}
-            <div className="flex justify-end mt-4">
-              <button className="btn" onClick={() => setViewResult(null)}>Close</button>
-            </div>
+            <h3 className="text-lg font-bold mb-4">Result Details</h3>
+            {(() => {
+              const result = getResult(viewResult.student.name, viewResult.term);
+              if (!result) return <div className="text-red-600 font-bold">No Result Uploaded</div>;
+              return (
+                <div>
+                  {/* Header Info */}
+                  <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div><span className="font-semibold">Student:</span> {result.studentName}</div>
+                    <div><span className="font-semibold">Student ID:</span> {viewResult.student.studentId}</div>
+                    <div><span className="font-semibold">Session:</span> {result.session}</div>
+                    <div><span className="font-semibold">Term:</span> {result.term}</div>
+                    <div><span className="font-semibold">Class:</span> {result.academicClass}</div>
+                    <div><span className="font-semibold">Level:</span> {result.academicLevel}</div>
+                    <div><span className="font-semibold">Category:</span> {result.category}</div>
+                    <div><span className="font-semibold">Age:</span> {result.age}</div>
+                    <div><span className="font-semibold">Number in Class:</span> {result.numberInClass}</div>
+                    <div><span className="font-semibold">House:</span> {result.house}</div>
+                    <div><span className="font-semibold">Position:</span> {result.position}</div>
+                    <div><span className="font-semibold">Overall Average:</span> {result.overallAverage}</div>
+                    <div><span className="font-semibold">Resumption Date:</span> {result.resumptionDate}</div>
+                    <div><span className="font-semibold">Vacation Date:</span> {result.vacationDate}</div>
+                  </div>
+                  {/* Subject Breakdown Table */}
+                  <div className="overflow-x-auto mb-4">
+                    <table className="min-w-full border text-xs md:text-sm">
+                      <thead className="bg-primary-50">
+                        <tr>
+                          <th className="px-2 py-2 border">Subject</th>
+                          {Array.from({ length: result.assessmentCount || 4 }, (_, i) => (
+                            <th key={i} className="px-2 py-2 border">A{i+1}</th>
+                          ))}
+                          <th className="px-2 py-2 border">Exam</th>
+                          <th className="px-2 py-2 border">Total</th>
+                          <th className="px-2 py-2 border">Grade</th>
+                          <th className="px-2 py-2 border">Remark</th>
+                          <th className="px-2 py-2 border">Teacher</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {result.subjects.map((subj, idx) => (
+                          <tr key={idx} className="border-b">
+                            <td className="px-2 py-2 border font-semibold">{subj.name}</td>
+                            {(subj.assessments || []).slice(0, result.assessmentCount || 4).map((a, i) => (
+                              <td key={i} className="px-2 py-2 border">{a}</td>
+                            ))}
+                            <td className="px-2 py-2 border">{subj.exam}</td>
+                            <td className="px-2 py-2 border">{subj.termAverage}</td>
+                            <td className="px-2 py-2 border">{subj.grade}</td>
+                            <td className="px-2 py-2 border">{subj.remark}</td>
+                            <td className="px-2 py-2 border">{subj.teacherInitial}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {/* Description/Notes */}
+                  {result.description && (
+                    <div className="mb-2"><span className="font-semibold">Notes:</span> {result.description}</div>
+                  )}
+                  <div className="flex justify-end mt-4">
+                    <button className="btn btn-primary" onClick={handleDownloadPDF}><FaDownload className="inline mr-1" /> Download PDF</button>
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
         </motion.div>
       )}
