@@ -642,6 +642,7 @@ export default function ResultManagement() {
                   <span>Class: <span className="font-semibold text-white">{viewResult.student.academicClass}</span></span>
                   <span>Category: <span className="font-semibold text-white">{viewResult.student.category}</span></span>
                   <span>House: <span className="font-semibold text-white">{viewResult.student.house}</span></span>
+                  <span>Age: <span className="font-semibold text-white">{viewResult.student.age}</span></span>
                 </div>
               </div>
               <div className="flex gap-2 mt-3 md:mt-0">
@@ -649,6 +650,21 @@ export default function ResultManagement() {
                 <button className="btn btn-sm btn-outline-white" onClick={() => setViewResult(null)} type="button">Close</button>
               </div>
             </div>
+            {/* Academic Summary Bar */}
+            {(() => {
+              const result = getResult(viewResult.student.name, viewResult.term);
+              if (!result) return null;
+              return (
+                <div className="flex flex-wrap gap-x-8 gap-y-2 px-8 py-3 bg-blue-50/80 border-b border-blue-200 text-blue-900 text-xs md:text-sm font-medium justify-between">
+                  <span>Number in Class: <span className="font-semibold">{result.numberInClass}</span></span>
+                  <span>Result Type: <span className="font-semibold">{result.resultType}</span></span>
+                  <span>Vacation: <span className="font-semibold">{result.vacationDate}</span></span>
+                  <span>Resumption: <span className="font-semibold">{result.resumptionDate}</span></span>
+                  <span>Overall Avg: <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span></span>
+                  <span>Position: <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span></span>
+                </div>
+              );
+            })()}
             {/* Content */}
             <div className="p-6 md:p-8 bg-gradient-to-b from-blue-50/60 to-white">
               {(() => {
@@ -696,36 +712,6 @@ export default function ResultManagement() {
                             ))}
                           </tbody>
                         </table>
-                      </div>
-                    </div>
-                    {/* Divider */}
-                    <div className="my-2 border-t border-blue-200" />
-                    {/* Secondary Info Section - visually de-emphasized */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-80 text-sm">
-                      {/* Student Info (only Age) */}
-                      <div>
-                        <div className="font-bold text-blue-700 mb-2 text-sm">Student Information</div>
-                        <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
-                        </div>
-                      </div>
-                      {/* Academic Info (unique fields only) */}
-                      <div>
-                        <div className="font-bold text-blue-700 mb-2 text-sm">Academic Summary</div>
-                        <div className="rounded-xl bg-blue-50/60 shadow p-4 border border-blue-100 flex flex-col gap-2">
-                          <div><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
-                          <div><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
-                          <div><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
-                          <div><span className="font-semibold text-blue-700">Resumption Date:</span> <span>{result.resumptionDate}</span></div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="font-semibold text-blue-700">Overall Average:</span>
-                            <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-blue-700">Position:</span>
-                            <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     {/* Notes Section */}
