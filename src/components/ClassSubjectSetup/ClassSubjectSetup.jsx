@@ -10,7 +10,6 @@ const initialSubjects = [
 ];
 const allSubjects = ['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics'];
 const allCategories = ['Science', 'Arts', 'Commercial', 'Technology'];
-const allClasses = ['JSS1A', 'JSS3B', 'SS1A', 'SS2B'];
 const allTeachers = ['Mr. John', 'Ms. Jane', 'Dr. Smith', 'Mrs. Doe'];
 const allStatus = ['Active', 'Disabled'];
 
@@ -19,6 +18,11 @@ export default function ClassSubjectSetup() {
   const [filter, setFilter] = useState({ category: '', class: '', teacher: '', status: '' });
   const [modal, setModal] = useState({ open: false, mode: 'add', entry: null });
   const [deleteModal, setDeleteModal] = useState({ open: false, entry: null });
+  // Dynamic class list state
+  const [classList, setClassList] = useState(['JSS1A', 'JSS3B', 'SS1A', 'SS2B']);
+  const [newClass, setNewClass] = useState('');
+  const [editClassIdx, setEditClassIdx] = useState(null);
+  const [editClassValue, setEditClassValue] = useState('');
 
   // Filtering
   const filteredData = data.filter(row =>
@@ -32,13 +36,13 @@ export default function ClassSubjectSetup() {
   const [form, setForm] = useState({
     subject: allSubjects[0],
     category: allCategories[0],
-    class: allClasses[0],
+    class: classList[0],
     teacher: allTeachers[0],
     status: allStatus[0],
   });
 
   const openAddModal = () => {
-    setForm({ subject: allSubjects[0], category: allCategories[0], class: allClasses[0], teacher: allTeachers[0], status: allStatus[0] });
+    setForm({ subject: allSubjects[0], category: allCategories[0], class: classList[0], teacher: allTeachers[0], status: allStatus[0] });
     setModal({ open: true, mode: 'add', entry: null });
   };
   const openEditModal = (entry) => {
@@ -65,12 +69,71 @@ export default function ClassSubjectSetup() {
     setData(data.filter(d => d.id !== deleteModal.entry.id));
     closeDeleteModal();
   };
+  // Add class
+  const handleAddClass = e => {
+    e.preventDefault();
+    if (newClass && !classList.includes(newClass)) {
+      setClassList([...classList, newClass]);
+      setNewClass('');
+    }
+  };
+  // Edit class
+  const handleEditClass = idx => {
+    setEditClassIdx(idx);
+    setEditClassValue(classList[idx]);
+  };
+  const handleSaveEditClass = idx => {
+    if (editClassValue && !classList.includes(editClassValue)) {
+      const updated = [...classList];
+      updated[idx] = editClassValue;
+      setClassList(updated);
+      setEditClassIdx(null);
+      setEditClassValue('');
+    }
+  };
+  // Delete class
+  const handleDeleteClass = idx => {
+    const updated = classList.filter((_, i) => i !== idx);
+    setClassList(updated);
+  };
+
+  // Update form class when classList changes
+  React.useEffect(() => {
+    setForm(f => ({ ...f, class: classList[0] || '' }));
+  }, [classList]);
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Class & Subject Setup</h2>
         <button className="btn btn-primary flex items-center gap-2" onClick={openAddModal}><FaPlus /> Add Subject</button>
+      </div>
+      {/* Dynamic Class Management */}
+      <div className="mb-8 bg-white rounded-lg shadow p-4">
+        <h4 className="font-semibold mb-2">Manage Classes</h4>
+        <form className="flex gap-2 mb-4" onSubmit={handleAddClass}>
+          <input className="input w-48" placeholder="Add new class (e.g. JSS1A)" value={newClass} onChange={e => setNewClass(e.target.value)} />
+          <button className="btn btn-primary" type="submit">Add Class</button>
+        </form>
+        <ul className="flex flex-wrap gap-2">
+          {classList.map((cls, idx) => (
+            <li key={cls} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded">
+              {editClassIdx === idx ? (
+                <>
+                  <input className="input w-24" value={editClassValue} onChange={e => setEditClassValue(e.target.value)} />
+                  <button className="btn btn-xs btn-success" onClick={() => handleSaveEditClass(idx)}><FaCheck /></button>
+                  <button className="btn btn-xs" onClick={() => setEditClassIdx(null)}><FaTimes /></button>
+                </>
+              ) : (
+                <>
+                  <span>{cls}</span>
+                  <button className="btn btn-xs btn-secondary" onClick={() => handleEditClass(idx)}><FaEdit /></button>
+                  <button className="btn btn-xs btn-error" onClick={() => handleDeleteClass(idx)}><FaTrash /></button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
       {/* Filters with icons, horizontal row */}
       <div className="flex flex-wrap items-center gap-4 mb-6 bg-white rounded-lg shadow p-4">
@@ -86,7 +149,7 @@ export default function ClassSubjectSetup() {
           <Layers className="w-4 h-4 text-gray-400" />
           <select className="input w-36" value={filter.class} onChange={e => setFilter({ ...filter, class: e.target.value })}>
             <option value="">All Classes</option>
-            {allClasses.map(c => <option key={c}>{c}</option>)}
+            {classList.map(c => <option key={c}>{c}</option>)}
           </select>
         </div>
         <div className="flex items-center gap-2">
@@ -164,7 +227,7 @@ export default function ClassSubjectSetup() {
               <div>
                 <label className="block font-semibold mb-1">Class</label>
                 <select name="class" className="input w-full" value={form.class} onChange={handleFormChange} required>
-                  {allClasses.map(c => <option key={c}>{c}</option>)}
+                  {classList.map(c => <option key={c}>{c}</option>)}
                 </select>
                 <p className="text-xs text-gray-500 mt-1">Select the class for this subject.</p>
               </div>
