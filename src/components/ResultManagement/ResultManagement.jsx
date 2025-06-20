@@ -153,6 +153,11 @@ export default function ResultManagement() {
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
   const [viewResult, setViewResult] = useState(null); // {student, term, session}
 
+  // --- Promotion Modal State ---
+  const [showPromotionModal, setShowPromotionModal] = useState(false);
+  const [promotionStudent, setPromotionStudent] = useState(null);
+  const [singlePromotion, setSinglePromotion] = useState({ action: 'Promote', newLevel: '', newClass: '' });
+
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
   const availableCategories = studentCategories;
@@ -318,6 +323,25 @@ export default function ResultManagement() {
     }
   }, [selectedStudentId, showModal]);
 
+  // Helper: Academic levels/classes for dropdowns
+  const academicLevelOptions = academicLevels.map(level => ({ value: level, label: level }));
+  const academicClassOptions = academicClasses.map(cls => ({ value: cls, label: cls }));
+
+  // --- Promotion Modal Handlers ---
+  const openPromotionModal = (student) => {
+    setPromotionStudent(student);
+    setSinglePromotion({
+      action: 'Promote',
+      newLevel: student.academicLevel,
+      newClass: student.academicClass,
+    });
+    setShowPromotionModal(true);
+  };
+  const confirmSinglePromotion = () => {
+    // TODO: Integrate with backend or global state
+    setShowPromotionModal(false);
+  };
+
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-6">Result Management</h2>
@@ -399,6 +423,7 @@ export default function ResultManagement() {
                   {termsForSession.map(term => (
                     <th key={term} className="px-4 py-2">{term}</th>
                   ))}
+                  <th className="px-4 py-2">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -430,6 +455,14 @@ export default function ResultManagement() {
                         )}
                       </td>
                     ))}
+                    <td className="px-4 py-2 text-center">
+                      <button
+                        className="btn btn-xs btn-primary"
+                        onClick={() => openPromotionModal(student)}
+                      >
+                        Promote/Move
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -595,6 +628,44 @@ export default function ResultManagement() {
             </div>
           </motion.form>
         </motion.div>
+      )}
+      {/* Promotion Modal */}
+      {showPromotionModal && promotionStudent && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md overflow-y-auto max-h-[90vh]">
+            <h3 className="text-xl font-bold mb-4">Promote/Move Student</h3>
+            <div className="mb-2 font-semibold">{promotionStudent.name} ({promotionStudent.studentId})</div>
+            <div className="mb-2">Current Level: <span className="font-semibold">{promotionStudent.academicLevel}</span></div>
+            <div className="mb-2">Current Class: <span className="font-semibold">{promotionStudent.academicClass}</span></div>
+            <form onSubmit={e => { e.preventDefault(); confirmSinglePromotion(); }} className="space-y-4">
+              <div>
+                <label className="block font-semibold mb-1">Action</label>
+                <select className="input w-full" value={singlePromotion.action} onChange={e => setSinglePromotion(sp => ({ ...sp, action: e.target.value }))}>
+                  <option value="Promote">Promote</option>
+                  <option value="Demote">Demote</option>
+                  <option value="Retain">Retain</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">New Level</label>
+                <select className="input w-full" value={singlePromotion.newLevel} onChange={e => setSinglePromotion(sp => ({ ...sp, newLevel: e.target.value }))}>
+                  {academicLevels.map(l => <option key={l}>{l}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">New Class</label>
+                <select className="input w-full" value={singlePromotion.newClass} onChange={e => setSinglePromotion(sp => ({ ...sp, newClass: e.target.value }))}>
+                  {academicClasses.map(c => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div className="flex justify-end gap-2 mt-4">
+                <button type="button" className="btn" onClick={() => setShowPromotionModal(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary">Confirm</button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </motion.div>
   );
