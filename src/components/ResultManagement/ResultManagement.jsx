@@ -693,7 +693,7 @@ export default function ResultManagement() {
                 <div className="flex flex-wrap gap-x-8 gap-y-2 px-8 py-3 bg-blue-50/80 border-b border-blue-200 text-blue-900 text-xs md:text-sm font-medium justify-between">
                   <span>Age: <span className="font-semibold">{result.age}</span></span>
                   <span>House: <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.house}</span></span>
-                  <span>Category: <span className="font-semibold">{result.category}</span></span>
+                  <span>Category: <span className="font-semibold">{result.category}Art Class</span></span>
                   <span>Vacation: <span className="font-semibold">{result.vacationDate}</span></span>
                   <span>Number in Class: <span className="font-semibold">{result.numberInClass}</span></span>
                   <span>Position: <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span></span>
