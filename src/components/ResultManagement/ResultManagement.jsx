@@ -7,17 +7,29 @@ import { useSelector } from 'react-redux';
 const printStyles = `
 @media print {
   .printable-result .modal-header-print {
-    background: #2563eb !important; /* solid blue fallback */
+    background: #2563eb !important;
     color: #fff !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    position: relative !important;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .printable-result .modal-header-print::before {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: #2563eb !important;
+    z-index: 0;
+    border-radius: 1rem 1rem 0 0;
   }
   .printable-result .modal-header-print * {
     color: #fff !important;
     background: transparent !important;
     text-shadow: none !important;
+    position: relative;
+    z-index: 1;
   }
   .printable-result .modal-header-print .text-blue-100 {
     color: #dbeafe !important;
