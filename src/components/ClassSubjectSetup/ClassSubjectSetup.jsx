@@ -33,11 +33,6 @@ export default function ClassSubjectSetup() {
   const [assessmentCounts, setAssessmentCounts] = useState({});
   // For new assessment config
   const [assessmentConfig, setAssessmentConfig] = useState({ level: levelList[0], class: classList[0], count: 3 });
-  // Assessment setup state
-  const [assessmentMap, setAssessmentMap] = useState({}); // e.g. { 'JSS1-Art Class': 3 }
-  const [assessmentForm, setAssessmentForm] = useState({ level: levelList[0] || '', class: classList[0] || '', count: 1 });
-  const [editAssessmentKey, setEditAssessmentKey] = useState(null);
-  const [editAssessmentValue, setEditAssessmentValue] = useState(1);
 
   // Filtering
   const filteredData = data.filter(row =>
@@ -177,34 +172,6 @@ export default function ClassSubjectSetup() {
     }));
   };
 
-  // Add assessment
-  const handleAddAssessment = e => {
-    e.preventDefault();
-    const key = `${assessmentForm.level}-${assessmentForm.class}`;
-    if (assessmentForm.level && assessmentForm.class && assessmentForm.count > 0) {
-      setAssessmentMap({ ...assessmentMap, [key]: assessmentForm.count });
-      setAssessmentForm({ ...assessmentForm, count: 1 });
-    }
-  };
-  // Edit assessment
-  const handleEditAssessment = key => {
-    setEditAssessmentKey(key);
-    setEditAssessmentValue(assessmentMap[key]);
-  };
-  const handleSaveEditAssessment = key => {
-    if (editAssessmentValue > 0) {
-      setAssessmentMap({ ...assessmentMap, [key]: editAssessmentValue });
-      setEditAssessmentKey(null);
-      setEditAssessmentValue(1);
-    }
-  };
-  // Delete assessment
-  const handleDeleteAssessment = key => {
-    const updated = { ...assessmentMap };
-    delete updated[key];
-    setAssessmentMap(updated);
-  };
-
   // Update form fields when lists change
   React.useEffect(() => {
     setForm(f => ({ ...f, level: levelList[0] || '', class: classList[0] || '', subject: subjectList[0] || '' }));
@@ -214,72 +181,35 @@ export default function ClassSubjectSetup() {
     <div className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-8">Class & Subject Setup</h2>
       {/* Assessment Setup Section */}
-      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1 }} className="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><FaBook /> Assessment Setup <span className="text-xs font-normal text-gray-500">(Set number of assessments per Level/Class)</span></h3>
-        <form className="flex flex-wrap gap-2 mb-4 items-end" onSubmit={handleAddAssessment}>
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="bg-white rounded-lg shadow p-4 mb-8">
+        <h4 className="font-semibold mb-2">Assessment Setup</h4>
+        <form className="flex flex-wrap gap-2 items-end" onSubmit={handleSaveAssessmentConfig}>
           <div>
             <label className="block text-xs font-semibold mb-1">Level</label>
-            <select className="input w-32" value={assessmentForm.level} onChange={e => setAssessmentForm(f => ({ ...f, level: e.target.value }))} required>
+            <select name="level" className="input" value={assessmentConfig.level} onChange={handleAssessmentConfigChange}>
               {levelList.map(l => <option key={l}>{l}</option>)}
             </select>
           </div>
           <div>
             <label className="block text-xs font-semibold mb-1">Class</label>
-            <select className="input w-32" value={assessmentForm.class} onChange={e => setAssessmentForm(f => ({ ...f, class: e.target.value }))} required>
+            <select name="class" className="input" value={assessmentConfig.class} onChange={handleAssessmentConfigChange}>
               {classList.map(c => <option key={c}>{c}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1"># Assessments</label>
-            <input type="number" min={1} className="input w-24" value={assessmentForm.count} onChange={e => setAssessmentForm(f => ({ ...f, count: parseInt(e.target.value) || 1 }))} required />
+            <label className="block text-xs font-semibold mb-1">No. of Assessments</label>
+            <input name="count" type="number" min="1" max="4" className="input w-24" value={assessmentConfig.count} onChange={handleAssessmentConfigChange} />
           </div>
-          <button className="btn btn-primary" type="submit">Set</button>
+          <button className="btn btn-primary" type="submit">Save</button>
         </form>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2">Level</th>
-                <th className="px-4 py-2">Class</th>
-                <th className="px-4 py-2"># Assessments</th>
-                <th className="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(assessmentMap).length === 0 && (
-                <tr><td colSpan={4} className="text-center py-4 text-gray-400">No assessment setup yet.</td></tr>
-              )}
-              {Object.entries(assessmentMap).map(([key, count]) => {
-                const [lvl, cls] = key.split('-');
-                return (
-                  <tr key={key} className="border-b">
-                    <td className="px-4 py-2">{lvl}</td>
-                    <td className="px-4 py-2">{cls}</td>
-                    <td className="px-4 py-2">
-                      {editAssessmentKey === key ? (
-                        <input type="number" min={1} className="input w-20" value={editAssessmentValue} onChange={e => setEditAssessmentValue(parseInt(e.target.value) || 1)} />
-                      ) : (
-                        count
-                      )}
-                    </td>
-                    <td className="px-4 py-2 flex gap-2">
-                      {editAssessmentKey === key ? (
-                        <>
-                          <button className="btn btn-xs btn-success" onClick={() => handleSaveEditAssessment(key)}><FaCheck /></button>
-                          <button className="btn btn-xs" onClick={() => setEditAssessmentKey(null)}><FaTimes /></button>
-                        </>
-                      ) : (
-                        <>
-                          <button className="btn btn-xs btn-secondary" onClick={() => handleEditAssessment(key)}><FaEdit /> Edit</button>
-                          <button className="btn btn-xs btn-error" onClick={() => handleDeleteAssessment(key)}><FaTrash /> Delete</button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="mt-4">
+          <h5 className="font-semibold mb-1 text-sm">Configured Assessments:</h5>
+          <ul className="text-xs">
+            {Object.entries(assessmentCounts).length === 0 && <li className="text-gray-400">No configurations yet.</li>}
+            {Object.entries(assessmentCounts).map(([key, val]) => (
+              <li key={key} className="mb-1">{key.replace('-', ' / ')}: <span className="font-bold">{val}</span> assessment(s)</li>
+            ))}
+          </ul>
         </div>
       </motion.div>
       {/* Management Panels: Levels, Classes, Subjects */}
