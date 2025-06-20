@@ -508,6 +508,10 @@ export default function ClassSubjectSetup() {
         </motion.div>
       )}
       </AnimatePresence>
+      {/* IMPORTANT: When uploading or saving results, always store the assessment count (number of assessments) used for that class/level at the time of entry.
+      This ensures that if the assessment count is changed later, old results will still display and validate correctly.
+      When displaying or editing results, use the stored assessment count for that result, not the current config.
+      This logic should be implemented in the result upload/view code (ResultManagement.jsx or backend schema). */}
     </div>
   );
 }
