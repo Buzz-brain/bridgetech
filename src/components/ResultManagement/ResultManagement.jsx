@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaDownload, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
+import { FaDownload, FaPlus, FaTrash, FaEdit, FaPrint } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 
@@ -236,6 +236,33 @@ export default function ResultManagement() {
 
   const handleDownloadPDF = () => {
     alert('Download as PDF (to be implemented)');
+  };
+
+  // Print handler: print only the modal content
+  const handlePrint = () => {
+    const printContents = document.querySelector('.printable-result');
+    if (!printContents) return;
+    const printWindow = window.open('', '', 'height=800,width=900');
+    printWindow.document.write('<html><head><title>Print Result</title>');
+    // Add styles for print (copy from current document)
+    Array.from(document.styleSheets).forEach(styleSheet => {
+      try {
+        if (styleSheet.href) {
+          printWindow.document.write(`<link rel="stylesheet" href="${styleSheet.href}">`);
+        } else if (styleSheet.ownerNode && styleSheet.ownerNode.textContent) {
+          printWindow.document.write(`<style>${styleSheet.ownerNode.textContent}</style>`);
+        }
+      } catch (e) {}
+    });
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(printContents.innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   };
 
   const handleAddResult = () => {
@@ -660,7 +687,7 @@ export default function ResultManagement() {
       {/* Modal for viewing result status */}
       {viewResult && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <motion.div initial={{ scale: 0.97, y: 30 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-3xl relative max-h-[95vh] overflow-y-auto border border-blue-200">
+          <motion.div initial={{ scale: 0.97, y: 30 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-3xl relative max-h-[95vh] overflow-y-auto border border-blue-200 printable-result">
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-700 to-blue-400 text-white rounded-t-2xl px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between shadow">
               <div>
@@ -672,6 +699,7 @@ export default function ResultManagement() {
               </div>
               <div className="flex gap-2 mt-3 md:mt-0">
                 <button className="btn btn-sm btn-outline-white" onClick={handleDownloadPDF} type="button"><FaDownload className="inline mr-1" /> PDF</button>
+                <button className="btn btn-sm btn-outline-white" onClick={handlePrint} type="button"><FaPrint className="inline mr-1" /> Print</button>
                 <button className="btn btn-sm btn-outline-white" onClick={() => setViewResult(null)} type="button">Close</button>
               </div>
             </div>
