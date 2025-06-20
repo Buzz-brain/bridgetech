@@ -550,44 +550,77 @@ export default function ResultManagement() {
                 </tr>
               </thead>
               <tbody>
-                {studentsInSelection.map(student => (
-                  <tr key={student.id} className="border-b">
-                    <td className="px-4 py-2 font-mono">{student.studentId}</td>
-                    <td className="px-4 py-2 font-semibold">{student.name}</td>
-                    {termsForSession.map(term => (
-                      <td key={term} className="px-4 py-2 text-center">
-                        {hasResult(student.name, term) ? (
-                          <button
-                            className="btn btn-xs btn-outline text-green-700 border-green-400"
-                            onClick={() => setViewResult({ student, term, session: selectedSession })}
-                          >
-                            View
-                          </button>
+                {studentsInSelection.map(student => {
+                  // Check if student has academicHistory for the selected session
+                  const sessionHistory = (student.academicHistory || []).find(h => h.session === selectedSession);
+                  const actionTaken = sessionHistory ? sessionHistory.status : null;
+                  return (
+                    <tr key={student.id} className="border-b">
+                      <td className="px-4 py-2 font-mono">{student.studentId}</td>
+                      <td className="px-4 py-2 font-semibold">{student.name}</td>
+                      {termsForSession.map(term => (
+                        <td key={term} className="px-4 py-2 text-center">
+                          {hasResult(student.name, term) ? (
+                            <button
+                              className="btn btn-xs btn-outline text-green-700 border-green-400"
+                              onClick={() => setViewResult({ student, term, session: selectedSession })}
+                            >
+                              View
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-xs btn-success"
+                              onClick={() => {
+                                setSelectedStudentId(student.id.toString());
+                                setFormError('');
+                                setShowModal(true);
+                                setForm(f => ({ ...f, session: selectedSession, term }));
+                              }}
+                            >
+                              Upload
+                            </button>
+                          )}
+                        </td>
+                      ))}
+                      <td className="px-4 py-2 text-center flex items-center gap-2 justify-center">
+                        {actionTaken ? (
+                          <>
+                            <button
+                              className={`btn btn-xs btn-disabled cursor-not-allowed ${actionTaken === 'Promoted' ? 'bg-green-100 text-green-700' : actionTaken === 'Retained' ? 'bg-yellow-100 text-yellow-700' : actionTaken === 'Graduated' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}
+                              disabled
+                            >
+                              {actionTaken}
+                            </button>
+                            <button
+                              className="btn btn-xs btn-outline ml-1"
+                              title="Edit Promotion Action"
+                              onClick={() => {
+                                setPromotionStudent(student);
+                                setSinglePromotion({
+                                  action: sessionHistory.action || 'Promote',
+                                  newLevel: sessionHistory.level,
+                                  newClass: sessionHistory.class,
+                                });
+                                setShowPromotionModal(true);
+                                setPromotionWarning('');
+                                setPromotionError('');
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </>
                         ) : (
                           <button
-                            className="btn btn-xs btn-success"
-                            onClick={() => {
-                              setSelectedStudentId(student.id.toString());
-                              setFormError('');
-                              setShowModal(true);
-                              setForm(f => ({ ...f, session: selectedSession, term }));
-                            }}
+                            className="btn btn-xs btn-primary"
+                            onClick={() => openPromotionModal(student)}
                           >
-                            Upload
+                            Promote/Move
                           </button>
                         )}
                       </td>
-                    ))}
-                    <td className="px-4 py-2 text-center">
-                      <button
-                        className="btn btn-xs btn-primary"
-                        onClick={() => openPromotionModal(student)}
-                      >
-                        Promote/Move
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
