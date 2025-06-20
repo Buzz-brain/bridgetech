@@ -101,7 +101,7 @@ email address,
 occupation
 
 📌 ACADEMIC CALENDAR SETUP
-✔️Academic Calendar Setup
+✔️Academic Calendar Setup by school admin
 Academic Session (2022/2023, 2023/2024 etc),
 Academic Period (First term, second term, third term), 
 Resumption Date
@@ -109,31 +109,41 @@ Vacation Date
 Status: (Active, Disabled)
 
 📌 CLASS & SUBJECT SETUP
-✔️Class/Subject Setup
-(Classes, Subjects and Categories are dynamically created)
+✔️Class/Subject Setup (Classes, Subjects and Categories are dynamically created)
+✔️ Assign subjects to classes
+✔️ Assign teachers to subjects
+✔️ Enable/disable subjects
+✔️ View list of all mappings (JSS1A → Math → Mr. Daniel)
 School Subject: Add the subject the school offer
 School Category: (Nil, JSS1, JSS1A, JSS1B, JSS2, JSS2A, JSS2B, JSS3, JSS3A, JSS3B, SSS1, SSS1A, SSS1B, SSS2, SSS2A, SSS2B, SSS3, SSS3A, SSS3B) 
 School Classes:	 (Nil, Art Class, Commercial Class, General Class, Science Class, Technology Class) 
 Subject Teacher: (nil at first when the subject is just created list all the teachers in the school)
 Status:	Active, Disable
 
-❌ Scratch Card Management
 ✔️ Result Management
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+❌ Scratch Card Management
 ✔️ User Account Management
 ✔️ Notifications (send SMS)
 ✔️ Transcript & Report Download
 ✔️ Audit Log Viewer
-
-
-🧑‍🎓 STUDENT DASHBOARD
-✔️ View profile & photo
-✔️ See academic records
-✔️ View & download results (after entering scratch card if required)
-✔️ Request transcript
-✔️ See term/session information
-✔️ View SMS inbox
-
-
 
 📊 RESULT SYSTEM
 ✔️ Result Entry:
@@ -158,23 +168,18 @@ Status:	Active, Disable
 ✔️ Filter by academic year
 ✔️ Print-ready layout
 
-🧪 CLASS & SUBJECT SETUP
-✔️ Assign subjects to classes
-✔️ Assign teachers to subjects
-✔️ Enable/disable subjects
-✔️ View list of all mappings (JSS1A → Math → Mr. Daniel)
-
-📅 ACADEMIC CALENDAR
-✔️ Setup by school admin
-✔️ Fields: session, period, resumption date, vacation date, status (active/disabled)
 
 
 
-👨‍👩‍👧 PARENT DASHBOARD
-✔️ Linked to one or more students
-✔️ View child(ren)’s results
-✔️ Get notified by SMS
-✔️ View birthdays, next term dates
+
+🧑‍🎓 STUDENT DASHBOARD
+✔️ View profile & photo
+✔️ View academic records
+✔️ View & download results (after entering scratch card if required)
+✔️ Request transcript
+✔️ See term/session information
+✔️ View SMS inbox
+
 
 👩‍💼 USER MANAGEMENT MODULE
 ✔️ (Admin creates additional system users manually)
@@ -185,6 +190,11 @@ Status:	Active, Disable
 
 
 
+👨‍👩‍👧 PARENT DASHBOARD
+✔️ Linked to one or more students
+✔️ View child(ren)’s results
+✔️ Get notified by SMS
+✔️ View birthdays, next term dates
 
 
 

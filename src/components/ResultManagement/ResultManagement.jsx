@@ -375,6 +375,7 @@ export default function ResultManagement() {
             <table className="min-w-full table-auto">
               <thead>
                 <tr className="bg-gray-100">
+                  <th className="px-4 py-2">Student ID</th>
                   <th className="px-4 py-2">Student</th>
                   {termsForSession.map(term => (
                     <th key={term} className="px-4 py-2">{term}</th>
@@ -384,6 +385,7 @@ export default function ResultManagement() {
               <tbody>
                 {studentsInSelection.map(student => (
                   <tr key={student.id} className="border-b">
+                    <td className="px-4 py-2 font-mono">{student.id}</td>
                     <td className="px-4 py-2 font-semibold">{student.name}</td>
                     {termsForSession.map(term => (
                       <td key={term} className="px-4 py-2 text-center">
@@ -437,26 +439,32 @@ export default function ResultManagement() {
       {/* Modal for adding result */}
       {showModal && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <motion.form initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
+          <motion.form initial={{ scale: 0.9, y: 40 }} animate={{ scale: 1, y: 0 }} transition={{ duration: 0.3 }} onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
             <button type="button" className="absolute top-2 right-2 text-gray-400 hover:text-red-500" onClick={() => setShowModal(false)}>&times;</button>
             <h3 className="text-lg font-bold mb-4">Add Student Result</h3>
             {formError && <div className="text-red-500 mb-2">{formError}</div>}
             <div className="grid grid-cols-2 gap-4 mb-4">
-              <input
-                className="input col-span-2"
-                placeholder="Search student by name or class..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-              <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
-                <option value="">Select Student</option>
-                {filteredStudents.map(s => (
-                  <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
-                ))}
-                {search && filteredStudents.length === 0 && (
-                  <option disabled>No students found or all have results for this term/session</option>
-                )}
-              </select>
+              {/* Only show search/dropdown if no student is pre-selected */}
+              {!selectedStudentId && (
+                <>
+                  <input
+                    className="input col-span-2"
+                    placeholder="Search student by name or class..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                  />
+                  <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
+                    <option value="">Select Student</option>
+                    {filteredStudents.map(s => (
+                      <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
+                    ))}
+                    {search && filteredStudents.length === 0 && (
+                      <option disabled>No students found or all have results for this term/session</option>
+                    )}
+                  </select>
+                </>
+              )}
+              {/* Student info fields (always shown, always read-only) */}
               <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
               <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
@@ -470,6 +478,18 @@ export default function ResultManagement() {
               <label className="flex items-center col-span-2">
                 <input type="checkbox" name="scratchCardValidated" checked={form.scratchCardValidated} onChange={handleFormChange} className="mr-2" /> Scratch Card Validated
               </label>
+            </div>
+            {/* Description field below uneditable fields */}
+            <div className="mb-4">
+              <label className="block font-semibold mb-1" htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                className="input w-full min-h-[60px]"
+                placeholder="Enter any additional notes or description..."
+                value={form.description || ''}
+                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              />
             </div>
             <div className="mb-4">
               <div className="font-semibold mb-2">Subjects</div>
