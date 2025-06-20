@@ -130,14 +130,13 @@ export default function ResultManagement() {
     scratchCardValidated: false,
   });
   const [formError, setFormError] = useState('');
+  const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [search, setSearch] = useState('');
   const [selectedAcademicLevel, setSelectedAcademicLevel] = useState('');
   const [selectedAcademicClass, setSelectedAcademicClass] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
   const [viewResult, setViewResult] = useState(null); // {student, term, session}
-  const [uploadContext, setUploadContext] = useState(null); // {student, term}
-  const [search, setSearch] = useState('');
-  const [selectedStudentId, setSelectedStudentId] = useState('');
 
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
@@ -161,6 +160,22 @@ export default function ResultManagement() {
   const getResult = (studentName, term) =>
     results.find(r => r.studentName === studentName && r.session === selectedSession && r.term === term);
 
+  // Helper: students who already have results for the selected session/term (for filtering dropdown)
+  const studentsWithResult = results
+    .filter(r => r.session === form.session && r.term === form.term)
+    .map(r => r.studentName);
+
+  // Filter students for dropdown: search + exclude those with result for session/term
+  const filteredStudents = mockStudents.filter(s => {
+    const matchesSearch =
+      !search ||
+      s.name.toLowerCase().includes(search.toLowerCase()) ||
+      (s.academicLevel && s.academicLevel.toLowerCase().includes(search.toLowerCase()));
+    const alreadyHasResult =
+      form.session && form.term && studentsWithResult.includes(s.name);
+    return matchesSearch && !alreadyHasResult;
+  });
+
   const filteredResults = results.filter(r =>
     (!filter.session || r.session === filter.session) &&
     (!filter.term || r.term === filter.term)
@@ -168,6 +183,12 @@ export default function ResultManagement() {
 
   const handleDownloadPDF = () => {
     alert('Download as PDF (to be implemented)');
+  };
+
+  const handleAddResult = () => {
+    setSelectedStudentId('');
+    setFormError('');
+    setShowModal(true);
   };
 
   const handleFormChange = (e) => {
@@ -232,33 +253,51 @@ export default function ResultManagement() {
     setShowModal(false);
   };
 
-  // When uploadContext changes (i.e., Upload button clicked), auto-fill form fields
+  // When a student is selected, auto-fill form fields
   React.useEffect(() => {
-    if (!showModal || !uploadContext) return;
-    const { student, term } = uploadContext;
-    setForm(f => ({
-      ...f,
-      studentName: student.name,
-      age: student.age,
-      numberInClass: student.numberInClass,
-      house: student.house,
-      session: student.session,
-      term,
-      academicLevel: student.academicLevel,
-      academicClass: student.academicClass,
-      category: student.category,
-      subjects: student.subjects.map(subj => ({
-        name: subj,
-        assessments: ['', '', '', ''],
-        exam: '',
-        termAverage: '',
-        summary: '',
-        grade: '',
-        remark: '',
-        teacherInitial: '',
-      })),
-    }));
-  }, [showModal, uploadContext]);
+    if (!showModal) return;
+    const student = mockStudents.find(s => s.id === Number(selectedStudentId));
+    if (student) {
+      setForm(f => ({
+        ...f,
+        studentName: student.name,
+        age: student.age,
+        numberInClass: student.numberInClass,
+        house: student.house,
+        session: student.session,
+        term: student.term,
+        academicLevel: student.academicLevel,
+        academicClass: student.academicClass,
+        category: student.category,
+        subjects: student.subjects.map(subj => ({
+          name: subj,
+          assessments: ['', '', '', ''],
+          exam: '',
+          termAverage: '',
+          summary: '',
+          grade: '',
+          remark: '',
+          teacherInitial: '',
+        })),
+      }));
+    } else {
+      setForm(f => ({
+        ...f,
+        studentName: '',
+        age: '',
+        numberInClass: '',
+        house: '',
+        session: '',
+        term: '',
+        academicLevel: '',
+        academicClass: '',
+        category: '',
+        subjects: [
+          { name: '', assessments: ['', '', '', ''], exam: '', termAverage: '', summary: '', grade: '', remark: '', teacherInitial: '' },
+        ],
+      }));
+    }
+  }, [selectedStudentId, showModal]);
 
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto py-10 px-4">
@@ -359,9 +398,10 @@ export default function ResultManagement() {
                           <button
                             className="btn btn-xs btn-success"
                             onClick={() => {
+                              setSelectedStudentId(student.id.toString());
                               setFormError('');
-                              setUploadContext({ student, term });
                               setShowModal(true);
+                              setForm(f => ({ ...f, session: selectedSession, term }));
                             }}
                           >
                             Upload
@@ -402,27 +442,21 @@ export default function ResultManagement() {
             <h3 className="text-lg font-bold mb-4">Add Student Result</h3>
             {formError && <div className="text-red-500 mb-2">{formError}</div>}
             <div className="grid grid-cols-2 gap-4 mb-4">
-              {/* Only show search/dropdown if no student is pre-selected */}
-              {!selectedStudentId && (
-                <>
-                  <input
-                    className="input col-span-2"
-                    placeholder="Search student by name or class..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                  />
-                  <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
-                    <option value="">Select Student</option>
-                    {filteredStudents.map(s => (
-                      <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
-                    ))}
-                    {search && filteredStudents.length === 0 && (
-                      <option disabled>No students found or all have results for this term/session</option>
-                    )}
-                  </select>
-                </>
-              )}
-              {/* Student info fields (always shown, always read-only) */}
+              <input
+                className="input col-span-2"
+                placeholder="Search student by name or class..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+              <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
+                <option value="">Select Student</option>
+                {filteredStudents.map(s => (
+                  <option key={s.id} value={s.id}>{s.name} ({s.academicLevel})</option>
+                ))}
+                {search && filteredStudents.length === 0 && (
+                  <option disabled>No students found or all have results for this term/session</option>
+                )}
+              </select>
               <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
               <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
               <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
@@ -454,7 +488,7 @@ export default function ResultManagement() {
               ))}
             </div>
             <div className="flex justify-end gap-2">
-              <button type="button" className="btn" onClick={() => { setShowModal(false); setUploadContext(null); }}>Cancel</button>
+              <button type="button" className="btn" onClick={() => setShowModal(false)}>Cancel</button>
               <button type="submit" className="btn btn-primary">Save Result</button>
             </div>
           </motion.form>
