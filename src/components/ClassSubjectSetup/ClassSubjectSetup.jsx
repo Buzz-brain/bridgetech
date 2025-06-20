@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlus, FaEdit, FaTrash, FaBook, FaChalkboardTeacher } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaBook, FaChalkboardTeacher, FaCheck, FaTimes } from 'react-icons/fa';
 import { Filter, Layers, Users, BadgeCheck, BookOpen, UserCheck } from 'lucide-react';
 
 // Mock data
