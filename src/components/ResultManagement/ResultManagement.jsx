@@ -652,74 +652,84 @@ export default function ResultManagement() {
                 const key = `${result.academicLevel}-${result.academicClass}`;
                 const assessmentCount = result.assessmentCount || assessmentMap[key] || 4;
                 return (
-                  <div className="space-y-6">
-                    {/* Student Info Card */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-2">
-                        <div className="flex items-center gap-2 text-blue-700 font-semibold"><FaEdit className="inline" /> Student: <span className="font-normal text-gray-800">{result.studentName}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Level:</span> <span>{result.academicLevel}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Class:</span> <span>{result.academicClass}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Category:</span> <span>{result.category}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">House:</span> <span>{result.house}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
-                      </div>
-                      {/* Summary Card */}
-                      <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-3">
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Session:</span> <span>{result.session}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Term:</span> <span>{result.term}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Resumption Date:</span> <span>{result.resumptionDate}</span></div>
-                        <div className="flex items-center gap-2"><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="font-semibold text-blue-700">Overall Average:</span>
-                          <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span>
+                  <div className="space-y-8">
+                    {/* Info Section */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {/* Student Info */}
+                      <div>
+                        <div className="font-bold text-blue-800 mb-2 text-base">Student Information</div>
+                        <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-2">
+                          <div><span className="font-semibold text-blue-700">Full Name:</span> <span className="text-gray-800">{result.studentName}</span></div>
+                          <div><span className="font-semibold text-blue-700">Student ID:</span> <span>{viewResult.student.studentId}</span></div>
+                          <div><span className="font-semibold text-blue-700">Category:</span> <span>{result.category}</span></div>
+                          <div><span className="font-semibold text-blue-700">House:</span> <span>{result.house}</span></div>
+                          <div><span className="font-semibold text-blue-700">Age:</span> <span>{result.age}</span></div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-blue-700">Position:</span>
-                          <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span>
+                      </div>
+                      {/* Academic Info */}
+                      <div>
+                        <div className="font-bold text-blue-800 mb-2 text-base">Academic Summary</div>
+                        <div className="rounded-xl bg-white/80 shadow p-5 border border-blue-100 flex flex-col gap-2">
+                          <div><span className="font-semibold text-blue-700">Level:</span> <span>{result.academicLevel}</span></div>
+                          <div><span className="font-semibold text-blue-700">Class:</span> <span>{result.academicClass}</span></div>
+                          <div><span className="font-semibold text-blue-700">Session:</span> <span>{result.session}</span></div>
+                          <div><span className="font-semibold text-blue-700">Term:</span> <span>{result.term}</span></div>
+                          <div><span className="font-semibold text-blue-700">Number in Class:</span> <span>{result.numberInClass}</span></div>
+                          <div><span className="font-semibold text-blue-700">Result Type:</span> <span>{result.resultType}</span></div>
+                          <div><span className="font-semibold text-blue-700">Vacation Date:</span> <span>{result.vacationDate}</span></div>
+                          <div><span className="font-semibold text-blue-700">Resumption Date:</span> <span>{result.resumptionDate}</span></div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="font-semibold text-blue-700">Overall Average:</span>
+                            <span className="inline-block bg-blue-100 text-blue-800 font-bold rounded px-2 py-1 shadow-sm">{result.overallAverage}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-blue-700">Position:</span>
+                            <span className="inline-block bg-green-100 text-green-800 font-bold rounded px-2 py-1 shadow-sm">{result.position}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                     {/* Subjects Table */}
-                    <div className="rounded-xl shadow border border-blue-100 bg-white/90 overflow-x-auto">
-                      <div className="font-semibold text-blue-800 px-4 pt-4 pb-2">Subjects & Scores</div>
-                      <table className="min-w-full table-auto text-xs md:text-sm">
-                        <thead>
-                          <tr className="bg-blue-100 text-blue-900">
-                            <th className="px-2 py-2 border">Subject</th>
-                            {[...Array(assessmentCount)].map((_, i) => (
-                              <th key={i} className="px-2 py-2 border">A{i+1}</th>
-                            ))}
-                            <th className="px-2 py-2 border">Exam</th>
-                            <th className="px-2 py-2 border">Total</th>
-                            <th className="px-2 py-2 border">Grade</th>
-                            <th className="px-2 py-2 border">Remark</th>
-                            <th className="px-2 py-2 border">Teacher</th>
-                            <th className="px-2 py-2 border">Summary</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {result.subjects.map((subj, idx) => (
-                            <tr key={idx} className={idx % 2 === 0 ? 'bg-blue-50/60' : 'bg-white'}>
-                              <td className="px-2 py-2 border font-semibold text-blue-900">{subj.name}</td>
+                    <div>
+                      <div className="font-bold text-blue-800 mb-2 text-base">Subjects & Scores</div>
+                      <div className="rounded-xl shadow border border-blue-100 bg-white/90 overflow-x-auto">
+                        <table className="min-w-full table-auto text-xs md:text-sm">
+                          <thead>
+                            <tr className="bg-blue-100 text-blue-900">
+                              <th className="px-2 py-2 border">Subject</th>
                               {[...Array(assessmentCount)].map((_, i) => (
-                                <td key={i} className="px-2 py-2 border text-center">{subj.assessments && subj.assessments[i] !== undefined ? subj.assessments[i] : ''}</td>
+                                <th key={i} className="px-2 py-2 border">A{i+1}</th>
                               ))}
-                              <td className="px-2 py-2 border text-center">{subj.exam}</td>
-                              <td className="px-2 py-2 border text-center font-bold">{subj.termAverage}</td>
-                              <td className="px-2 py-2 border text-center">{subj.grade}</td>
-                              <td className="px-2 py-2 border text-center">{subj.remark}</td>
-                              <td className="px-2 py-2 border text-center">{subj.teacherInitial}</td>
-                              <td className="px-2 py-2 border text-center">{subj.summary}</td>
+                              <th className="px-2 py-2 border">Exam</th>
+                              <th className="px-2 py-2 border">Total</th>
+                              <th className="px-2 py-2 border">Grade</th>
+                              <th className="px-2 py-2 border">Remark</th>
+                              <th className="px-2 py-2 border">Teacher</th>
+                              <th className="px-2 py-2 border">Summary</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {result.subjects.map((subj, idx) => (
+                              <tr key={idx} className={idx % 2 === 0 ? 'bg-blue-50/60' : 'bg-white'}>
+                                <td className="px-2 py-2 border font-semibold text-blue-900">{subj.name}</td>
+                                {[...Array(assessmentCount)].map((_, i) => (
+                                  <td key={i} className="px-2 py-2 border text-center">{subj.assessments && subj.assessments[i] !== undefined ? subj.assessments[i] : ''}</td>
+                                ))}
+                                <td className="px-2 py-2 border text-center">{subj.exam}</td>
+                                <td className="px-2 py-2 border text-center font-bold">{subj.termAverage}</td>
+                                <td className="px-2 py-2 border text-center">{subj.grade}</td>
+                                <td className="px-2 py-2 border text-center">{subj.remark}</td>
+                                <td className="px-2 py-2 border text-center">{subj.teacherInitial}</td>
+                                <td className="px-2 py-2 border text-center">{subj.summary}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    {/* Description/Notes */}
+                    {/* Notes Section */}
                     {result.description && (
-                      <div className="rounded-xl bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-900 shadow-sm">
+                      <div className="mt-2 rounded-xl bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-900 shadow-sm">
                         <span className="font-semibold">Notes:</span> {result.description}
                       </div>
                     )}
