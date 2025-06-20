@@ -83,7 +83,7 @@ const initialResults = [
         teacherInitial: 'MJ',
       },
       {
-        name: 'English',
+        name: 'English Language',
         assessments: [14, 15, 13, 14],
         exam: 28,
         termAverage: 84,
@@ -93,7 +93,7 @@ const initialResults = [
         teacherInitial: 'JJ',
       },
       {
-        name: 'English',
+        name: 'English Language',
         assessments: [14, 15, 13, 14],
         exam: 28,
         termAverage: 84,
@@ -103,7 +103,7 @@ const initialResults = [
         teacherInitial: 'JJ',
       },
       {
-        name: 'English',
+        name: 'English Language',
         assessments: [14, 15, 13, 14],
         exam: 28,
         termAverage: 84,
@@ -113,7 +113,7 @@ const initialResults = [
         teacherInitial: 'JJ',
       },
       {
-        name: 'English',
+        name: 'English Language',
         assessments: [14, 15, 13, 14],
         exam: 28,
         termAverage: 84,
