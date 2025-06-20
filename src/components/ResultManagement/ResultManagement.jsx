@@ -157,6 +157,7 @@ export default function ResultManagement() {
   const [showPromotionModal, setShowPromotionModal] = useState(false);
   const [promotionStudent, setPromotionStudent] = useState(null);
   const [singlePromotion, setSinglePromotion] = useState({ action: 'Promote', newLevel: '', newClass: '' });
+  const [promotionWarning, setPromotionWarning] = useState('');
 
   // Filter classes and categories for selected academic level
   const availableClasses = academicClasses;
@@ -336,7 +337,35 @@ export default function ResultManagement() {
       newClass: student.academicClass,
     });
     setShowPromotionModal(true);
+    setPromotionWarning('');
   };
+
+  // Helper to check for mismatch between action and new level
+  const getPromotionWarning = (action, oldLevel, newLevel) => {
+    if (!action || !oldLevel || !newLevel) return '';
+    const levelOrder = academicLevels;
+    const oldIdx = levelOrder.indexOf(oldLevel);
+    const newIdx = levelOrder.indexOf(newLevel);
+    if (action === 'Promote' && newIdx <= oldIdx) return 'Warning: You selected "Promote" but chose a same or lower level.';
+    if (action === 'Demote' && newIdx >= oldIdx) return 'Warning: You selected "Demote" but chose a same or higher level.';
+    if (action === 'Retain' && newIdx !== oldIdx) return 'Warning: You selected "Retain" but chose a different level.';
+    return '';
+  };
+
+  const handlePromotionFieldChange = (field, value) => {
+    setSinglePromotion(sp => {
+      const updated = { ...sp, [field]: value };
+      if (promotionStudent) {
+        setPromotionWarning(getPromotionWarning(
+          updated.action,
+          promotionStudent.academicLevel,
+          updated.newLevel
+        ));
+      }
+      return updated;
+    });
+  };
+
   const confirmSinglePromotion = () => {
     // Find and update the student in mockStudents
     const updatedStudents = mockStudents.map(s => {
@@ -362,6 +391,7 @@ export default function ResultManagement() {
     // For demo, force a re-render by updating a dummy state
     setPromotionStudent(null);
     setShowPromotionModal(false);
+    setPromotionWarning('');
   };
 
   return (
@@ -659,10 +689,15 @@ export default function ResultManagement() {
             <div className="mb-2 font-semibold">{promotionStudent.name} ({promotionStudent.studentId})</div>
             <div className="mb-2">Current Level: <span className="font-semibold">{promotionStudent.academicLevel}</span></div>
             <div className="mb-2">Current Class: <span className="font-semibold">{promotionStudent.academicClass}</span></div>
+            {promotionWarning && (
+              <div className="mb-2 text-yellow-700 bg-yellow-100 border border-yellow-300 rounded p-2">
+                {promotionWarning}
+              </div>
+            )}
             <form onSubmit={e => { e.preventDefault(); confirmSinglePromotion(); }} className="space-y-4">
               <div>
                 <label className="block font-semibold mb-1">Action</label>
-                <select className="input w-full" value={singlePromotion.action} onChange={e => setSinglePromotion(sp => ({ ...sp, action: e.target.value }))}>
+                <select className="input w-full" value={singlePromotion.action} onChange={e => handlePromotionFieldChange('action', e.target.value)}>
                   <option value="Promote">Promote</option>
                   <option value="Demote">Demote</option>
                   <option value="Retain">Retain</option>
@@ -671,18 +706,18 @@ export default function ResultManagement() {
               </div>
               <div>
                 <label className="block font-semibold mb-1">New Level</label>
-                <select className="input w-full" value={singlePromotion.newLevel} onChange={e => setSinglePromotion(sp => ({ ...sp, newLevel: e.target.value }))}>
+                <select className="input w-full" value={singlePromotion.newLevel} onChange={e => handlePromotionFieldChange('newLevel', e.target.value)}>
                   {academicLevels.map(l => <option key={l}>{l}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block font-semibold mb-1">New Class</label>
-                <select className="input w-full" value={singlePromotion.newClass} onChange={e => setSinglePromotion(sp => ({ ...sp, newClass: e.target.value }))}>
+                <select className="input w-full" value={singlePromotion.newClass} onChange={e => handlePromotionFieldChange('newClass', e.target.value)}>
                   {academicClasses.map(c => <option key={c}>{c}</option>)}
                 </select>
               </div>
               <div className="flex justify-end gap-2 mt-4">
-                <button type="button" className="btn" onClick={() => setShowPromotionModal(false)}>Cancel</button>
+                <button type="button" className="btn" onClick={() => { setShowPromotionModal(false); setPromotionWarning(''); }}>Cancel</button>
                 <button type="submit" className="btn btn-primary">Confirm</button>
               </div>
             </form>
