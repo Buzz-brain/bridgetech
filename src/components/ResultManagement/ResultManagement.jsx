@@ -68,7 +68,7 @@ const initialResults = [
     position: 3,
     resumptionDate: '2025-09-10',
     vacationDate: '2025-07-20',
-    resultType: 'JSS1 First Term Terminal Report [2024/2025]',
+    resultType: 'JSS1 First Term Terminal Report',
     session: '2024/2025',
     term: 'First Term',
     subjects: [
