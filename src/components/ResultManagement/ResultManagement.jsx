@@ -2,6 +2,38 @@ import React, { useState } from 'react';
 import { FaDownload, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Mock student, class, and subject data
+const mockStudents = [
+  {
+    id: 1,
+    name: 'John Doe',
+    age: 13,
+    classLevel: 'JSS1',
+    category: 'Junior',
+    numberInClass: 25,
+    house: 'Red',
+    session: '2024/2025',
+    term: 'First Term',
+    subjects: ['Mathematics', 'English', 'Basic Science'],
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    age: 14,
+    classLevel: 'JSS2',
+    category: 'Junior',
+    numberInClass: 28,
+    house: 'Blue',
+    session: '2024/2025',
+    term: 'First Term',
+    subjects: ['Mathematics', 'English', 'Social Studies'],
+  },
+];
+const mockSubjects = {
+  JSS1: ['Mathematics', 'English', 'Basic Science'],
+  JSS2: ['Mathematics', 'English', 'Social Studies'],
+};
+
 const initialResults = [
   {
     id: 1,
@@ -67,6 +99,7 @@ export default function ResultManagement() {
     scratchCardValidated: false,
   });
   const [formError, setFormError] = useState('');
+  const [selectedStudentId, setSelectedStudentId] = useState('');
 
   const filteredResults = results.filter(r =>
     (!filter.session || r.session === filter.session) &&
@@ -78,23 +111,7 @@ export default function ResultManagement() {
   };
 
   const handleAddResult = () => {
-    setForm({
-      studentName: '',
-      age: '',
-      numberInClass: '',
-      house: '',
-      overallAverage: '',
-      position: '',
-      resumptionDate: '',
-      vacationDate: '',
-      resultType: '',
-      session: '',
-      term: '',
-      subjects: [
-        { name: '', assessments: ['', '', '', ''], exam: '', termAverage: '', summary: '', grade: '', remark: '', teacherInitial: '' },
-      ],
-      scratchCardValidated: false,
-    });
+    setSelectedStudentId('');
     setFormError('');
     setShowModal(true);
   };
@@ -161,6 +178,50 @@ export default function ResultManagement() {
     setShowModal(false);
   };
 
+  // When a student is selected, auto-fill form fields
+  React.useEffect(() => {
+    if (!showModal) return;
+    const student = mockStudents.find(s => s.id === Number(selectedStudentId));
+    if (student) {
+      setForm(f => ({
+        ...f,
+        studentName: student.name,
+        age: student.age,
+        numberInClass: student.numberInClass,
+        house: student.house,
+        session: student.session,
+        term: student.term,
+        classLevel: student.classLevel,
+        category: student.category,
+        subjects: student.subjects.map(subj => ({
+          name: subj,
+          assessments: ['', '', '', ''],
+          exam: '',
+          termAverage: '',
+          summary: '',
+          grade: '',
+          remark: '',
+          teacherInitial: '',
+        })),
+      }));
+    } else {
+      setForm(f => ({
+        ...f,
+        studentName: '',
+        age: '',
+        numberInClass: '',
+        house: '',
+        session: '',
+        term: '',
+        classLevel: '',
+        category: '',
+        subjects: [
+          { name: '', assessments: ['', '', '', ''], exam: '', termAverage: '', summary: '', grade: '', remark: '', teacherInitial: '' },
+        ],
+      }));
+    }
+  }, [selectedStudentId, showModal]);
+
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto py-10 px-4">
       <h2 className="text-2xl font-bold mb-6">Result Management</h2>
@@ -184,23 +245,21 @@ export default function ResultManagement() {
             <h3 className="text-lg font-bold mb-4">Add Student Result</h3>
             {formError && <div className="text-red-500 mb-2">{formError}</div>}
             <div className="grid grid-cols-2 gap-4 mb-4">
-              <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} onChange={handleFormChange} required />
-              <input className="input" name="age" placeholder="Age" type="number" value={form.age} onChange={handleFormChange} />
-              <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} onChange={handleFormChange} />
-              <input className="input" name="house" placeholder="House" value={form.house} onChange={handleFormChange} />
-              <input className="input" name="overallAverage" placeholder="Overall Average" type="number" value={form.overallAverage} onChange={handleFormChange} />
-              <input className="input" name="position" placeholder="Position" type="number" value={form.position} onChange={handleFormChange} />
-              <input className="input" name="resumptionDate" placeholder="Resumption Date" type="date" value={form.resumptionDate} onChange={handleFormChange} />
-              <input className="input" name="vacationDate" placeholder="Vacation Date" type="date" value={form.vacationDate} onChange={handleFormChange} />
+              <select className="input col-span-2" value={selectedStudentId} onChange={e => setSelectedStudentId(e.target.value)} required>
+                <option value="">Select Student</option>
+                {mockStudents.map(s => (
+                  <option key={s.id} value={s.id}>{s.name} ({s.classLevel})</option>
+                ))}
+              </select>
+              <input className="input" name="studentName" placeholder="Student Name" value={form.studentName} readOnly />
+              <input className="input" name="age" placeholder="Age" type="number" value={form.age} readOnly />
+              <input className="input" name="numberInClass" placeholder="Number in Class" type="number" value={form.numberInClass} readOnly />
+              <input className="input" name="house" placeholder="House" value={form.house} readOnly />
+              <input className="input" name="classLevel" placeholder="Class Level" value={form.classLevel || ''} readOnly />
+              <input className="input" name="category" placeholder="Category" value={form.category || ''} readOnly />
+              <input className="input" name="session" placeholder="Session" value={form.session} readOnly />
+              <input className="input" name="term" placeholder="Term" value={form.term} readOnly />
               <input className="input col-span-2" name="resultType" placeholder="Result Type (e.g. JSS1 First Term Terminal Report)" value={form.resultType} onChange={handleFormChange} />
-              <select className="input" name="session" value={form.session} onChange={handleFormChange} required>
-                <option value="">Select Session</option>
-                {sessions.map(s => <option key={s}>{s}</option>)}
-              </select>
-              <select className="input" name="term" value={form.term} onChange={handleFormChange} required>
-                <option value="">Select Term</option>
-                {terms.map(t => <option key={t}>{t}</option>)}
-              </select>
               <label className="flex items-center col-span-2">
                 <input type="checkbox" name="scratchCardValidated" checked={form.scratchCardValidated} onChange={handleFormChange} className="mr-2" /> Scratch Card Validated
               </label>
@@ -209,7 +268,7 @@ export default function ResultManagement() {
               <div className="font-semibold mb-2">Subjects</div>
               {form.subjects.map((subj, idx) => (
                 <div key={idx} className="grid grid-cols-10 gap-2 mb-2 items-center">
-                  <input className="input col-span-2" placeholder="Subject Name" value={subj.name} onChange={e => handleSubjectChange(idx, 'name', e.target.value)} required />
+                  <input className="input col-span-2" placeholder="Subject Name" value={subj.name} readOnly />
                   {[0,1,2,3].map(aIdx => (
                     <input key={aIdx} className="input" placeholder={`${aIdx+1}st`} type="number" value={subj.assessments[aIdx]} onChange={e => handleSubjectChange(idx, `assessment${aIdx}`, e.target.value)} />
                   ))}
@@ -218,10 +277,8 @@ export default function ResultManagement() {
                   <input className="input" placeholder="Grade" value={subj.grade} onChange={e => handleSubjectChange(idx, 'grade', e.target.value)} />
                   <input className="input" placeholder="Remark" value={subj.remark} onChange={e => handleSubjectChange(idx, 'remark', e.target.value)} />
                   <input className="input" placeholder="Teacher" value={subj.teacherInitial} onChange={e => handleSubjectChange(idx, 'teacherInitial', e.target.value)} />
-                  <button type="button" className="ml-2 text-red-500" onClick={() => handleRemoveSubject(idx)} disabled={form.subjects.length === 1}><FaTrash /></button>
                 </div>
               ))}
-              <button type="button" className="btn btn-secondary mt-2" onClick={handleAddSubject}><FaPlus className="mr-1" />Add Subject</button>
             </div>
             <div className="flex justify-end gap-2">
               <button type="button" className="btn" onClick={() => setShowModal(false)}>Cancel</button>
