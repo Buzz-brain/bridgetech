@@ -111,6 +111,18 @@ const mockAcademicCalendar = {
   '2025/2026': ['First Term', 'Second Term', 'Third Term'],
 };
 
+// --- Assessment Count Handling ---
+// When saving a result, always store the assessment count used for that class/level at the time of entry.
+// When displaying or editing a result, use the stored count (result.assessmentCount) to render assessment fields.
+// This ensures old results are not affected by later changes to assessment config.
+
+// Import assessmentMap from ClassSubjectSetup if possible, or mock here for demo:
+const assessmentMap = {
+  'JSS1-Art Class': 4,
+  'JSS1-Science Class': 3,
+  // ...other combinations
+};
+
 export default function ResultManagement() {
   const [results, setResults] = useState(initialResults);
   const [filter, setFilter] = useState({ session: '', term: '' });
@@ -236,6 +248,9 @@ export default function ResultManagement() {
       setFormError('Student name, session, and term are required.');
       return;
     }
+    // Determine assessment count for this class/level
+    const key = `${form.academicLevel}-${form.academicClass}`;
+    const assessmentCount = assessmentMap[key] || 4; // fallback to 4 if not set
     setResults(r => [
       ...r,
       {
@@ -245,9 +260,10 @@ export default function ResultManagement() {
         numberInClass: Number(form.numberInClass),
         overallAverage: Number(form.overallAverage),
         position: Number(form.position),
+        assessmentCount, // <-- store assessment count used
         subjects: form.subjects.map(s => ({
           ...s,
-          assessments: s.assessments.map(a => Number(a)),
+          assessments: s.assessments.slice(0, assessmentCount).map(a => Number(a)),
           exam: Number(s.exam),
           termAverage: Number(s.termAverage),
         })),
@@ -510,63 +526,67 @@ export default function ResultManagement() {
             <div className="mb-4">
               <div className="font-semibold mb-2">Subjects</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {form.subjects.map((subj, idx) => (
-                  <div key={idx} className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
-                    <div className="font-semibold mb-2">{subj.name}</div>
-                    <div className="flex flex-wrap gap-2 items-center">
-                      {[0,1,2,3].map(aIdx => (
+                {form.subjects.map((subj, idx) => {
+                  // Determine the number of assessments for this subject based on form.assessmentCount or assessmentMap
+                  const count = form.assessmentCount || assessmentMap[`${form.academicLevel}-${form.academicClass}`] || 4;
+                  return (
+                    <div key={idx} className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
+                      <div className="font-semibold mb-2">{subj.name}</div>
+                      <div className="flex flex-wrap gap-2 items-center">
+                        {[...Array(count)].map((_, aIdx) => (
+                          <input
+                            key={aIdx}
+                            className="input w-20"
+                            placeholder={`A${aIdx+1}`}
+                            type="number"
+                            value={subj.assessments[aIdx]}
+                            onChange={e => handleSubjectChange(idx, `assessment${aIdx}`, e.target.value)}
+                          />
+                        ))}
                         <input
-                          key={aIdx}
-                          className="input w-20"
-                          placeholder={`A${aIdx+1}`}
+                          className="input w-24"
+                          placeholder="Exam"
                           type="number"
-                          value={subj.assessments[aIdx]}
-                          onChange={e => handleSubjectChange(idx, `assessment${aIdx}`, e.target.value)}
+                          value={subj.exam}
+                          onChange={e => handleSubjectChange(idx, 'exam', e.target.value)}
                         />
-                      ))}
+                        <input
+                          className="input w-24"
+                          placeholder="Term Avg"
+                          type="number"
+                          value={subj.termAverage}
+                          onChange={e => handleSubjectChange(idx, 'termAverage', e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col md:flex-row gap-2 mt-2">
+                        <input
+                          className="input flex-1"
+                          placeholder="Grade"
+                          value={subj.grade}
+                          onChange={e => handleSubjectChange(idx, 'grade', e.target.value)}
+                        />
+                        <input
+                          className="input flex-1"
+                          placeholder="Remark"
+                          value={subj.remark}
+                          onChange={e => handleSubjectChange(idx, 'remark', e.target.value)}
+                        />
+                        <input
+                          className="input flex-1"
+                          placeholder="Teacher"
+                          value={subj.teacherInitial}
+                          onChange={e => handleSubjectChange(idx, 'teacherInitial', e.target.value)}
+                        />
+                      </div>
                       <input
-                        className="input w-24"
-                        placeholder="Exam"
-                        type="number"
-                        value={subj.exam}
-                        onChange={e => handleSubjectChange(idx, 'exam', e.target.value)}
-                      />
-                      <input
-                        className="input w-24"
-                        placeholder="Term Avg"
-                        type="number"
-                        value={subj.termAverage}
-                        onChange={e => handleSubjectChange(idx, 'termAverage', e.target.value)}
+                        className="input mt-2"
+                        placeholder="Summary"
+                        value={subj.summary}
+                        onChange={e => handleSubjectChange(idx, 'summary', e.target.value)}
                       />
                     </div>
-                    <div className="flex flex-col md:flex-row gap-2 mt-2">
-                      <input
-                        className="input flex-1"
-                        placeholder="Grade"
-                        value={subj.grade}
-                        onChange={e => handleSubjectChange(idx, 'grade', e.target.value)}
-                      />
-                      <input
-                        className="input flex-1"
-                        placeholder="Remark"
-                        value={subj.remark}
-                        onChange={e => handleSubjectChange(idx, 'remark', e.target.value)}
-                      />
-                      <input
-                        className="input flex-1"
-                        placeholder="Teacher"
-                        value={subj.teacherInitial}
-                        onChange={e => handleSubjectChange(idx, 'teacherInitial', e.target.value)}
-                      />
-                    </div>
-                    <input
-                      className="input mt-2"
-                      placeholder="Summary"
-                      value={subj.summary}
-                      onChange={e => handleSubjectChange(idx, 'summary', e.target.value)}
-                    />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
             <div className="flex justify-end gap-2">
