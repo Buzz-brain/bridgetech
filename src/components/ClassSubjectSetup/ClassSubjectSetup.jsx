@@ -331,7 +331,7 @@ export default function ClassSubjectSetup() {
       <AnimatePresence>
       {modal.open && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} transition={{ duration: 0.2 }} className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} transition={{ duration: 0.2 }} className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md animate-fadeIn max-h-[90vh] overflow-y-auto">
             <h3 className="text-xl font-bold mb-4">{modal.mode === 'add' ? 'Assign Subject to Class' : 'Edit Subject Assignment'}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
