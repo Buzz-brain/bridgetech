@@ -120,7 +120,7 @@ School Classes:	 (Nil, Art Class, Commercial Class, General Class, Science Class
 Subject Teacher: (nil at first when the subject is just created list all the teachers in the school)
 Status:	Active, Disable
 
-✔️ Result Management
+📌 Result Management
 📊 RESULT SYSTEM
 ✔️ Result Entry:
 ✔️ By subject, class, term, session
