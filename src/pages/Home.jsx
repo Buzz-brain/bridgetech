@@ -13,8 +13,8 @@ import {
   CheckCircle
 } from 'lucide-react';
 import Navbar from '../NavComponents/layout/Navbar';
-import Navbar from '../NavComponents/ui/Button';
-import Navbar from '../NavComponents/ui/Crd';
+import Button from '../NavComponents/ui/Button';
+import Navbar from '../NavComponents/ui/Card';
 import Button from '../../components';
 import Card from '../../components/ui/Card';
 
