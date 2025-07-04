@@ -15,7 +15,7 @@ import {
   Smartphone,
   TrendingUp
 } from 'lucide-react';
-import Layout from '../NavComponents/layout/';
+import Layout from '../NavComponents/layout/Layout';
 
 const HomePage = () => {
   const [stats, setStats] = useState({
