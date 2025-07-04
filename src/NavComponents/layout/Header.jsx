@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Search, User, LogOut } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+// import { useAuth } from '../../contexts/AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated } = null;
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
