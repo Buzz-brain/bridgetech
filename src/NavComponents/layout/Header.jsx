@@ -7,7 +7,7 @@ import { Menu, X, Search, User, LogOut } from 'lucide-react';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { user, logout, isAuthenticated } = null;
+  const { user, logout, isAuthenticated } = "";
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
