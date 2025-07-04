@@ -8,7 +8,7 @@ import Button from '../ui/Button';
 const Navbar = ({ isSchoolPortal = false, schoolData = null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  // const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated } = "";
   const navigate = useNavigate();
 
   const mainNavItems = [
