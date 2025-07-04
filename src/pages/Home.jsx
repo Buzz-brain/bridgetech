@@ -12,7 +12,8 @@ import {
   Globe,
   CheckCircle
 } from 'lucide-react';
-import Navbar from '../../components/layout/Navbar';
+import Navbar from '../NavComponents/layout/Navbar';
+import Navbar from '../NavComponents/layout/Navbar';
 import Navbar from '../NavComponents/layout/Navbar';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
