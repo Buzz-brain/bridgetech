@@ -14,9 +14,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../NavComponents/layout/Navbar';
 import Button from '../NavComponents/ui/Button';
-import Navbar from '../NavComponents/ui/Card';
-import Button from '../../components';
-import Card from '../../components/ui/Card';
+import Card from '../NavComponents/ui/Card';
 
 const Homepage = () => {
   const features = [
