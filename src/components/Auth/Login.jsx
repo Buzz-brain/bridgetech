@@ -51,6 +51,22 @@ const Login = () => {
           <p className="text-gray-600">Sign in to your SRaAMS account</p>
         </motion.div>
 
+
+        {/* Demo Credentials */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mt-6 p-4 bg-white rounded-lg shadow-sm border border-gray-200"
+        >
+          <h3 className="text-sm font-medium text-gray-900 mb-2">Demo Credentials</h3>
+          <div className="text-xs text-gray-600 space-y-1">
+            <p><strong>Super Admin:</strong> admin@sraams.com / password123</p>
+            <p><strong>School Admin:</strong> school@sraams.com / password123</p>
+            <p><strong>Student:</strong> student@sraams.com / password123</p>
+          </div>
+        </motion.div>
+        
         {/* Login Form */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -183,23 +199,6 @@ const Login = () => {
                 Contact your administrator
               </button>
             </p>
-          </div>
-        </motion.div>
-
-        {/* Demo Credentials */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-6 p-4 bg-white rounded-lg shadow-sm border border-gray-200"
-        >
-          <h3 className="text-sm font-medium text-gray-900 mb-2">Demo Credentials</h3>
-          <div className="text-xs text-gray-600 space-y-1">
-            <p><strong>Super Admin:</strong> admin@sraams.com / password123</p>
-            <p><strong>School Admin:</strong> school@sraams.com / password123</p>
-            <p><strong>Teacher:</strong> teacher@sraams.com / password123</p>
-            <p><strong>Student:</strong> student@sraams.com / password123</p>
-            <p><strong>Parent:</strong> parent@sraams.com / password123</p>
           </div>
         </motion.div>
       </motion.div>

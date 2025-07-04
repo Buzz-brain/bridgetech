@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center"
+          className="text-center" 
         >
           <div className="spinner w-8 h-8 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading...</p>

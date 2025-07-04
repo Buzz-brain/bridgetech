@@ -22,7 +22,7 @@ const Header = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'FAQ', path: '/faq' },
+    { name: 'FAQ', path: '/faqs' },
     { name: 'Contact', path: '/contact' }
   ];
 

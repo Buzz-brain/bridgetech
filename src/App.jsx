@@ -28,7 +28,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import FAQs from './pages/FAQs';
 import Contact from './pages/Contact';
-import SchoolSearch from './pages/SchoolSearch';
+import SchoolPortal from './pages/SchoolPortal';
 
 function App() {
   return (
@@ -42,8 +42,17 @@ function App() {
         <Router>
           <div className="App">
             <Routes>
-              {/* Public Routes */}
+              {/* Catch all route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+
+              {/* Public Main Site Pages */}
               <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/faqs" element={<FAQs />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/school-portal" element={<SchoolPortal />} />
               
               {/* Protected Routes */}
               <Route
@@ -54,7 +63,7 @@ function App() {
                   </ProtectedRoute>
                 }
               >
-                <Route index element={<Navigate to="/dashboard" replace />} />
+                <Route index element={<Navigate to="/" replace />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 
                 {/* Super Admin Routes */}
@@ -340,17 +349,6 @@ function App() {
                   }
                 />
               </Route>
-              
-              {/* Public Main Site Pages */}
-              <Route path="/home" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/faqs" element={<FAQs />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/school-search" element={<SchoolSearch />} />
-              
-              {/* Catch all route */}
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
             
             {/* Toast Notifications */}

@@ -22,7 +22,7 @@ const HomePage = () => {
     schools: 0,
     students: 0,
     results: 0,
-    smsDelivered: 0
+    uptimeGuarantee: 0
   });
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const HomePage = () => {
         schools: 150,
         students: 25000,
         results: 180000,
-        smsDelivered: 500000
+        uptimeGuarantee: "99.9"
       });
     }, 500);
     return () => clearTimeout(timer);
@@ -101,7 +101,7 @@ const HomePage = () => {
       <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white overflow-hidden">
       {/* <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white overflow-hidden"> */}
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg')] bg-cover bg-center opacity-50"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <motion.div
@@ -185,7 +185,7 @@ const HomePage = () => {
               { label: 'Schools', value: stats.schools, suffix: '+' },
               { label: 'Students', value: stats.students, suffix: '+' },
               { label: 'Results Processed', value: stats.results, suffix: '+' },
-              { label: 'SMS Delivered', value: stats.smsDelivered, suffix: '+' }
+              { label: 'Uptime Guarantee', value: stats.uptimeGuarantee, suffix: '%' }
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}

@@ -28,17 +28,6 @@ const mockAuth = {
         },
         token: 'mock-school-admin-token'
       },
-      'teacher@sraams.com': {
-        user: {
-          id: 3,
-          firstName: 'John',
-          lastName: 'Teacher',
-          email: 'teacher@sraams.com',
-          role: 'teacher',
-          schoolId: 1,
-        },
-        token: 'mock-teacher-token'
-      },
       'student@sraams.com': {
         user: {
           id: 4,
@@ -50,17 +39,6 @@ const mockAuth = {
         },
         token: 'mock-student-token'
       },
-      'parent@sraams.com': {
-        user: {
-          id: 5,
-          firstName: 'Mary',
-          lastName: 'Parent',
-          email: 'parent@sraams.com',
-          role: 'parent',
-          schoolId: 1,
-        },
-        token: 'mock-parent-token'
-      }
     };
 
     // Simulate API delay
