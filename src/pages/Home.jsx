@@ -15,7 +15,7 @@ import {
 import Navbar from '../NavComponents/layout/Navbar';
 import Navbar from '../NavComponents/layout/Navbar';
 import Navbar from '../NavComponents/layout/Navbar';
-import Button from '../../components/ui/Button';
+import Button from '../../components';
 import Card from '../../components/ui/Card';
 
 const Homepage = () => {
