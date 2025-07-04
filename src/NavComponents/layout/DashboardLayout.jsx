@@ -20,12 +20,12 @@ import {
   Heart
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+// import { useAuth } from '../../contexts/AuthContext';
 import Button from '../ui/Button';
 
 const DashboardLayout = ({ children, title, subtitle }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, logout, school } = useAuth();
+  // const { user, logout, school } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
