@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../../contexts/AuthContext';
-import Button from '../ui/Button';
+import Button from './ui/Button';
 
 const DashboardLayout = ({ children, title, subtitle }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
