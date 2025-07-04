@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Header from './Header';
+import Header from '';
 import Footer from './Footer';
 
 const Layout = ({ children, showHeader = true, showFooter = true }) => {
