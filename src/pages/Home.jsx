@@ -98,7 +98,8 @@ const HomePage = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-100 via-blue-100 to-blue-100 text-white overflow-hidden">
+      <section className="relative text-white overflow-hidden">
+      {/* <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white overflow-hidden"> */}
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg')] bg-cover bg-center opacity-10"></div>
         
